@@ -2,6 +2,7 @@ package com.example.cards;
 
 import java.util.ArrayList;
 
+import android.graphics.Point;
 import android.widget.RelativeLayout;
 
 public class CardsContainer
@@ -17,10 +18,13 @@ public class CardsContainer
 	private final int STARTING_X = 20;
 	public static int CARD_DISTANCE = 80;
 	
-	public CardsContainer(RelativeLayout layout) 
+	private Point _screenDimention;
+	
+	public CardsContainer(RelativeLayout layout, Point screenDimention) 
 	{
 		_associatedLayout = layout;
 		_cards = getClubCards();
+		_screenDimention = screenDimention;
 		
 		_associatedLayout.setOnDragListener(new CardDragListener(this));
 		
@@ -124,7 +128,7 @@ public class CardsContainer
 	        {       
 		        if(card.equals(c) || hasBeenAdded)
 		        {
-		        	x += 220;
+		        	x += _screenDimention.x * 15/100;
 		        	hasBeenAdded = !hasBeenAdded;
 		        }
 		       

@@ -19,7 +19,7 @@ public class MainActivity extends Activity {
 
 	private CardsContainer _cardsContainer;
 	
-	private int _screenHeight = 0;
+	private Point _screenDimention = new Point();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +54,7 @@ public class MainActivity extends Activity {
 	private void getScreenSize()
 	{
 		Display display = getWindowManager().getDefaultDisplay();
-		Point size = new Point();
-		display.getSize(size);
-		
-		//int width = size.x;
-		_screenHeight = size.y;
+		display.getSize(_screenDimention);
 	}
 	
 	private void drawCards() {
@@ -66,21 +62,21 @@ public class MainActivity extends Activity {
 	
 		if(view != null)
 		{
-			if(_screenHeight > 0)
+			if(_screenDimention.y > 0)
 			{
 				// Set the cards dimension according to the size of the display screen
-				int h = (int) (_screenHeight * 30/100);
-				Card.CARD_WIDTH = h;
+				int w = (int) (_screenDimention.x * 15/100);
+				Card.CARD_WIDTH = w;
 				
 				// Set margins
-				int m = (int) (_screenHeight * 5/100);
+				int m = (int) (_screenDimention.y * 3/100);
 				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 				lp.setMargins(0, m, 0, m);
 				view.setLayoutParams(lp);
+				
+				// The container of the cards
+				_cardsContainer = new CardsContainer((RelativeLayout) view, _screenDimention);
 			}
-			
-			// The container of the cards
-			_cardsContainer = new CardsContainer((RelativeLayout) view);
 		}
 	}
 	
@@ -90,9 +86,9 @@ public class MainActivity extends Activity {
 		
 		if(view != null)
 		{
-			if(_screenHeight > 0)
+			if(_screenDimention.y > 0)
 			{
-				int h = (int) (_screenHeight * 15/100);
+				int h = (int) (_screenDimention.y * 10/100);
 				view.setMinimumHeight(h);
 			}
 			
