@@ -104,6 +104,38 @@ public class CardsContainer
 		}
 	}
 	
+	public void centerCard(String cardName) 
+	{
+		Card c = getCardByName(cardName);
+		
+		if(c != null)
+		{
+			
+			int middleIndex = (int) (_cards.size() / 2);
+			
+			_cards.remove(c);
+			_cards.add(middleIndex, c);
+			
+			int x = STARTING_X;
+	        
+			boolean hasBeenAdded = false;
+			
+			for(Card card : _cards)
+	        {       
+		        if(card.equals(c) || hasBeenAdded)
+		        {
+		        	x += 250;
+		        	hasBeenAdded = !hasBeenAdded;
+		        }
+		       
+		        card.getView().setX(x);
+		        
+	        	card.getView().bringToFront();
+	        	x += CARD_DISTANCE;
+	        }
+		}
+	}
+	
 	// Return a card from the card list according to its name
 	public Card getCardByName(String cardName)
 	{

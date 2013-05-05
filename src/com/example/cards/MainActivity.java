@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -36,6 +38,8 @@ public class MainActivity extends Activity {
 		
 		// Set the bar which allows to modify the distance between two cards
 		setSeekBar();
+		
+		setButtonActions();
 	}
 
 	
@@ -122,6 +126,25 @@ public class MainActivity extends Activity {
 				@Override
 				public void onStopTrackingTouch(SeekBar arg0){}
 				
+			});
+		}
+	}
+	
+	private void setButtonActions()
+	{
+		final View view = findViewById(R.id.buttonSelectCard);
+		
+		if(view != null)
+		{
+			Button button = (Button) view;
+			
+			button.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) 
+				{
+					_cardsContainer.centerCard("Club_4");
+				}
 			});
 		}
 	}

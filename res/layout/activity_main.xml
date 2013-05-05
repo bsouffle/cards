@@ -8,7 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity" 
+    android:gravity="right|center_vertical">
 
     <RelativeLayout
         android:id="@+id/sendingLayout"
@@ -21,7 +22,7 @@
         	android:layout_height="wrap_content"
         	android:layout_centerInParent="true"
         	android:textColor="#FFF"
-       		android:text="Send Card"
+       		android:text="Play Card"
         	android:textAppearance="?android:attr/textAppearanceLarge" />
         
     </RelativeLayout>
@@ -39,5 +40,11 @@
         android:layout_height="wrap_content"
         android:progress="80"
         android:max="100"/>
+
+    <Button
+        android:id="@+id/buttonSelectCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Center Card" />
     
 </LinearLayout>

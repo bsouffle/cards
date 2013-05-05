@@ -24,7 +24,8 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f090005;
+        public static final int action_settings=0x7f090006;
+        public static final int buttonSelectCard=0x7f090005;
         public static final int cardsLayout=0x7f090003;
         public static final int rootLayout=0x7f090000;
         public static final int seekBar=0x7f090004;
