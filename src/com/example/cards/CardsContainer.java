@@ -47,7 +47,9 @@ public class CardsContainer
 		System.out.println("[REFRESH] " + _cards.size());
 		
 		int x = STARTING_X;
-        
+
+		_associatedLayout.invalidate(); // Refresh the layout
+		
         for(Card card : _cards)
         {       
 	        // Set the position
@@ -96,8 +98,6 @@ public class CardsContainer
 					
 					refresh();
 					
-					//selectedCard.getView().bringToFront();
-					
 					return;
 				}
 			}
@@ -124,13 +124,12 @@ public class CardsContainer
 	        {       
 		        if(card.equals(c) || hasBeenAdded)
 		        {
-		        	x += 250;
+		        	x += 220;
 		        	hasBeenAdded = !hasBeenAdded;
 		        }
 		       
 		        card.getView().setX(x);
-		        
-	        	card.getView().bringToFront();
+
 	        	x += CARD_DISTANCE;
 	        }
 		}
