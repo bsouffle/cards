@@ -128,7 +128,7 @@ public class CardsContainer
 	        {       
 		        if(card.equals(c) || hasBeenAdded)
 		        {
-		        	x += _screenDimention.x * 15/100;
+		        	x += _screenDimention.x * 21/100;
 		        	hasBeenAdded = !hasBeenAdded;
 		        }
 		       

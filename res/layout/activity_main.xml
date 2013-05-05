@@ -40,11 +40,5 @@
         android:layout_height="wrap_content"
         android:progress="80"
         android:max="100"/>
-
-    <Button
-        android:id="@+id/buttonSelectCard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Center Card" />
     
 </LinearLayout>

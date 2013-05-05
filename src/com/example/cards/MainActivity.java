@@ -6,6 +6,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -38,18 +39,30 @@ public class MainActivity extends Activity {
 		
 		// Set the bar which allows to modify the distance between two cards
 		setSeekBar();
-		
-		setButtonActions();
 	}
 
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		getMenuInflater().inflate(R.menu.mainmenu, menu);
 		return true;
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) 
+		{
+			case R.id.action_clue:
+				_cardsContainer.centerCard("Club_4");
+				break;
+
+			default:
+				break;
+		}
+
+		return true;
+	}
 	
 	private void getScreenSize()
 	{
@@ -65,7 +78,7 @@ public class MainActivity extends Activity {
 			if(_screenDimention.y > 0)
 			{
 				// Set the cards dimension according to the size of the display screen
-				int w = (int) (_screenDimention.x * 15/100);
+				int w = (int) (_screenDimention.x * 21/100);
 				Card.CARD_WIDTH = w;
 				
 				// Set margins
@@ -122,25 +135,6 @@ public class MainActivity extends Activity {
 				@Override
 				public void onStopTrackingTouch(SeekBar arg0){}
 				
-			});
-		}
-	}
-	
-	private void setButtonActions()
-	{
-		final View view = findViewById(R.id.buttonSelectCard);
-		
-		if(view != null)
-		{
-			Button button = (Button) view;
-			
-			button.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) 
-				{
-					_cardsContainer.centerCard("Club_4");
-				}
 			});
 		}
 	}
