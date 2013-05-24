@@ -1,4 +1,6 @@
-package com.example.cards;
+package com.utc.cards.views;
+
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -8,12 +10,16 @@ import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+
+import com.example.cards.R;
+import com.utc.cards.models.game.Card;
+import com.utc.cards.models.game.Game;
+import com.utc.cards.models.game.GameTypes;
+import com.utc.cards.models.game.Player;
 
 
 public class MainActivity extends Activity {
@@ -28,11 +34,19 @@ public class MainActivity extends Activity {
 		
 		setContentView(R.layout.activity_main);
 		
+		
+		Game g = new Game(GameTypes.Hearts);
+		Player p = new Player("Benoit", g);
+		
+		p.giveCard(g.get_associatedDesk().getCard(0));
+		p.giveCard(g.get_associatedDesk().getCard(1));
+		p.giveCard(g.get_associatedDesk().getCard(2));
+		
 		// Get the size of the display screen
 		getScreenSize();
 		
 		// Draw some cards
-		drawCards();
+		drawCards(p.getHandCards());
 		
 		// Set the panel used to send cards to the host
 		setSendingPanel();
@@ -70,7 +84,7 @@ public class MainActivity extends Activity {
 		display.getSize(_screenDimention);
 	}
 	
-	private void drawCards() {
+	private void drawCards(ArrayList<Card> cards) {
 		final View view = findViewById(R.id.cardsLayout);
 	
 		if(view != null)
@@ -88,7 +102,7 @@ public class MainActivity extends Activity {
 				view.setLayoutParams(lp);
 				
 				// The container of the cards
-				_cardsContainer = new CardsContainer((RelativeLayout) view, _screenDimention);
+				_cardsContainer = new CardsContainer((RelativeLayout) view, _screenDimention, cards);
 			}
 		}
 	}

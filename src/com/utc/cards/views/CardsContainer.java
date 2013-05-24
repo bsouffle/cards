@@ -1,9 +1,12 @@
-package com.example.cards;
+package com.utc.cards.views;
 
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.graphics.Point;
 import android.widget.RelativeLayout;
+
+import com.utc.cards.models.game.Card;
 
 public class CardsContainer
 {
@@ -11,19 +14,18 @@ public class CardsContainer
 	private ArrayList<Card> _cards;
 	
 	private RelativeLayout _associatedLayout;
-	
-	private final static int[] CLUB_CARDS_RESOURCE = {R.raw.cards_ac, R.raw.cards_2c, R.raw.cards_3c, R.raw.cards_4c, R.raw.cards_5c, R.raw.cards_6c, R.raw.cards_7c, R.raw.cards_8c, 
-    		R.raw.cards_9c, R.raw.cards_10c, R.raw.cards_jc, R.raw.cards_qc, R.raw.cards_kc};
+	private Context _context;
 	
 	private final int STARTING_X = 20;
 	public static int CARD_DISTANCE = 80;
 	
 	private Point _screenDimention;
 	
-	public CardsContainer(RelativeLayout layout, Point screenDimention) 
+	public CardsContainer(RelativeLayout layout, Point screenDimention, ArrayList<Card> cards) 
 	{
 		_associatedLayout = layout;
-		_cards = getClubCards();
+		_context = layout.getContext();
+		_cards = cards;
 		_screenDimention = screenDimention;
 		
 		_associatedLayout.setOnDragListener(new CardDragListener(this));
@@ -39,10 +41,10 @@ public class CardsContainer
         for(Card card : _cards)
         {       
 	        // Set the position
-        	card.getView().setX(x);
+        	card.getView(_context).setX(x);
         	x += CARD_DISTANCE;
 	        
-	        _associatedLayout.addView(card.getView());
+	        _associatedLayout.addView(card.getView(_context));
         }
 	}
 	
@@ -57,8 +59,8 @@ public class CardsContainer
         for(Card card : _cards)
         {       
 	        // Set the position
-        	card.getView().setX(x);
-        	card.getView().bringToFront();
+        	card.getView(_context).setX(x);
+        	card.getView(_context).bringToFront();
         	x += CARD_DISTANCE;
         }
 	}
@@ -80,6 +82,7 @@ public class CardsContainer
 				
 				if(x >= position && x < position + Card.CARD_WIDTH)
 				{
+					//System.out.println("Position: " + position + " - " + (position + Card.CARD_WIDTH));
 					indexToRemplace = i + 1;
 				}
 				else if(x >= 0 && x < STARTING_X)
@@ -132,7 +135,7 @@ public class CardsContainer
 		        	hasBeenAdded = !hasBeenAdded;
 		        }
 		       
-		        card.getView().setX(x);
+		        card.getView(_context).setX(x);
 
 	        	x += CARD_DISTANCE;
 	        }
@@ -165,19 +168,5 @@ public class CardsContainer
 	
 	public ArrayList<Card> get_cards() {
 		return _cards;
-	}
-	
-	public ArrayList<Card> getClubCards()
-	{
-		ArrayList<Card> res = new ArrayList<Card>();
-		
-		int i = 1;
-		
-		for(int r : CLUB_CARDS_RESOURCE)
-		{
-			res.add(new Card(_associatedLayout.getContext(), "Club_" + i, r, i++));
-		}
-		
-		return res;
 	}
 }

@@ -1,4 +1,4 @@
-package com.example.cards;
+package com.utc.cards.views;
 
 import android.content.ClipData;
 import android.view.MotionEvent;

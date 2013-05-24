@@ -1,4 +1,4 @@
-package com.example.cards;
+package com.utc.cards.models.game;
 
 import android.content.Context;
 import android.view.ViewGroup.LayoutParams;
@@ -6,6 +6,7 @@ import android.widget.RelativeLayout;
 
 import com.trevorpage.tpsvg.SVGParserRenderer;
 import com.trevorpage.tpsvg.SVGView;
+import com.utc.cards.views.CardTouchListener;
 
 public class Card 
 {
@@ -16,18 +17,16 @@ public class Card
 	private String _name;
 	private int _resourceId;
 	private SVGView _view;
-	private boolean _hasBeenSent;
+	//private boolean _hasBeenSent;
 	
-	public Card(Context context, String name, int resource)
+	public Card(String name, int resource)
 	{
-		_context = context;
 		_name = name;
 		_resourceId = resource;
 	}
 
-	public Card(Context context, String name, int resource, int value)
+	public Card(String name, int resource, int value)
 	{
-		_context = context;
 		_name = name;
 		_resourceId = resource;
 		_value = value;
@@ -45,10 +44,12 @@ public class Card
 		return _resourceId;
 	}
 	
-	public SVGView getView()
+	public SVGView getView(Context context)
 	{
-		if(_view == null)
+		if(_view == null || _context != context)
 		{
+			_context = context;
+			
 			_view = new SVGView(_context);
         	
         	// Tag of the view (-> card name)
@@ -69,14 +70,5 @@ public class Card
 		
 		return _view;
 	}
-	
-	public boolean hasBeenSent()
-	{
-		return _hasBeenSent;
-	}
-	
-	public void setHasBeenSent(boolean b)
-	{
-		_hasBeenSent = b;
-	}
+
 }

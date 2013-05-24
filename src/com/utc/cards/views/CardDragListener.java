@@ -1,17 +1,16 @@
-package com.example.cards;
+package com.utc.cards.views;
 
-import android.graphics.Color;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.View.OnDragListener;
 
-public class SendDragListener implements OnDragListener
+public class CardDragListener implements OnDragListener
 {
 	private CardsContainer _container;
 
 	private View _selectedView;
 	
-	public SendDragListener(CardsContainer container)
+	public CardDragListener(CardsContainer container)
 	{
 		_container = container;
 	}
@@ -24,11 +23,12 @@ public class SendDragListener implements OnDragListener
 		{
 	    	case DragEvent.ACTION_DRAG_STARTED:
 	    		//view.setBackgroundColor(Color.YELLOW);
+	    		
 	    		_selectedView = (View) dragEvent.getLocalState();
 	    		break;
 	    		
 	    	case DragEvent.ACTION_DRAG_ENTERED:
-	    		view.setBackgroundColor(Color.BLACK);
+	    		//view.setBackgroundColor(Color.RED);
 	    		break;
 	    		
 	    	case DragEvent.ACTION_DRAG_EXITED:        
@@ -36,29 +36,39 @@ public class SendDragListener implements OnDragListener
 	    		break;
 	    	
 	    	case DragEvent.ACTION_DRAG_LOCATION:
-
+	    		if(_selectedView != null)
+	    		{
+	    			float x = dragEvent.getX();
+		    		
+		    		String cardName = (String) _selectedView.getTag();
+		    		
+		    		_container.update(cardName, x);
+	    		}
+	    		
 	    		break;
 	    	
 	    	case DragEvent.ACTION_DROP:
 	    		if(_selectedView != null)
 	    		{
+	    			float x = dragEvent.getX();
+		    		
 		    		String cardName = (String) _selectedView.getTag();
-
-		    		System.out.println("Sending card: " + cardName);
 		    		
-		    		Card c = _container.getCardByName(cardName);
+		    		//System.out.println("X: " + x + " Y: " + y);
 		    		
-		    		// TODO: Send the card
+		    		cardName = (String) _selectedView.getTag();
 		    		
-		    		c.setHasBeenSent(true);
-		    		
-		    		_container.removeCard(c);
+		    		_container.update(cardName, x);
+	    		
+		    		_selectedView.setVisibility(View.VISIBLE);
 	    		}
 	    		
 			    break;
 			    
 	    	case DragEvent.ACTION_DRAG_ENDED:
-	    		view.setBackgroundColor(Color.GRAY);
+	    		//view.setBackgroundColor(Color.GREEN);
+	    		
+	    		_container.refresh();
 	    		
 	    	default:
 	    		break;
