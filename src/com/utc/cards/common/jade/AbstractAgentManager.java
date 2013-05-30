@@ -22,6 +22,7 @@ import android.os.IBinder;
 public abstract class AbstractAgentManager 
 {
 	
+	//commit from git
 	private static Logger _log = LoggerFactory.getLogger(AbstractAgentManager.class);
 
 	private static MicroRuntimeServiceBinder _microRuntimeServiceBinder;
