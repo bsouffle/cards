@@ -25,10 +25,11 @@ public final class R {
         public static final int icon_2_action_about=0x7f020001;
     }
     public static final class id {
-        public static final int action_clue=0x7f090006;
-        public static final int action_settings=0x7f090005;
+        public static final int action_clue=0x7f090007;
+        public static final int action_settings=0x7f090006;
         public static final int cardsLayout=0x7f090003;
         public static final int rootLayout=0x7f090000;
+        public static final int runGameButton=0x7f090005;
         public static final int seekBar=0x7f090004;
         public static final int sendingLayout=0x7f090001;
         public static final int textView1=0x7f090002;
