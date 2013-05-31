@@ -5,28 +5,28 @@ import org.slf4j.LoggerFactory;
 
 import com.utc.cards.player.PlayerActivityController;
 
-public class HumanPlayer extends AbstractPlayer {
-	
-	private static Logger _log = LoggerFactory.getLogger(HumanPlayer.class);
+public class HumanPlayer extends AbstractPlayer
+{
 
-	private PlayerActivityController _playerController;
+    private static Logger _log = LoggerFactory.getLogger(HumanPlayer.class);
 
-	public HumanPlayer(String name)
-	{
-		super(name);
-	}
+    private PlayerActivityController _playerController;
 
-	@Override
-	public void playTurn() {
-	}
+    public HumanPlayer(String name)
+    {
+	super(name);
+    }
 
-	public void sendGameAction() {
-		_log.debug("sendGameAction()");
+    @Override
+    public void playTurn()
+    {
+    }
 
-		// TODO Auto-generated method stub
-	}
-	
+    public void sendGameAction()
+    {
+	_log.debug("sendGameAction()");
 
-
+	// TODO Auto-generated method stub
+    }
 
 }

@@ -2,8 +2,9 @@ package com.utc.cards.table.view;
 
 import com.utc.cards.table.controller.TableGameController;
 
-public interface ITableGameActivity {
+public interface ITableGameActivity
+{
 
-	void setController(TableGameController controller);
+    void setController(TableGameController controller);
 
 }

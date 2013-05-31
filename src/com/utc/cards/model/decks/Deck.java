@@ -6,51 +6,50 @@ import com.utc.cards.model.Card;
 
 public class Deck extends ArrayList<Card>
 {
-	// Création d'un "deck" vide
-	public Deck()
+    // Crï¿½ation d'un "deck" vide
+    public Deck()
+    {
+	super();
+    }
+
+    public Deck(int i)
+    {
+	super(i);
+    }
+
+    public Deck(Deck d)
+    {
+	super(d);
+    }
+
+    public Card getCard(int index)
+    {
+	try
 	{
-		super();
-	}
-	
-	public Deck(int i)
+	    return this.get(index);
+	} catch (Exception e)
 	{
-		super(i);
+	    e.printStackTrace();
 	}
-	
-	public Deck(Deck d)
+
+	return null;
+    }
+
+    public Card getCardByName(String name)
+    {
+	for (int i = 0; i < this.size(); i++)
 	{
-		super(d);
+	    if (this.get(i).getName().equals(name))
+	    {
+		return this.get(i);
+	    }
 	}
-	
-	public Card getCard(int index)
-	{
-		try
-		{
-			return this.get(index);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
-	
-	public Card getCardByName(String name)
-	{
-		for(int i = 0; i < this.size(); i++)
-		{
-			if(this.get(i).getName().equals(name))
-			{
-				return this.get(i);
-			}
-		}
-		
-		return null;
-	}
-	
-	public int getNbOfCards() 
-	{
-		return this.size();
-	}
+
+	return null;
+    }
+
+    public int getNbOfCards()
+    {
+	return this.size();
+    }
 }

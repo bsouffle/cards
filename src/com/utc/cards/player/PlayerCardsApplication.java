@@ -6,33 +6,35 @@ import org.slf4j.LoggerFactory;
 import com.utc.cards.model.player.HumanPlayer;
 import com.utc.cards.model.player.IPlayer;
 
-
-public class PlayerCardsApplication 
+public class PlayerCardsApplication
 {
-	private static Logger _log = LoggerFactory.getLogger(PlayerCardsApplication.class);
+    private static Logger _log = LoggerFactory
+	    .getLogger(PlayerCardsApplication.class);
 
-	private PlayerActivityController controller;
+    private PlayerActivityController controller;
 
-	private PlayerCardsApplication() {
-		_log.debug("new PlayerCardsApplication()");
-		
-		IPlayer player = new HumanPlayer("Default");
-		controller = new PlayerActivityController(player);
-//		PlayerMenuViewImpl view = new PlayerMenuViewImpl(controller);
-	}
+    private PlayerCardsApplication()
+    {
+	_log.debug("new PlayerCardsApplication()");
 
-	public static void main(String[] args) {
-		_log.debug("main()");
-		
-		PlayerCardsApplication cardsApp = new PlayerCardsApplication();
-		cardsApp.run();
-	}
+	IPlayer player = new HumanPlayer("Default");
+	controller = new PlayerActivityController(player);
+	// PlayerMenuViewImpl view = new PlayerMenuViewImpl(controller);
+    }
 
-	private void run() 
-	{
-		_log.debug("run()");
-		
-		controller.runApp();
-	}
+    public static void main(String[] args)
+    {
+	_log.debug("main()");
+
+	PlayerCardsApplication cardsApp = new PlayerCardsApplication();
+	cardsApp.run();
+    }
+
+    private void run()
+    {
+	_log.debug("run()");
+
+	controller.runApp();
+    }
 
 }
