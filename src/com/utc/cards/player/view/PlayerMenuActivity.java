@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +29,8 @@ public class PlayerMenuActivity extends Activity
 
     private static Logger _log = LoggerFactory
 	    .getLogger(PlayerMenuActivity.class);
+
+    private Handler mHandler = new Handler();
 
     // private MyReceiver myReceiver;
     //
@@ -110,12 +113,21 @@ public class PlayerMenuActivity extends Activity
 			@Override
 			public void onAllAgentsReady()
 			{
-			    _log.info("onAllAgentsReady");
-			    final Button button = (Button) findViewById(R.id.runGameButton);
-			    button.setEnabled(true);
-			    // TODO
-			    // get available game and display it
-			    // later : enable join button
+			    // mHandler to update view from another thread
+			    mHandler.post(new Runnable() {
+				@Override
+				public void run()
+				{
+				    _log.info("onAllAgentsReady");
+				    final Button button = (Button) PlayerMenuActivity.this
+					    .findViewById(R.id.joinButton);
+				    button.setEnabled(true);
+				    // TODO
+				    // get available game and display it
+				    // later : enable join button
+				}
+			    });
+
 			}
 		    });
 	} else
@@ -152,15 +164,7 @@ public class PlayerMenuActivity extends Activity
     // display.getSize(_screenDimention);
     // }
     //
-    // @Override
-    // protected void onActivityResult(int requestCode, int resultCode, Intent
-    // data) {
-    // // if (requestCode == PARTICIPANTS_REQUEST) {
-    // // if (resultCode == RESULT_OK) {
-    // // // TODO: A partecipant was picked. Send a private message.
-    // // }
-    // // }
-    // // }
+
     //
     // //
     // // private class MyReceiver extends BroadcastReceiver {
