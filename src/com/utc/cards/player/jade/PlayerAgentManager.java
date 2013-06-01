@@ -23,8 +23,6 @@ public class PlayerAgentManager extends AbstractAgentManager
     private static Logger _log = LoggerFactory
 	    .getLogger(PlayerAgentManager.class);
 
-    private static int _readyAgents = 0;
-
     @SuppressWarnings("rawtypes")
     private static final Class[] PLAYER_AGENTS_CLASSSES = { PlayerAgent.class,
 	    HelpAgent.class, PlayCheckerAgent.class };

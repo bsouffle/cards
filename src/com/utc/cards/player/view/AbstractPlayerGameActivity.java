@@ -48,19 +48,7 @@ public abstract class AbstractPlayerGameActivity extends Activity implements
 
 	setContentView(R.layout.activity_main);
 
-	_agentManager.startAgents(this, new AgentActivityListener() {
-
-	    @Override
-	    public void onAllAgentsReady()
-	    {
-		_log.info("onAllAgentsReady");
-		final Button button = (Button) findViewById(R.id.runGameButton);
-		button.setEnabled(true);
-		// TODO
-		// get available games list and display it
-		// later : enable join button
-	    }
-	});
+	
 	//
 	// myReceiver = new MyReceiver();
 	// IntentFilter showChatFilter = new IntentFilter();

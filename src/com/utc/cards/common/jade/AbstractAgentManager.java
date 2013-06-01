@@ -29,7 +29,7 @@ public abstract class AbstractAgentManager
     private static ServiceConnection _serviceConnection;
 
     protected static AbstractAgentManager _instance;
-    private static int _readyAgents = 0;
+    protected static int _readyAgents = 0;
 
     public abstract Properties buildJadeProfile(String host, String port);
 
@@ -111,7 +111,7 @@ public abstract class AbstractAgentManager
 		});
     }
 
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     private void startContainer(final Activity activity,
 	    final Properties profile,
 	    final RuntimeCallback<AgentController> agentStartupCallback,
