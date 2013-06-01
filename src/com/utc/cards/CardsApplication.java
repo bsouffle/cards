@@ -1,13 +1,26 @@
 package com.utc.cards;
 
+import static com.utc.cards.Constants.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.utc.cards.utils.Utils;
+
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 
+/**
+ * CARDS require an active Wifi connection Player mode also require a
+ * GoogleAccount to display user name
+ * 
+ * @author Arnaud
+ * 
+ */
 public class CardsApplication extends Application
 {
+
     private Logger log = LoggerFactory.getLogger(CardsApplication.class);
 
     @Override
@@ -15,18 +28,19 @@ public class CardsApplication extends Application
     {
 	super.onCreate();
 
-	SharedPreferences settings = getSharedPreferences("jadeChatPrefsFile",
-		0);
+	String localIpAddress = Utils.getLocalWifiIpAddress(this);
 
-	String defaultHost = settings.getString("defaultHost", "");
-	String defaultPort = settings.getString("defaultPort", "");
-	if (defaultHost.isEmpty() || defaultPort.isEmpty())
-	{
-	    log.info("Create default properties");
-	    SharedPreferences.Editor editor = settings.edit();
-	    editor.putString("defaultHost", "10.0.2.2");
-	    editor.putString("defaultPort", "1099");
-	    editor.commit();
-	}
+	SharedPreferences settings = getSharedPreferences(
+		JADE_CARDS_PREFS_FILE, Context.MODE_PRIVATE);
+	log.info("JADE_CARDS_PREFS_FILE :");
+	log.info(HOST_PORT + " = " + DEFAULT_JADE_PORT);
+	log.info(LOCAL_IP + " = " + localIpAddress);
+	SharedPreferences.Editor editor = settings.edit();
+	editor.putString(HOST_PORT, DEFAULT_JADE_PORT);
+	editor.putString(LOCAL_IP, localIpAddress);
+	editor.commit();
+
     }
+
+   
 }

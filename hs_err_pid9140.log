@@ -1,0 +1,106 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  Internal Error (javaClasses.cpp:129), pid=9140, tid=4260
+#  fatal error: Invalid layout of preloaded class
+#
+# JRE version: 7.0_17-b02
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (23.7-b01 mixed mode windows-amd64 compressed oops)
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.sun.com/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00000000020fd800):  JavaThread "Unknown thread" [_thread_in_vm, id=4260, stack(0x0000000001fe0000,0x00000000020e0000)]
+
+Stack: [0x0000000001fe0000,0x00000000020e0000]
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+
+Other Threads:
+
+=>0x00000000020fd800 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=4260, stack(0x0000000001fe0000,0x00000000020e0000)]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (10 events):
+Event: 0.008 loading class 0x00000000021643d0 done
+Event: 0.008 loading class 0x0000000002121e50 done
+Event: 0.008 loading class 0x00000000021220f0
+Event: 0.008 loading class 0x000000001b89cc90
+Event: 0.008 loading class 0x000000001b89cc90 done
+Event: 0.008 loading class 0x000000001b89cc10
+Event: 0.008 loading class 0x000000001b89cc10 done
+Event: 0.008 loading class 0x000000001b89e2c0
+Event: 0.008 loading class 0x000000001b89e2c0 done
+Event: 0.008 loading class 0x00000000021220f0 done
+
+
+Dynamic libraries:
+0x000007f669af0000 - 0x000007f669b23000 	C:\Program Files\Java\jre7\bin\javaw.exe
+0x000007f96dfa0000 - 0x000007f96e160000 	C:\Windows\SYSTEM32\ntdll.dll
+0x000007f96b4f0000 - 0x000007f96b626000 	C:\Windows\system32\KERNEL32.DLL
+0x000007f96b2b0000 - 0x000007f96b3a3000 	C:\Windows\system32\KERNELBASE.dll
+0x000007f96ce10000 - 0x000007f96ceee000 	C:\Windows\system32\ADVAPI32.dll
+0x000007f96d150000 - 0x000007f96d29c000 	C:\Windows\system32\USER32.dll
+0x000007f9688f0000 - 0x000007f968b5a000 	C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.9200.16579_none_418ab7ef718b27ef\COMCTL32.dll
+0x000007f96dc10000 - 0x000007f96dcb5000 	C:\Windows\system32\msvcrt.dll
+0x000007f96cdc0000 - 0x000007f96ce08000 	C:\Windows\SYSTEM32\sechost.dll
+0x000007f96b3b0000 - 0x000007f96b4f0000 	C:\Windows\system32\RPCRT4.dll
+0x000007f96de60000 - 0x000007f96dfa0000 	C:\Windows\system32\GDI32.dll
+0x000007f96cef0000 - 0x000007f96cf29000 	C:\Windows\system32\IMM32.DLL
+0x000007f96d480000 - 0x000007f96d595000 	C:\Windows\system32\MSCTF.dll
+0x000000005dc90000 - 0x000000005dd61000 	C:\Program Files\Java\jre7\bin\msvcr100.dll
+0x000000005d570000 - 0x000000005dc8f000 	C:\Program Files\Java\jre7\bin\server\jvm.dll
+0x000007f958770000 - 0x000007f958779000 	C:\Windows\SYSTEM32\WSOCK32.dll
+0x000007f967a20000 - 0x000007f967a40000 	C:\Windows\SYSTEM32\WINMM.dll
+0x000007f96d5a0000 - 0x000007f96d5a7000 	C:\Windows\system32\PSAPI.DLL
+0x000007f96d0e0000 - 0x000007f96d138000 	C:\Windows\system32\WS2_32.dll
+0x000007f967ce0000 - 0x000007f967d12000 	C:\Windows\SYSTEM32\WINMMBASE.dll
+0x000007f96d470000 - 0x000007f96d479000 	C:\Windows\system32\NSI.dll
+0x000000005d560000 - 0x000000005d56f000 	C:\Program Files\Java\jre7\bin\verify.dll
+0x000000005d530000 - 0x000000005d558000 	C:\Program Files\Java\jre7\bin\java.dll
+0x000000005d510000 - 0x000000005d525000 	C:\Program Files\Java\jre7\bin\zip.dll
+
+VM Arguments:
+jvm_args: -Dfile.encoding=UTF-8 -Xbootclasspath:C:\Users\Arnaud\android-sdks\platforms\android-17\android.jar;C:\Users\Arnaud\android-sdks\add-ons\addon-google_apis-google-17\libs\effects.jar;C:\Users\Arnaud\android-sdks\add-ons\addon-google_apis-google-17\libs\usb.jar;C:\Users\Arnaud\android-sdks\add-ons\addon-google_apis-google-17\libs\maps.jar 
+java_command: com.utc.cards.emulation.RunHost
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+PATH=C:\Program Files (x86)\AMD APP\bin\x86_64;C:\Program Files (x86)\AMD APP\bin\x86;C:\Program Files\Broadcom\Broadcom 802.11 Network Adapter\Driver;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files\TortoiseSVN\bin;C:\Program Files\WIDCOMM\Bluetooth Software\;C:\Program Files\WIDCOMM\Bluetooth Software\syswow64;C:\Program Files (x86)\GTK2-Runtime\bin;;C:\Program Files (x86)\gstreamer\bin
+USERNAME=Arnaud
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 58 Stepping 9, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 8 , 64 bit Build 9200 
+
+CPU:total 8 (4 cores per cpu, 2 threads per core) family 6 model 58 stepping 9, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, ht, tsc, tscinvbit, tscinv
+
+Memory: 4k page, physical 33495644k(28080304k free), swap 67050076k(60027500k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (23.7-b01) for windows-amd64 JRE (1.7.0_17-b02), built on Mar  1 2013 03:38:30 by "java_re" with unknown MS VC++:1600
+
+time: Sat Jun 01 15:09:39 2013
+elapsed time: 0 seconds
+

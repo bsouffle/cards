@@ -11,6 +11,7 @@
     <uses-feature android:name="android.hardware.screen.landscape" />
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <application
         android:name="com.utc.cards.CardsApplication"

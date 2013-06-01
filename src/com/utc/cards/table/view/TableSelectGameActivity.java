@@ -8,7 +8,7 @@ import com.utc.cards.R.layout;
 import com.utc.cards.R.menu;
 import com.utc.cards.games.damedepique.DameDePique;
 import com.utc.cards.model.game.IGame;
-import com.utc.cards.table.controller.TableGameController;
+import com.utc.cards.table.TableController;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -18,11 +18,11 @@ public class TableSelectGameActivity extends Activity
 {
     private Map<String, IGame> games = new HashMap<String, IGame>();
     private IGame selectedGame = null;
-    private TableGameController _controller;
+    private TableController _controller;
 
     public TableSelectGameActivity()
     {
-	_controller = new TableGameController();
+	_controller = new TableController();
     }
 
     public void launchSelectedGame()

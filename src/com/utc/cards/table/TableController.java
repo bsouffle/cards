@@ -1,4 +1,4 @@
-package com.utc.cards.table.controller;
+package com.utc.cards.table;
 
 import java.util.List;
 
@@ -10,11 +10,11 @@ import com.utc.cards.model.game.IGame;
 import com.utc.cards.model.player.IAPlayer;
 import com.utc.cards.model.player.IPlayer;
 
-public class TableGameController
+public class TableController
 {
 
     private static Logger _log = LoggerFactory
-	    .getLogger(TableGameController.class);
+	    .getLogger(TableController.class);
 
     private IGame _game;
 

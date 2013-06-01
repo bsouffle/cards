@@ -1,11 +1,11 @@
 package com.utc.cards.table.view;
 
-import com.utc.cards.table.controller.TableGameController;
+import com.utc.cards.table.TableController;
 
 public class AbstractTableGameActivity implements ITableGameActivity
 {
     @Override
-    public void setController(TableGameController controller)
+    public void setController(TableController controller)
     {
 	// TODO Auto-generated method stub
 
