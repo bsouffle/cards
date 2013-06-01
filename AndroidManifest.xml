@@ -1,29 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.cards"
+<manifest package="com.utc.cards"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="14" />
-    
-    <uses-feature android:name="android.hardware.screen.landscape"/>
+
+    <uses-feature android:name="android.hardware.screen.landscape" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme" android:name="CardsApplication">
         <activity
-            android:name="com.utc.cards.games.damedepique.DameDePiquePlayerGameActivity"
-            android:screenOrientation="sensorLandscape"
-            android:label="@string/app_name" >
+            android:name="com.utc.cards.common.view.impl.CardsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="sensorLandscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.utc.cards.table.view.TableSelectGameActivity"
+            android:label="@string/title_activity_select_game" >
+        </activity>
+        <activity
+            android:name="com.utc.cards.table.view.TableLaunchGameActivity"
+            android:label="@string/title_activity_launch_game" >
         </activity>
     </application>
 

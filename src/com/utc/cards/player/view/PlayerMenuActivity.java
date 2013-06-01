@@ -7,8 +7,7 @@ import android.app.Activity;
 
 import com.utc.cards.model.game.IGame;
 
-public abstract class PlayerMenuActivity<T extends IGame> extends Activity
-	implements IPlayerMenuActivity<T>
+public class PlayerMenuActivity extends Activity
 {
 
     private static Logger _log = LoggerFactory

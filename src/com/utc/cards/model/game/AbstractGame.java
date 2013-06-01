@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.utc.cards.model.decks.Deck;
+import com.utc.cards.model.decks.Traditionnal52Deck;
 import com.utc.cards.model.player.IPlayer;
 
 public abstract class AbstractGame implements IGame
@@ -14,44 +15,46 @@ public abstract class AbstractGame implements IGame
 
     private static Logger _log = LoggerFactory.getLogger(AbstractGame.class);
 
+    private String _name;
+    protected Deck _deck;
+    protected IRules _rules = null;
+
     private Integer _maxPlayerCount = null;
     private Integer _minPlayerCount = null;
-    private int[] _legalPlayerCount;
-    private Deck _deck;
-    private String _name;
-    private boolean _initialized = false;
+    private int[] _legalPlayerCount = null;
+
     private List<IPlayer> _players = new ArrayList<IPlayer>();
     // private Map<Player, Deck> hands = new HashMap<Player, Deck>(); // ??
     // plutot via l'agent
     private IPlayer _firstPlayer = null;
-    private ArrayList<IRule> _rules = null;
 
-    protected AbstractGame(String name, int maxPlayerCount, int minPlayerCount)
+    public AbstractGame(String name, int maxPlayerCount, int minPlayerCount)
     {
-	super();
-
-	_log.debug("AbstractGame() (" + minPlayerCount + " to "
-		+ maxPlayerCount + " players)");
-
 	this._name = name;
 	this._maxPlayerCount = maxPlayerCount;
 	this._minPlayerCount = minPlayerCount;
+	_log.debug("AbstractGame() (" + minPlayerCount + " to "
+		+ maxPlayerCount + " players)");
     }
 
-    public AbstractGame(String name, int maxPlayerCount, int minPlayerCount,
-	    int[] legalPlayerCount)
+    public AbstractGame(String name, int[] legalPlayerCount)
     {
+	this(name, legalPlayerCount[0],
+		legalPlayerCount[legalPlayerCount.length - 1]);
+	this._legalPlayerCount = legalPlayerCount;
+	logLegalPlayerCountConstructor();
+    }
 
-	this(name, maxPlayerCount, minPlayerCount);
-
+    private void logLegalPlayerCountConstructor()
+    {
 	boolean first = true;
 	StringBuilder legalPlayerString = new StringBuilder();
 
-	for (int index = 0; index < legalPlayerCount.length; index++)
+	for (int index = 0; index < this._legalPlayerCount.length; index++)
 	{
 	    if (first)
 	    {
-	    } else if (index == (legalPlayerCount.length - 1))
+	    } else if (index == (this._legalPlayerCount.length - 1))
 	    {
 		legalPlayerString.append(" or ");
 	    } else
@@ -59,12 +62,11 @@ public abstract class AbstractGame implements IGame
 		legalPlayerString.append(", ");
 	    }
 
-	    legalPlayerString.append(legalPlayerCount[index]);
+	    legalPlayerString.append(this._legalPlayerCount[index]);
 	    first = false;
 	}
 
 	_log.debug("AbstractGame() (require " + legalPlayerString + " players)");
-	this._legalPlayerCount = legalPlayerCount;
     }
 
     @Override
@@ -89,42 +91,6 @@ public abstract class AbstractGame implements IGame
 	_log.debug("getMinPlayerCount()");
 
 	return _minPlayerCount;
-    }
-
-    public final Deck getDeck()
-    {
-	_log.debug("getAllGameCards()");
-	return _deck;
-    }
-
-    @Override
-    public final void initializeGame()
-    {
-	_log.debug("initializeGame()");
-
-	// activate game on table
-	_deck = loadCards();
-	_rules = loadRules();
-
-	_initialized = true;
-    }
-
-    public abstract ArrayList<IRule> loadRules();
-
-    public abstract Deck loadCards();
-
-    @Override
-    public void init()
-    {
-	loadRules();
-	loadCards();
-    }
-
-    @Override
-    public final boolean isInitialized()
-    {
-	_log.debug("isInitialized()");
-	return _initialized;
     }
 
     public final int[] getLegalPlayerCount()
@@ -181,39 +147,49 @@ public abstract class AbstractGame implements IGame
     public final IPlayer getFirstPlayer()
     {
 	_log.debug("getFirstPlayer()");
-
 	if (_firstPlayer == null)
 	{
-	    _firstPlayer = determineFirstPlayer();
+	    // FIXME : à faire via l'agent
+	    _firstPlayer = getRules().determineFirstPlayer(_deck, _players);
 	}
-
 	return _firstPlayer;
     }
 
-    @Override
-    public abstract IPlayer determineFirstPlayer();
+//    public abstract void launch();
+//
+//    @Override
+//    public void launchGame()
+//    {
+//	_log.debug("launchGame()");
+//
+//	launch();
+//    }
+
+    protected abstract Deck createDeck();
 
     @Override
-    public void launchGame()
+    public final Deck getDeck()
     {
-	_log.debug("launchGame()");
-
-	launch();
+	_log.debug("getAllGameCards()");
+	if (_deck == null)
+	{
+	    _deck = createDeck();
+	}
+	return _deck;
     }
 
-    public abstract void launch();
+    // seulement pour l'agent "RulesAgent"
+    protected abstract IRules createRules();
 
-    public ArrayList<IRule> getRules()
+    @Override
+    public final IRules getRules()
     {
-	_log.debug("getRules()");
-
+	_log.debug("getAllGameCards()");
+	if (_rules == null)
+	{
+	    _rules = createRules();
+	}
 	return _rules;
     }
 
-    public void setRules(ArrayList<IRule> rules)
-    {
-	_log.debug("setRules()");
-
-	this._rules = rules;
-    }
 }

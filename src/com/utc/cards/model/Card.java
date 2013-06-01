@@ -3,14 +3,12 @@ package com.utc.cards.model;
 public class Card
 {
     private String _name;
-    private int _value;
     private int _resourceId;
 
-    public Card(String name, int value, int resourceId)
+    public Card(String name, int resourceId)
     {
 	super();
 	this._name = name;
-	this._value = value;
 	this._resourceId = resourceId;
     }
 
@@ -22,16 +20,6 @@ public class Card
     public void setName(String name)
     {
 	this._name = name;
-    }
-
-    public int getValue()
-    {
-	return _value;
-    }
-
-    public void setValue(int value)
-    {
-	this._value = value;
     }
 
     public int getResourceId()
@@ -47,6 +35,17 @@ public class Card
     @Override
     public String toString()
     {
-	return "Card [name=" + _name + ", value=" + _value + "]";
+	return "Card [name=" + _name + "]";
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+	if (o != null && o instanceof Card)
+	{
+	    return _resourceId == ((Card) o)._resourceId;
+	}
+	return false;
+    }
+
 }

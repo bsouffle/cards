@@ -23,11 +23,7 @@ public class TableGameController
 	_log.debug("loadGame()");
 
 	setGame(game);
-	// activate game on table
-	if (!this._game.isInitialized())
-	{
-	    this._game.initializeGame();
-	}
+	
 	// wait for players / IA to subscribe
 	startSubscription();
     }
@@ -75,10 +71,11 @@ public class TableGameController
 	}
     }
 
+    // use rules via behaviours
     private void distributeInitialCards()
     {
 	_log.debug("distributeInitialCards()");
-	List<Deck> hands = _game.getInitialCardDistribution();
+	List<Deck> hands = _game.getRules().getInitialCardDistribution(_game.getDeck(), _game.getPlayers());
 
 	// TODO check order, use the same index ?
 

@@ -1,26 +1,28 @@
 package com.utc.cards.model.game;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.utc.cards.model.decks.Deck;
 import com.utc.cards.model.player.IPlayer;
+import com.utc.cards.player.view.IPlayerGameActivity;
+import com.utc.cards.table.view.ITableGameActivity;
 
 public interface IGame
 {
+    
+    public ITableGameActivity createTableGameActivity();
+    
+    public IPlayerGameActivity createPlayerGameActivity();
+    
     public String getName();
 
     public int getMaxPlayerCount();
 
     public int getMinPlayerCount();
 
-    public void init();
-
     public Deck getDeck();
 
-    public void initializeGame();
-
-    public boolean isInitialized();
+    public IRules getRules();
 
     public List<IPlayer> getPlayers();
 
@@ -28,21 +30,15 @@ public interface IGame
 
     public void removePlayer(IPlayer player);
 
-    public ArrayList<IRule> getRules();
-
-    public IPlayer determineFirstPlayer();
-
-    public IPlayer getFirstPlayer();
-
-    public List<Deck> getInitialCardDistribution();
-
     // public void setHand(Player player, Deck hand);
     //
     // public Deck getHand(Player player);
     //
     // public void replacePlayer(Player playerToRemove, Player playerToAdd);
-
-    public void launchGame();
+    //
+    // public void launchGame();
 
     public int[] getLegalPlayerCounts();
+
+    public IPlayer getFirstPlayer();
 }

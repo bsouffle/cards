@@ -4,5 +4,12 @@
     <string name="app_name">CARDS</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="player">Joueur</string>
+    <string name="host">Hôte</string>
+    <string name="title_activity_cards">CardsActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_select_game">SelectGameActivity</string>
+    <string name="title_activity_launch_game">LaunchGameActivity</string>
 
 </resources>
