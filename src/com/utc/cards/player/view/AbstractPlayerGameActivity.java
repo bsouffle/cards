@@ -24,7 +24,7 @@ import com.utc.cards.R;
 import com.utc.cards.common.view.CardView;
 import com.utc.cards.common.view.CardsContainer;
 import com.utc.cards.common.view.listener.SendDragListener;
-import com.utc.cards.model.Card;
+import com.utc.cards.model.card.Card;
 import com.utc.cards.player.jade.AgentActivityListener;
 import com.utc.cards.player.jade.PlayerAgentManager;
 

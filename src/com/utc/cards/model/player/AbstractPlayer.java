@@ -1,12 +1,17 @@
 package com.utc.cards.model.player;
 
-import com.utc.cards.model.decks.Deck;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.utc.cards.model.deck.Deck;
 
 public abstract class AbstractPlayer implements IPlayer
 {
 
-    private Deck _hand = new Deck();
+    public final static String MAIN_HAND = "main";
+
     private String _name;
+    private Map<String, Deck> _hands = new HashMap<String, Deck>();
 
     public AbstractPlayer(String name)
     {
@@ -14,19 +19,33 @@ public abstract class AbstractPlayer implements IPlayer
     }
 
     @Override
+    public String getName()
+    {
+	return _name;
+    }
+
+    @Override
     public Deck getHand()
     {
-	return _hand;
+	return _hands.get(MAIN_HAND);
+    }
+
+    @Override
+    public Deck getHand(String handType)
+    {
+	return _hands.get(handType);
     }
 
     @Override
     public void setHand(Deck hand)
     {
-	this._hand = hand;
+	this._hands.put(MAIN_HAND, hand);
     }
 
-    public String getName()
+    @Override
+    public void setHand(Deck hand, String handType)
     {
-	return _name;
+	this._hands.put(handType, hand);
     }
+
 }

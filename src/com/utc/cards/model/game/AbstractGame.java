@@ -6,8 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.utc.cards.model.decks.Deck;
-import com.utc.cards.model.decks.Traditionnal52Deck;
+import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.player.IPlayer;
 
 public abstract class AbstractGame implements IGame
@@ -22,11 +21,11 @@ public abstract class AbstractGame implements IGame
     private Integer _maxPlayerCount = null;
     private Integer _minPlayerCount = null;
     private int[] _legalPlayerCount = null;
-
+    /**
+     * la liste des joueurs dans leur ordre de jeu (après lancement de la
+     * partie, sinon ordre non garanti)
+     */
     private List<IPlayer> _players = new ArrayList<IPlayer>();
-    // private Map<Player, Deck> hands = new HashMap<Player, Deck>(); // ??
-    // plutot via l'agent
-    private IPlayer _firstPlayer = null;
 
     public AbstractGame(String name, int maxPlayerCount, int minPlayerCount)
     {
@@ -142,28 +141,6 @@ public abstract class AbstractGame implements IGame
     // hands.remove(playerToRemove);
     // hands.put(playerToAdd, hand);
     // }
-
-    @Override
-    public final IPlayer getFirstPlayer()
-    {
-	_log.debug("getFirstPlayer()");
-	if (_firstPlayer == null)
-	{
-	    // FIXME : à faire via l'agent
-	    _firstPlayer = getRules().determineFirstPlayer(_deck, _players);
-	}
-	return _firstPlayer;
-    }
-
-//    public abstract void launch();
-//
-//    @Override
-//    public void launchGame()
-//    {
-//	_log.debug("launchGame()");
-//
-//	launch();
-//    }
 
     protected abstract Deck createDeck();
 

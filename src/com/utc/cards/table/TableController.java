@@ -5,7 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.utc.cards.model.decks.Deck;
+import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.game.IGame;
 import com.utc.cards.model.player.IAPlayer;
 import com.utc.cards.model.player.IPlayer;
@@ -34,7 +34,7 @@ public class TableController
 	_log.debug("launchGame()");
 	completePlayersWithIA();
 	distributeInitialCards();
-	notifyTurn(_game.getFirstPlayer());
+	notifyTurn(_game.getPlayers().get(0));
     }
 
     private void completePlayersWithIA()

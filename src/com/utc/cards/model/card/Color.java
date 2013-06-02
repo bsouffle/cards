@@ -1,4 +1,4 @@
-package com.utc.cards.model;
+package com.utc.cards.model.card;
 
 public enum Color
 {

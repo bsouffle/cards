@@ -2,7 +2,7 @@ package com.utc.cards.model.game;
 
 import java.util.List;
 
-import com.utc.cards.model.decks.Deck;
+import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.player.IPlayer;
 import com.utc.cards.player.view.IPlayerGameActivity;
 import com.utc.cards.table.view.ITableGameActivity;
@@ -40,5 +40,4 @@ public interface IGame
 
     public int[] getLegalPlayerCounts();
 
-    public IPlayer getFirstPlayer();
 }

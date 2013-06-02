@@ -1,10 +1,10 @@
-package com.utc.cards.model.decks;
+package com.utc.cards.model.deck;
 
-import static com.utc.cards.model.Color.*;
-import static com.utc.cards.model.TraditionnalCard.TraditionnalCardNames.*;
+import static com.utc.cards.model.card.Color.*;
+import static com.utc.cards.model.card.TraditionnalCard.TraditionnalCardNames.*;
 
 import com.utc.cards.R;
-import com.utc.cards.model.TraditionnalCard;
+import com.utc.cards.model.card.TraditionnalCard;
 
 public final class Traditionnal52Deck extends Deck
 {

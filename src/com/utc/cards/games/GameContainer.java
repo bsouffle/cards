@@ -49,7 +49,7 @@ public class GameContainer
     }
     
     // for HOST when app is launched
-    public static SortedSet<String> getGameNameList() {
+    public static SortedSet<String> getCompleteGameNameList() {
 	return gameNames;
     }
 }

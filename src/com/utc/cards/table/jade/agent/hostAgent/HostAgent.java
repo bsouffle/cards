@@ -1,4 +1,4 @@
-package com.utc.cards.table.jade.agent;
+package com.utc.cards.table.jade.agent.hostAgent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +21,34 @@ public class HostAgent extends Agent implements IHostAgent
     public void setup()
     {
 	_log.debug("HostAgent.setup()");
+    }
+
+    @Override
+    public void openSuscription()
+    {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    public void sendGameSelected()
+    {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    public void createIAPlayer()
+    {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    public void removeIAPlayer()
+    {
+	// TODO Auto-generated method stub
+	
     }
 
     // public AID getReceiver()

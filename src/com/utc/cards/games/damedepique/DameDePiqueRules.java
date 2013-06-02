@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.utc.cards.R;
-import com.utc.cards.model.Card;
-import com.utc.cards.model.decks.Deck;
+import com.utc.cards.model.card.Card;
+import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.game.AbstractGameRules;
 import com.utc.cards.model.player.IPlayer;
 

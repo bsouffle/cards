@@ -2,7 +2,7 @@ package com.utc.cards.model.game;
 
 import java.util.List;
 
-import com.utc.cards.model.decks.Deck;
+import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.player.IPlayer;
 
 public abstract class AbstractGameRules implements IRules

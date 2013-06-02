@@ -1,8 +1,8 @@
-package com.utc.cards.model.decks;
+package com.utc.cards.model.deck;
 
 import java.util.ArrayList;
 
-import com.utc.cards.model.Card;
+import com.utc.cards.model.card.Card;
 
 public class Deck extends ArrayList<Card>
 {

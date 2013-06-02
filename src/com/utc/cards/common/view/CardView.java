@@ -8,7 +8,7 @@ import android.widget.RelativeLayout;
 import com.trevorpage.tpsvg.SVGParserRenderer;
 import com.trevorpage.tpsvg.SVGView;
 import com.utc.cards.common.view.listener.CardTouchListener;
-import com.utc.cards.model.Card;
+import com.utc.cards.model.card.Card;
 
 public class CardView extends SVGView
 {

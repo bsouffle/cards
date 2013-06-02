@@ -3,8 +3,8 @@ package com.utc.cards.games.damedepique;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.utc.cards.model.decks.Deck;
-import com.utc.cards.model.decks.Traditionnal52Deck;
+import com.utc.cards.model.deck.Deck;
+import com.utc.cards.model.deck.Traditionnal52Deck;
 import com.utc.cards.model.game.AbstractGame;
 import com.utc.cards.model.game.IRules;
 import com.utc.cards.player.view.IPlayerGameActivity;

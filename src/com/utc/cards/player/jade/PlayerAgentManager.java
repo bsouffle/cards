@@ -10,9 +10,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.utc.cards.common.jade.AbstractAgentManager;
-import com.utc.cards.player.jade.agent.HelpAgent;
-import com.utc.cards.player.jade.agent.PlayCheckerAgent;
-import com.utc.cards.player.jade.agent.PlayerAgent;
+import com.utc.cards.player.jade.agent.playerAgent.PlayerAgent;
+import com.utc.cards.player.jade.agent.playerHelperAgent.PlayerHelperAgent;
+import com.utc.cards.table.jade.agent.gameAgent.GameAgent;
 
 import jade.android.AndroidHelper;
 import jade.android.RuntimeCallback;
@@ -28,7 +28,7 @@ public class PlayerAgentManager extends AbstractAgentManager
 
     @SuppressWarnings("rawtypes")
     private static final Class[] PLAYER_AGENTS_CLASSSES = { PlayerAgent.class,
-	    HelpAgent.class, PlayCheckerAgent.class };
+	    PlayerHelperAgent.class, GameAgent.class };
 
     public static PlayerAgentManager instance()
     {

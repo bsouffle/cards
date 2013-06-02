@@ -1,6 +1,6 @@
 package com.utc.cards.games.damedepique;
 
-import com.utc.cards.model.decks.Deck;
+import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.game.IGame;
 import com.utc.cards.model.game.IRules;
 import com.utc.cards.model.player.HumanPlayer;
