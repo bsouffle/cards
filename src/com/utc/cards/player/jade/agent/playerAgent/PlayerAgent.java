@@ -1,18 +1,18 @@
 package com.utc.cards.player.jade.agent.playerAgent;
 
+import jade.core.Agent;
+
 import java.util.Map;
 
-import com.utc.cards.model.PlayerModel;
 import com.utc.cards.model.deck.Deck;
-
-import jade.core.Agent;
+import com.utc.cards.model.player.AbstractPlayer;
 
 public class PlayerAgent extends Agent implements IPlayerAgent
 {
 
     private static final long serialVersionUID = -7812647282008239070L;
 
-    private PlayerModel model;
+    private AbstractPlayer model;
 
     @Override
     protected void setup()

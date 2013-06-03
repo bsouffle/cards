@@ -55,6 +55,7 @@ public class CardsActivity extends Activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+	
 	if (requestCode == PLAYER_REQUEST)
 	{
 	    if (resultCode == RESULT_CANCELED)
@@ -63,7 +64,8 @@ public class CardsActivity extends Activity
 		_log.info("onActivityResult() : Stopping Jade...");
 		PlayerAgentManager.instance().stopAgentContainer();
 	    }
-	} else if (requestCode == HOST_REQUEST)
+	} 
+	else if (requestCode == HOST_REQUEST)
 	{
 	    if (resultCode == RESULT_CANCELED)
 	    {

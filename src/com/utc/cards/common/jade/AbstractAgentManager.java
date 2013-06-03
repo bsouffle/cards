@@ -170,20 +170,24 @@ public abstract class AbstractAgentManager
     public void stopAgentContainer()
     {
 	_log.debug("stopAgentContainer() ...");
-	_microRuntimeServiceBinder
-		.stopAgentContainer(new RuntimeCallback<Void>() {
-		    @Override
-		    public void onSuccess(Void thisIsNull)
-		    {
-			_log.debug("stopAgentContainer() : Successful");
-		    }
-
-		    @Override
-		    public void onFailure(Throwable throwable)
-		    {
-			_log.error("Failed to stop the AgentContainer...");
-		    }
-		});
+	
+	if(_microRuntimeServiceBinder != null)
+	{
+        	_microRuntimeServiceBinder
+        		.stopAgentContainer(new RuntimeCallback<Void>() {
+        		    @Override
+        		    public void onSuccess(Void thisIsNull)
+        		    {
+        			_log.debug("stopAgentContainer() : Successful");
+        		    }
+        
+        		    @Override
+        		    public void onFailure(Throwable throwable)
+        		    {
+        			_log.error("Failed to stop the AgentContainer...");
+        		    }
+        		});
+	}
     }
 
 }
