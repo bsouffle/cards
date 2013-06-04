@@ -4,15 +4,15 @@ import jade.core.Agent;
 
 import java.util.Map;
 
+import com.utc.cards.model.PlayerModel;
 import com.utc.cards.model.deck.Deck;
-import com.utc.cards.model.player.AbstractPlayer;
 
 public class PlayerAgent extends Agent implements IPlayerAgent
 {
 
     private static final long serialVersionUID = -7812647282008239070L;
 
-    private AbstractPlayer model;
+    private PlayerModel model;
 
     @Override
     protected void setup()
