@@ -1,14 +1,17 @@
 package com.utc.cards.model.card;
 
-public class Card
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Card implements Parcelable
 {
     public static final int VERTICAL = 0;
     public static final int HORIZONTAL = 1;
 
-    private String _name;
-    private int _resourceId;
-    private int _orientation;
-    private boolean _visible;
+    private String name;
+    private int resourceId;
+    private int orientation;
+    private boolean visible;
 
     public Card(String name, int resourceId)
     {
@@ -23,56 +26,56 @@ public class Card
 
     public Card(String name, int resourceId, boolean visible, int orientation)
     {
-	this._name = name;
-	this._resourceId = resourceId;
-	this._visible = visible;
-	this._orientation = orientation;
+	this.name = name;
+	this.resourceId = resourceId;
+	this.visible = visible;
+	this.orientation = orientation;
     }
 
     public String getName()
     {
-	return _name;
+	return name;
     }
 
     public void setName(String name)
     {
-	this._name = name;
+	this.name = name;
     }
 
     public int getResourceId()
     {
-	return _resourceId;
+	return resourceId;
     }
 
     public void setResourceId(int resourceId)
     {
-	this._resourceId = resourceId;
+	this.resourceId = resourceId;
     }
 
     public int getOrientation()
     {
-	return _orientation;
+	return orientation;
     }
 
     public void setOrientation(int orientation)
     {
-	this._orientation = orientation;
+	this.orientation = orientation;
     }
 
     public boolean isVisible()
     {
-	return _visible;
+	return visible;
     }
 
     public void setVisible(boolean visible)
     {
-	this._visible = visible;
+	this.visible = visible;
     }
 
     @Override
     public String toString()
     {
-	return "Card [name=" + _name + "]";
+	return "Card [name=" + name + "]";
     }
 
     @Override
@@ -80,9 +83,50 @@ public class Card
     {
 	if (o != null && o instanceof Card)
 	{
-	    return _resourceId == ((Card) o)._resourceId;
+	    return resourceId == ((Card) o).resourceId;
 	}
 	return false;
     }
 
+    public Card(Parcel in)
+    {
+	readFromParcel(in);
+    }
+
+    @Override
+    public int describeContents()
+    {
+	return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags)
+    {
+	dest.writeString(name);
+	dest.writeInt(resourceId);
+	dest.writeInt(orientation);
+	dest.writeInt(visible ? 1 : 0);
+    }
+
+    protected void readFromParcel(Parcel in)
+    {
+	name = in.readString();
+	resourceId = in.readInt();
+	orientation = in.readInt();
+	visible = in.readInt() == 1;
+    }
+
+    public static final Parcelable.Creator<Card> CREATOR = new Parcelable.Creator<Card>() {
+	@Override
+	public Card createFromParcel(Parcel in)
+	{
+	    return new Card(in);
+	}
+
+	@Override
+	public Card[] newArray(int size)
+	{
+	    return new Card[size];
+	}
+    };
 }

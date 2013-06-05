@@ -7,7 +7,12 @@ public class Constants
 
     public static final String HOST_PORT = "mainContainerPort";
     public static final String HOST_IP = "mainContainerIp";
-    
+
     public static final String LOCAL_IP = "localIp";
 
+    // nom des agents
+    public static final String CARDS_HOST_AGENT_NAME = "host-agent";
+    public static final String CARDS_HOST_GAME_AGENT_NAME = "host-agent";
+    public static final String CARDS_PLAYER_AGENT_NAME = "player-agent";
+    public static final String CARDS_PLAYER_HELPER_AGENT_NAME = "player-helper-agent";
 }

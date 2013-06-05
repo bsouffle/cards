@@ -2,14 +2,17 @@ package com.utc.cards.model.deck;
 
 import java.util.ArrayList;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.utc.cards.model.card.Card;
 
-public class Deck extends ArrayList<Card>
+public class Deck extends ArrayList<Card> implements Parcelable
 {
 
     private static final long serialVersionUID = 1944755530666372305L;
 
-    // Cr�ation d'un "deck" vide
+    // Création d'un "deck" vide
     public Deck()
     {
 	super();
@@ -25,33 +28,6 @@ public class Deck extends ArrayList<Card>
 	super(d);
     }
 
-    // AUTANT UTILISER get(int index)
-    // public Card getCard(int index)
-    // {
-    // try
-    // {
-    // NE PROVOQUE JAMAIS D'EXCEPTION, renvoie null si pas trouvé
-    // return this.get(index);
-    // } catch (Exception e)
-    // {
-    // e.printStackTrace();
-    // }
-    //
-    // return null;
-    // }
-//
-//    public Card getCardByName(String name)
-//    {
-//	for (int i = 0; i < this.size(); i++)
-//	{
-//	    if (this.get(i).getName().equals(name))
-//	    {
-//		return this.get(i);
-//	    }
-//	}
-//	return null;
-//    }
-
     public Card getCardByResourceId(int resourceId)
     {
 	for (int i = 0; i < size(); i++)
@@ -64,9 +40,35 @@ public class Deck extends ArrayList<Card>
 	return null;
     }
 
-    // ON ETEND DEJA UNE ARRAYLIST pour éviter d'écrire ce genre de méthode
-    public int getNbOfCards()
+    @SuppressWarnings("unchecked")
+    public Deck(Parcel in)
     {
-	return this.size();
+	super(in.readArrayList(Card.class.getClassLoader()));
     }
+
+    @Override
+    public int describeContents()
+    {
+	return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags)
+    {
+	dest.writeTypedList(this);
+    }
+
+    public static final Parcelable.Creator<Deck> CREATOR = new Parcelable.Creator<Deck>() {
+	@Override
+	public Deck createFromParcel(Parcel in)
+	{
+	    return new Deck(in);
+	}
+
+	@Override
+	public Deck[] newArray(int size)
+	{
+	    return new Deck[size];
+	}
+    };
 }

@@ -1,6 +1,20 @@
 package com.utc.cards.player.jade;
 
-import static com.utc.cards.Constants.*;
+import static com.utc.cards.Constants.CARDS_PLAYER_AGENT_NAME;
+import static com.utc.cards.Constants.CARDS_PLAYER_HELPER_AGENT_NAME;
+import static com.utc.cards.Constants.HOST_IP;
+import static com.utc.cards.Constants.HOST_PORT;
+import static com.utc.cards.Constants.JADE_CARDS_PREFS_FILE;
+import static com.utc.cards.Constants.LOCAL_IP;
+import jade.android.AndroidHelper;
+import jade.android.RuntimeCallback;
+import jade.core.Agent;
+import jade.core.Profile;
+import jade.util.leap.Properties;
+import jade.wrapper.AgentController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,15 +24,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.utc.cards.common.jade.AbstractAgentManager;
+import com.utc.cards.model.PlayerModel;
 import com.utc.cards.player.jade.agent.playerAgent.PlayerAgent;
 import com.utc.cards.player.jade.agent.playerHelperAgent.PlayerHelperAgent;
-import com.utc.cards.table.jade.agent.gameAgent.GameAgent;
-
-import jade.android.AndroidHelper;
-import jade.android.RuntimeCallback;
-import jade.core.Profile;
-import jade.util.leap.Properties;
-import jade.wrapper.AgentController;
 
 public class PlayerAgentManager extends AbstractAgentManager
 {
@@ -26,9 +34,7 @@ public class PlayerAgentManager extends AbstractAgentManager
     private static Logger _log = LoggerFactory
 	    .getLogger(PlayerAgentManager.class);
 
-    @SuppressWarnings("rawtypes")
-    private static final Class[] PLAYER_AGENTS_CLASSSES = { PlayerAgent.class,
-	    PlayerHelperAgent.class, GameAgent.class };
+    private Map<String, Class<? extends Agent>> agentClassMap = new HashMap<String, Class<? extends Agent>>();
 
     public static PlayerAgentManager instance()
     {
@@ -42,8 +48,18 @@ public class PlayerAgentManager extends AbstractAgentManager
     private PlayerAgentManager()
     {
 	super();
+	agentClassMap.put(CARDS_PLAYER_AGENT_NAME, PlayerAgent.class);
+	agentClassMap.put(CARDS_PLAYER_HELPER_AGENT_NAME,
+		PlayerHelperAgent.class);
     }
 
+    @Override
+    protected Map<String, Class<? extends Agent>> getStartupAgentClasses()
+    {
+	return agentClassMap;
+    }
+
+    // seule méthode visible, utilisée pour démarrer tous les agents du player
     public void startAgents(final Activity activity,
 	    final AgentActivityListener agentActivityListener)
     {
@@ -53,8 +69,8 @@ public class PlayerAgentManager extends AbstractAgentManager
 	    public void onSuccess(AgentController agent)
 	    {
 		_log.debug("startAgents() : {}/{}", _readyAgents,
-			PLAYER_AGENTS_CLASSSES.length);
-		if (_readyAgents == PLAYER_AGENTS_CLASSSES.length)
+			agentClassMap.size());
+		if (_readyAgents == agentClassMap.size())
 		{
 		    _log.debug("agentStartupCallback.onSuccess() : all agents ready !");
 		    agentActivityListener.onAllAgentsReady();
@@ -68,13 +84,12 @@ public class PlayerAgentManager extends AbstractAgentManager
 	    }
 	};
 	_log.debug("startAgents() ...");
-	startJadePlatformForPlayer(activity, agentStartupCallback,
-		PLAYER_AGENTS_CLASSSES);
+	startJadePlatform(activity, agentStartupCallback, new PlayerModel());
 	_log.debug("startAgents() DONE");
     }
 
     @Override
-    public Properties buildJadeProfile(Activity activity)
+    protected Properties buildJadeProfile(Activity activity)
     {
 	_log.debug("buildJadeProfile() ...");
 	SharedPreferences settings = activity.getSharedPreferences(

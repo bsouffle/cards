@@ -9,11 +9,11 @@ import com.utc.cards.table.view.ITableGameActivity;
 
 public interface IGame
 {
-    
+
     public ITableGameActivity createTableGameActivity();
-    
+
     public IPlayerGameActivity createPlayerGameActivity();
-    
+
     public String getName();
 
     public int getMaxPlayerCount();

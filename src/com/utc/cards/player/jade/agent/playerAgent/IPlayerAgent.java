@@ -7,14 +7,15 @@ import com.utc.cards.model.deck.Deck;
 public interface IPlayerAgent
 {
     public void getHostGameName();
-    
-    public void join();
-    
+
+    // DO NOT RENAME join() because of JADE agent method name
+    public void joinHostGame();
+
     public void playTurn();
 
     public void askAdvice();
-    
+
     public void sendCards(Deck cards);
-    
+
     public void sendCards(Map<String, Deck> cards);
 }

@@ -24,12 +24,12 @@ public class DameDePique extends AbstractGame
 	super("Dame de Pique", LEGAL_PLAYER_COUNT);
     }
 
-//    @Override
-//    public void launch()
-//    {
-//	// TODO Auto-generated method stub
-//
-//    }
+    // @Override
+    // public void launch()
+    // {
+    // // TODO Auto-generated method stub
+    //
+    // }
 
     @Override
     public int[] getLegalPlayerCounts()
@@ -62,4 +62,5 @@ public class DameDePique extends AbstractGame
     {
 	return new DameDePiquePlayerGameActivity();
     }
+
 }

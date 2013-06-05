@@ -9,6 +9,9 @@ import jade.util.leap.Properties;
 import jade.wrapper.AgentController;
 import jade.wrapper.ControllerException;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,15 +34,14 @@ public abstract class AbstractAgentManager
     protected static AbstractAgentManager _instance;
     protected static int _readyAgents = 0;
 
-    public abstract Properties buildJadeProfile(Activity activity);
+    protected abstract Properties buildJadeProfile(Activity activity);
 
-    @SuppressWarnings("rawtypes")
-    protected void startJadePlatformForPlayer(final Activity activity,
+    protected void startJadePlatform(final Activity activity,
 	    final RuntimeCallback<AgentController> agentStartupCallback,
-	    final Class[] clazzs)
+	    final Object model)
     {
-	_log.debug("startJadePlatformForPlayer() ...");
-	_log.debug("startJadePlatformForPlayer() : buildJadeProfile()");
+	_log.debug("startJadePlatform() ...");
+	_log.debug("startJadePlatform() : buildJadeProfile()");
 
 	final Properties profile = buildJadeProfile(activity);
 
@@ -49,37 +51,36 @@ public abstract class AbstractAgentManager
 		public void onServiceConnected(ComponentName className,
 			IBinder service)
 		{
-		    _log.debug("startJadePlatformForPlayer() : ServiceConnection.onServiceConnected()");
+		    _log.debug("startJadePlatform() : ServiceConnection.onServiceConnected()");
 		    _microRuntimeServiceBinder = (MicroRuntimeServiceBinder) service;
-		    _log.debug("startJadePlatformForPlayer() : Gateway successfully bound to MicroRuntimeService");
+		    _log.debug("startJadePlatform() : Gateway successfully bound to MicroRuntimeService");
 		    startContainer(activity, profile, agentStartupCallback,
-			    clazzs);
+			    model);
 		};
 
 		public void onServiceDisconnected(ComponentName className)
 		{
-		    _log.debug("startJadePlatformForPlayer() : ServiceConnection.onServiceDisconnected()");
+		    _log.debug("startJadePlatform() : ServiceConnection.onServiceDisconnected()");
 		    _microRuntimeServiceBinder = null;
-		    _log.debug("startJadePlatformForPlayer() : Gateway unbound from MicroRuntimeService");
+		    _log.debug("startJadePlatform() : Gateway unbound from MicroRuntimeService");
 		};
 	    };
 
-	    _log.debug("startJadePlatformForPlayer() : Binding Gateway to MicroRuntimeService...");
+	    _log.debug("startJadePlatform() : Binding Gateway to MicroRuntimeService...");
 	    activity.bindService(new Intent(activity.getApplicationContext(),
 		    MicroRuntimeService.class), _serviceConnection,
 		    Context.BIND_AUTO_CREATE);
 	} else
 	{
-	    _log.debug("startJadePlatformForPlayer() : MicroRuntimeGateway already binded to service");
-	    startContainer(activity, profile, agentStartupCallback, clazzs);
+	    _log.debug("startJadePlatform() : MicroRuntimeGateway already binded to service");
+	    startContainer(activity, profile, agentStartupCallback, model);
 	}
     }
 
-    @SuppressWarnings({ "rawtypes" })
     private void startContainer(final Activity activity,
 	    final Properties profile,
 	    final RuntimeCallback<AgentController> agentStartupCallback,
-	    final Class[] clazzs)
+	    final Object model)
     {
 	_log.debug("startContainer() ...");
 	if (!MicroRuntime.isRunning())
@@ -93,7 +94,7 @@ public abstract class AbstractAgentManager
 			{
 			    _log.debug("startContainer() : Successfully start of the container");
 			    startAllAgents(activity, agentStartupCallback,
-				    clazzs);
+				    model);
 			}
 
 			@Override
@@ -107,33 +108,35 @@ public abstract class AbstractAgentManager
 	} else
 	{
 	    _log.debug("startContainer() : MicroRuntime is already running");
-	    startAllAgents(activity, agentStartupCallback, clazzs);
+	    startAllAgents(activity, agentStartupCallback, model);
 	}
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     private void startAllAgents(final Activity activity,
 	    final RuntimeCallback<AgentController> agentStartupCallback,
-	    final Class[] clazzs)
+	    Object model)
     {
 	_log.debug("startAllAgents() ...");
-	for (Class<? extends Agent> agentClass : clazzs)
+	for (Entry<String, Class<? extends Agent>> entry : getStartupAgentClasses()
+		.entrySet())
 	{
-	    _log.debug("startAllAgents() : startAgent ({})",
-		    agentClass.getName());
-	    startOneAgent(agentClass, activity, agentStartupCallback);
+	    _log.debug("startAllAgents() : startAgent ({})", entry.getKey());
+	    startOneAgent(entry.getValue(), entry.getKey(), activity,
+		    agentStartupCallback, model);
 	}
 	_log.debug("startAllAgents() DONE");
     }
 
+    protected abstract Map<String, Class<? extends Agent>> getStartupAgentClasses();
+
     private void startOneAgent(final Class<? extends Agent> agentClass,
-	    final Activity activity,
-	    final RuntimeCallback<AgentController> agentStartupCallback)
+	    String nickName, final Activity activity,
+	    final RuntimeCallback<AgentController> agentStartupCallback,
+	    Object model)
     {
 	_log.debug("startOneAgent() ...");
-	_microRuntimeServiceBinder.startAgent(agentClass.getSimpleName(),
-		agentClass.getName(),
-		new Object[] { activity.getApplicationContext() },
+	_microRuntimeServiceBinder.startAgent(nickName, agentClass.getName(),
+		new Object[] { activity.getApplicationContext(), model },
 		new RuntimeCallback<Void>() {
 
 		    @Override
@@ -170,23 +173,23 @@ public abstract class AbstractAgentManager
     public void stopAgentContainer()
     {
 	_log.debug("stopAgentContainer() ...");
-	
-	if(_microRuntimeServiceBinder != null)
+
+	if (_microRuntimeServiceBinder != null)
 	{
-        	_microRuntimeServiceBinder
-        		.stopAgentContainer(new RuntimeCallback<Void>() {
-        		    @Override
-        		    public void onSuccess(Void thisIsNull)
-        		    {
-        			_log.debug("stopAgentContainer() : Successful");
-        		    }
-        
-        		    @Override
-        		    public void onFailure(Throwable throwable)
-        		    {
-        			_log.error("Failed to stop the AgentContainer...");
-        		    }
-        		});
+	    _microRuntimeServiceBinder
+		    .stopAgentContainer(new RuntimeCallback<Void>() {
+			@Override
+			public void onSuccess(Void thisIsNull)
+			{
+			    _log.debug("stopAgentContainer() : Successful");
+			}
+
+			@Override
+			public void onFailure(Throwable throwable)
+			{
+			    _log.error("Failed to stop the AgentContainer...");
+			}
+		    });
 	}
     }
 
