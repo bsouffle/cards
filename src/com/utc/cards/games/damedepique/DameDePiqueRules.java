@@ -15,8 +15,8 @@ public class DameDePiqueRules extends AbstractGameRules
     @Override
     public IPlayer determineFirstPlayer(final Deck deck, final List<IPlayer> players)
     {
-	Card dameDePique = deck.getCardByResourceId(R.raw.cards_qs);
-	// celui qui a la dame de pique commence
+	Card dameDePique = deck.getCardByResourceId(R.raw.cards_2c);
+	// celui qui a le deux de pique commence
 	IPlayer firstPlayer = null;
 	for (IPlayer player : players)
 	{

@@ -16,7 +16,7 @@ public class DameDePique extends AbstractGame
     private static Logger _log = LoggerFactory.getLogger(DameDePique.class);
 
     private static final int MIN_PLAYERS = 4;
-    private static final int MAX_PLAYERS = 6;
+    private static final int MAX_PLAYERS = 4; // une variante à 6 de la dame de pique existe bien, mais je ne connais pour le moment pas les règles.
     private static final int[] LEGAL_PLAYER_COUNT = { MIN_PLAYERS, MAX_PLAYERS };
 
     public DameDePique()
