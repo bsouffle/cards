@@ -1,15 +1,15 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="right"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".TableMenuActivity" 
-    android:gravity="right">
+    tools:context=".TableMenuActivity" >
 
     <RelativeLayout
         android:id="@+id/sendingLayout"
@@ -22,30 +22,24 @@
         	android:layout_height="wrap_content"
         	android:layout_centerInParent="true"
         	android:textColor="#FFF"
-       		android:text="Play Card"
+       		android:text="@string/play_card"
         	android:textAppearance="?android:attr/textAppearanceLarge" />
         
     </RelativeLayout>
 
-    
-    
     <RelativeLayout
         android:id="@+id/cardsLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" 
+        android:layout_below="@+id/sendingLayout" />
 
     <SeekBar
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:progress="80"
-        android:max="100"/>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"       
+        android:max="100"
+        android:progress="80" />
 
-    <Button
-        android:id="@+id/runGameButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:text="Run Game" />
-    
-</LinearLayout>
+</RelativeLayout>
