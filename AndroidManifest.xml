@@ -24,13 +24,7 @@
 
         <activity
             android:name="com.utc.cards.common.view.impl.CardsActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="sensorLandscape" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name="com.utc.cards.table.view.TableSelectGameActivity"
@@ -43,6 +37,16 @@
         <activity
             android:name="com.utc.cards.player.view.PlayerMenuActivity"
             android:label="@string/title_activity_player_menu" >
+        </activity>
+        <activity
+            android:name="com.utc.cards.games.damedepique.DameDePiquePlayerGameActivity"
+            android:label="@string/title_activity_dameDePique_hand"
+            android:screenOrientation="sensorLandscape" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

@@ -14,6 +14,8 @@
     <string name="title_activity_select_game">SelectGameActivity</string>
     <string name="title_activity_launch_game">LaunchGameActivity</string>
     <string name="title_activity_player_menu">PlayerMenuActivity</string>
-    <string name="join">Rejoindre</string>
+    <string name="title_activity_dameDePique_hand">DameDePiqueHandActivity</string><string name="join">Rejoindre</string>
+    <string name="play_card">Play Card</string>
+    
 
 </resources>

@@ -30,8 +30,7 @@ public class DameDePiquePlayerGameActivity extends
 	// tour, est-ce que la partie est terminée ? 
 	// passeront par l'agent RulesAgent
 	IRules rules = g.getRules();
-	Deck hand = rules.getInitialCardDistribution(g.getDeck(),
-		g.getPlayers()).get(0);
+	Deck hand = rules.getInitialCardDistribution(g.getDeck(),g.getPlayers()).get(0);
 	p.setHand(hand);
 
 	drawCards(p.getHand());
