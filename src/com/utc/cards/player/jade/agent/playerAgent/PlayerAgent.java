@@ -1,9 +1,5 @@
 package com.utc.cards.player.jade.agent.playerAgent;
 
-import jade.content.ContentManager;
-import jade.content.lang.Codec;
-import jade.content.lang.sl.SLCodec;
-import jade.content.onto.Ontology;
 import jade.core.Agent;
 
 import java.util.Map;
@@ -13,9 +9,10 @@ import org.slf4j.LoggerFactory;
 
 import android.content.Context;
 
-import com.utc.cards.common.ontology.CardsOntology;
+import com.utc.cards.games.GameContainer;
 import com.utc.cards.model.PlayerModel;
 import com.utc.cards.model.deck.Deck;
+import com.utc.cards.model.game.GameStatus;
 
 public class PlayerAgent extends Agent implements IPlayerAgent
 {
@@ -26,8 +23,7 @@ public class PlayerAgent extends Agent implements IPlayerAgent
     private PlayerModel model;
     private Context context;
 
-    private Codec codec = new SLCodec();
-    private Ontology onto = CardsOntology.Instance();
+    private String selectedGame = "";
 
     @Override
     protected void setup()
@@ -52,41 +48,28 @@ public class PlayerAgent extends Agent implements IPlayerAgent
 	    }
 	}
 
-	ContentManager cm = getContentManager();
-	cm.registerLanguage(codec);
-	cm.registerOntology(onto);
-	cm.setValidationMode(false);
-
-	// / Add initial behaviours
-	// écoute du choix du jeu et de la liste des joueurs
+	// Add initial behaviours
+	// écoute du choix du jeu
+	// écoute de la liste des joueurs
 	addBehaviour(new PlayerListenerBehaviour(this));
-	// inscription et écoute de la liste des joueurs
-	addBehaviour(new PlayersManager(this));
 
-	// // Initialize the message used to convey spoken sentences
-	// spokenMsg = new ACLMessage(ACLMessage.INFORM);
-	// spokenMsg.setConversationId(CHAT_ID);
+	// tentative d'inscription automatique au jeu
+	joinHostGame();
 
 	// expose l'interface pour la rendre accessible par les activity
 	registerO2AInterface(IPlayerAgent.class, this);
-
-    }
-
-    @Override
-    public void getHostGameName()
-    {
-	// TODO Auto-generated method stub
-
     }
 
     @Override
     public void joinHostGame()
     {
-
+	// envoi une demande d'inscription au lancement de l'agent, et a la
+	// demande si la partie est pleine et qqn est parti
+	addBehaviour(new PlayerSubscriptionBehaviour(this));
     }
 
     @Override
-    public void playTurn()
+    public void onPlayerTurn()
     {
 	// TODO Auto-generated method stub
 
@@ -99,6 +82,7 @@ public class PlayerAgent extends Agent implements IPlayerAgent
 
     }
 
+    // shortcut for MAIN deck
     @Override
     public void sendCards(Deck cards)
     {
@@ -123,14 +107,44 @@ public class PlayerAgent extends Agent implements IPlayerAgent
 	this.context = context;
     }
 
-    public Codec getCodec()
+    public void onGameSubscriptionAgree()
     {
-	return codec;
+	// TODO Auto-generated method stub
     }
 
-    public Ontology getOntolygy()
+    public void onGameSubscriptionRefuse()
     {
-	return onto;
+	// TODO Auto-generated method stub
+
+    }
+
+    public void notifyInfo(String content)
+    {
+	// TODO Auto-generated method stub
+
+    }
+
+    public void notifyPlayersChanged(String[] players)
+    {
+	// TODO Auto-generated method stub
+
+    }
+
+    public void onGameStart()
+    {
+	// TODO Auto-generated method stub
+	// change gameStatus
+	model.setGame(GameContainer.getGameByName(selectedGame));
+	model.getGame().setStatus(GameStatus.IN_GAME);
+
+	// load game activity implementation
+	// wait for cards and turn
+    }
+
+    public void onGameSelection(String gameName)
+    {
+	selectedGame = gameName;
+
     }
 
 }

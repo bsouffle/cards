@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -52,11 +53,7 @@ public class PlayerMenuActivity extends Activity
 			    .findViewById(R.id.joinButton);
 		    button.setEnabled(true);
 		    // tous les agents sont prets
-		    // écoute du nom du jeu
-		    // écoute de la liste des joueurs
-		    // demande du nom du jeu
-		    // attente début de partie => initialisation
-		    // jeu à partir du nom
+		    // on initialise les interfaces pour pouvoir les utiliser
 		    loadPlayerAgent();
 		    loadPlayerHelperAgent();
 		}
@@ -84,7 +81,7 @@ public class PlayerMenuActivity extends Activity
     protected void onCreate(Bundle savedInstanceState)
     {
 	super.onCreate(savedInstanceState);
-
+	getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	setContentView(R.layout.activity_player_menu);
 	// if (AndroidHelper.isEmulator())
 	// {
@@ -146,14 +143,6 @@ public class PlayerMenuActivity extends Activity
 	    log.info("ips invalid");
 	}
 
-    }
-
-    public void join(View view)
-    {
-
-	// may be to be done in an other method or other class
-	// IPlayer player = new HumanPlayer("Default");
-	// controller = new PlayerController(player);
     }
 
     @Override

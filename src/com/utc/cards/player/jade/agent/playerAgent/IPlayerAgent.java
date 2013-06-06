@@ -6,12 +6,10 @@ import com.utc.cards.model.deck.Deck;
 
 public interface IPlayerAgent
 {
-    public void getHostGameName();
-
     // DO NOT RENAME join() because of JADE agent method name
     public void joinHostGame();
 
-    public void playTurn();
+    public void onPlayerTurn();
 
     public void askAdvice();
 

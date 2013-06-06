@@ -40,4 +40,8 @@ public interface IGame
 
     public int[] getLegalPlayerCounts();
 
+    public GameStatus getStatus();
+
+    public void setStatus(GameStatus status);
+
 }

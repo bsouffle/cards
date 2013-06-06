@@ -7,8 +7,6 @@ import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.deck.Traditionnal52Deck;
 import com.utc.cards.model.game.AbstractGame;
 import com.utc.cards.model.game.IRules;
-import com.utc.cards.player.view.IPlayerGameActivity;
-import com.utc.cards.table.view.ITableGameActivity;
 
 public class DameDePique extends AbstractGame
 {
@@ -16,7 +14,10 @@ public class DameDePique extends AbstractGame
     private static Logger _log = LoggerFactory.getLogger(DameDePique.class);
 
     private static final int MIN_PLAYERS = 4;
-    private static final int MAX_PLAYERS = 4; // une variante à 6 de la dame de pique existe bien, mais je ne connais pour le moment pas les règles.
+    private static final int MAX_PLAYERS = 4; // une variante ï¿½ 6 de la dame de
+					      // pique existe bien, mais je ne
+					      // connais pour le moment pas les
+					      // rï¿½gles.
     private static final int[] LEGAL_PLAYER_COUNT = { MIN_PLAYERS, MAX_PLAYERS };
 
     public DameDePique()
@@ -52,13 +53,13 @@ public class DameDePique extends AbstractGame
     }
 
     @Override
-    public ITableGameActivity createTableGameActivity()
+    public DameDePiqueTableGameActivity createTableGameActivity()
     {
 	return new DameDePiqueTableGameActivity();
     }
 
     @Override
-    public IPlayerGameActivity createPlayerGameActivity()
+    public DameDePiquePlayerGameActivity createPlayerGameActivity()
     {
 	return new DameDePiquePlayerGameActivity();
     }

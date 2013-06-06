@@ -11,6 +11,7 @@ public abstract class AbstractPlayer implements IPlayer
     public final static String MAIN_HAND = "main";
 
     private String _name;
+
     private Map<String, Deck> _hands = new HashMap<String, Deck>();
 
     public AbstractPlayer(String name)

@@ -10,11 +10,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -25,7 +24,6 @@ import com.utc.cards.common.view.CardView;
 import com.utc.cards.common.view.CardsContainer;
 import com.utc.cards.common.view.listener.SendDragListener;
 import com.utc.cards.model.card.Card;
-import com.utc.cards.player.jade.AgentActivityListener;
 import com.utc.cards.player.jade.PlayerAgentManager;
 
 public abstract class AbstractPlayerGameActivity extends Activity implements
@@ -45,27 +43,12 @@ public abstract class AbstractPlayerGameActivity extends Activity implements
     protected void onCreate(Bundle savedInstanceState)
     {
 	super.onCreate(savedInstanceState);
+	getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+	onCreateHook(savedInstanceState);
 
-	setContentView(R.layout.activity_main);
-
-	
-	//
-	// myReceiver = new MyReceiver();
-	// IntentFilter showChatFilter = new IntentFilter();
-	// showChatFilter.addAction("jade.demo.chat.SHOW_CHAT");
-	// registerReceiver(myReceiver, showChatFilter);
-
-	// Get the size of the display screen
-	getScreenSize();
-
-	drawGameCards();
-
-	// Set the panel used to send cards to the host
-	setSendingPanel();
-
-	// Set the bar which allows to modify the distance between two cards
-	setSeekBar();
     }
+
+    public abstract void onCreateHook(Bundle savedInstanceState);
 
     public abstract void drawGameCards();
 
@@ -90,12 +73,6 @@ public abstract class AbstractPlayerGameActivity extends Activity implements
 	}
 
 	return true;
-    }
-
-    private void getScreenSize()
-    {
-	Display display = getWindowManager().getDefaultDisplay();
-	display.getSize(_screenDimention);
     }
 
     protected void drawCards(List<Card> cards)
@@ -137,7 +114,7 @@ public abstract class AbstractPlayerGameActivity extends Activity implements
 	}
     }
 
-    private void setSendingPanel()
+    protected void drawSendingPanel()
     {
 	final View view = findViewById(R.id.sendingLayout);
 
@@ -154,7 +131,7 @@ public abstract class AbstractPlayerGameActivity extends Activity implements
 	}
     }
 
-    private void setSeekBar()
+    protected void drawSeekBar()
     {
 	final View view = findViewById(R.id.seekBar);
 
