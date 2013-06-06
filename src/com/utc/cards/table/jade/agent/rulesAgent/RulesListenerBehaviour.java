@@ -50,6 +50,7 @@ public class RulesListenerBehaviour extends CyclicBehaviour
 		    {
 			pt = Mapper.getObjectMapper().readValue(info.getJson(),
 				PlayerTry.class);
+
 		    } catch (Exception e)
 		    {
 			// TODO Auto-generated catch block

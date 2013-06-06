@@ -51,6 +51,7 @@ public class RulesAgent extends Agent implements IRulesAgent
 	//
 	// // Add initial behaviours
 	addBehaviour(new DetermineFirstPlayerBehaviour(this));
+
 	addBehaviour(new RulesListenerBehaviour(this));
 
 	// // Initialize the message used to convey spoken sentences
@@ -66,6 +67,7 @@ public class RulesAgent extends Agent implements IRulesAgent
     {
 	// TODO Auto-generated method stub
 	addBehaviour(new InitialCardDistributionBehaviour(this));
+
     }
 
     @Override

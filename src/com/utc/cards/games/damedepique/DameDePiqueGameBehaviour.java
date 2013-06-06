@@ -70,9 +70,10 @@ public class DameDePiqueGameBehaviour extends AbstractGameBehaviour
     @Override
     public boolean done()
     {
-	// TODO Auto-generated method stub
-	return partiFini; // si la parti est fini, alors l'agent game se fini
-			  // �galement
+	// si la parti est fini, alors l'agent game se fini
+	// �galement
+	return partiFini;
+
     }
 
 }
