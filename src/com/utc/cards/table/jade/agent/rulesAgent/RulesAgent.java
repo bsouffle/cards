@@ -19,6 +19,11 @@ public class RulesAgent extends Agent implements IRulesAgent
     private HostModel model;
     private Context context;
 
+    public HostModel getModel()
+    {
+	return model;
+    }
+
     @Override
     protected void setup()
     {
@@ -43,7 +48,8 @@ public class RulesAgent extends Agent implements IRulesAgent
 	}
 	//
 	// // Add initial behaviours
-	// addBehaviour(new ...Behaviour(this));
+	addBehaviour(new initialCardDistributionBehaviour(this));
+	addBehaviour(new determineFirstPlayerBehaviour(this));
 
 	// // Initialize the message used to convey spoken sentences
 	// spokenMsg = new ACLMessage(ACLMessage.INFORM);
