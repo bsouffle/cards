@@ -56,8 +56,8 @@ public class HostAgent extends Agent implements IHostAgent, SubscriptionManager
     private Ontology onto = CardsOntology.Instance();
 
     private Map<AID, Subscription> participants = new HashMap<AID, Subscription>();
+    private AMSSubscriber amsSubscriber;
 
-    @SuppressWarnings("serial")
     @Override
     protected void setup()
     {
@@ -65,44 +65,55 @@ public class HostAgent extends Agent implements IHostAgent, SubscriptionManager
 	Object[] args = getArguments();
 	if (args != null && args.length > 0)
 	{
-	    if (args[0] instanceof Context)
+	    // try catch for host test only, doesn't have Context class
+	    try
 	    {
-		setContext((Context) args[0]);
-	    } else
+		if (args[0] instanceof Context)
+		{
+		    setContext((Context) args[0]);
+		} else
+		{
+		    log.error("Missing Context arg during agent setup");
+		}
+		if (args[1] instanceof HostModel)
+		{
+		    model = (HostModel) args[1];
+		} else
+		{
+		    log.error("Missing HostModel arg during agent setup");
+		}
+	    } catch (Exception e)
 	    {
-		log.error("Missing Context arg during agent setup");
-	    }
-	    if (args[1] instanceof HostModel)
-	    {
-		model = (HostModel) args[1];
-	    } else
-	    {
-		log.error("Missing HostModel arg during agent setup");
+		// e.printStackTrace();
 	    }
 	}
 
 	ContentManager cm = getContentManager();
 	cm.registerLanguage(codec);
 	cm.registerOntology(onto);
-	cm.setValidationMode(false);
+	// cm.setValidationMode(false);
 
 	// écoute la plupart des demandes des playerAgent
 	addBehaviour(new HostListenerBehaviour(this));
 
-	// Behaviour d'inscription au jeu
-	MessageTemplate sTemplate = MessageTemplate
-		.MatchPerformative(ACLMessage.SUBSCRIBE);
+	// Behaviours d'inscription au jeu
+	MessageTemplate sTemplate = MessageTemplate.and(MessageTemplate
+		.MatchPerformative(ACLMessage.SUBSCRIBE), MessageTemplate.and(
+		MessageTemplate.MatchLanguage(codec.getName()),
+		MessageTemplate.MatchOntology(onto.getName())));
+	log.debug("addBehaviour : SubscriptionResponder");
 	addBehaviour(new SubscriptionResponder(this, sTemplate, this));
-	addBehaviour(createAMSSubscriber());
-
+	// Register to the AMS to detect when chat participants suddenly die
+	createAMSSubscriber();
+	log.debug("addBehaviour : amsSubscriber");
+	addBehaviour(amsSubscriber);
 	// expose l'interface pour la rendre accessible par les activity
 	registerO2AInterface(IHostAgent.class, this);
     }
 
-    private AMSSubscriber createAMSSubscriber()
+    private void createAMSSubscriber()
     {
-	// Register to the AMS to detect when chat participants suddenly die
-	AMSSubscriber amsSubscriber = new AMSSubscriber() {
+	amsSubscriber = new AMSSubscriber() {
 	    @SuppressWarnings({ "unchecked", "rawtypes" })
 	    protected void installHandlers(Map handlersTable)
 	    {
@@ -133,7 +144,6 @@ public class HostAgent extends Agent implements IHostAgent, SubscriptionManager
 			});
 	    }
 	};
-	return amsSubscriber;
     }
 
     @Override
@@ -184,6 +194,8 @@ public class HostAgent extends Agent implements IHostAgent, SubscriptionManager
     public boolean deregister(Subscription subscription)
 	    throws FailureException
     {
+	log.debug("DEREGISTER()");
+
 	AID oldId = subscription.getMessage().getSender();
 	// Remove the subscription
 	if (participants.remove(oldId) != null)
@@ -224,6 +236,7 @@ public class HostAgent extends Agent implements IHostAgent, SubscriptionManager
     public boolean register(Subscription subscription) throws RefuseException,
 	    NotUnderstoodException
     {
+	log.debug("REGISTER()");
 	try
 	{
 	    AID newId = subscription.getMessage().getSender();
@@ -274,6 +287,13 @@ public class HostAgent extends Agent implements IHostAgent, SubscriptionManager
 	    e.printStackTrace();
 	    throw new RefuseException("Subscription error");
 	}
+    }
+
+    protected void takeDown()
+    {
+	// Unsubscribe from the AMS
+	send(amsSubscriber.getCancel());
+	// FIXME: should inform current participants if any
     }
 
     public Context getContext()

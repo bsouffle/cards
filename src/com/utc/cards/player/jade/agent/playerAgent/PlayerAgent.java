@@ -60,7 +60,8 @@ public class PlayerAgent extends Agent implements IPlayerAgent
 	// / Add initial behaviours
 	// écoute du choix du jeu et de la liste des joueurs
 	addBehaviour(new PlayerListenerBehaviour(this));
-	addBehaviour(new SubscriptionBehaviour(this));
+	// inscription et écoute de la liste des joueurs
+	addBehaviour(new PlayersManager(this));
 
 	// // Initialize the message used to convey spoken sentences
 	// spokenMsg = new ACLMessage(ACLMessage.INFORM);
@@ -69,10 +70,6 @@ public class PlayerAgent extends Agent implements IPlayerAgent
 	// expose l'interface pour la rendre accessible par les activity
 	registerO2AInterface(IPlayerAgent.class, this);
 
-	// Intent broadcast = new Intent();
-	// broadcast.setAction("jade.demo.chat.SHOW_CHAT");
-	// log.info("Sending broadcast {}", broadcast.getAction());
-	// context.sendBroadcast(broadcast);
     }
 
     @Override

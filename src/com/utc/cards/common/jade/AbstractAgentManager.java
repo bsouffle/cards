@@ -28,17 +28,17 @@ public abstract class AbstractAgentManager
     private static Logger _log = LoggerFactory
 	    .getLogger(AbstractAgentManager.class);
 
-    private static MicroRuntimeServiceBinder _microRuntimeServiceBinder;
-    private static ServiceConnection _serviceConnection;
+    private MicroRuntimeServiceBinder _microRuntimeServiceBinder;
+    private ServiceConnection _serviceConnection;
 
     protected static AbstractAgentManager _instance;
-    protected static int _readyAgents = 0;
+    protected int readyAgents = 0;
 
     protected abstract Properties buildJadeProfile(Activity activity);
 
     protected void startJadePlatform(final Activity activity,
 	    final RuntimeCallback<AgentController> agentStartupCallback,
-	    final Object model)
+	    final String gmail, final Object model)
     {
 	_log.debug("startJadePlatform() ...");
 	_log.debug("startJadePlatform() : buildJadeProfile()");
@@ -55,7 +55,7 @@ public abstract class AbstractAgentManager
 		    _microRuntimeServiceBinder = (MicroRuntimeServiceBinder) service;
 		    _log.debug("startJadePlatform() : Gateway successfully bound to MicroRuntimeService");
 		    startContainer(activity, profile, agentStartupCallback,
-			    model);
+			    gmail, model);
 		};
 
 		public void onServiceDisconnected(ComponentName className)
@@ -73,14 +73,15 @@ public abstract class AbstractAgentManager
 	} else
 	{
 	    _log.debug("startJadePlatform() : MicroRuntimeGateway already binded to service");
-	    startContainer(activity, profile, agentStartupCallback, model);
+	    startContainer(activity, profile, agentStartupCallback, gmail,
+		    model);
 	}
     }
 
     private void startContainer(final Activity activity,
 	    final Properties profile,
 	    final RuntimeCallback<AgentController> agentStartupCallback,
-	    final Object model)
+	    final String gmail, final Object model)
     {
 	_log.debug("startContainer() ...");
 	if (!MicroRuntime.isRunning())
@@ -94,7 +95,7 @@ public abstract class AbstractAgentManager
 			{
 			    _log.debug("startContainer() : Successfully start of the container");
 			    startAllAgents(activity, agentStartupCallback,
-				    model);
+				    gmail, model);
 			}
 
 			@Override
@@ -108,20 +109,22 @@ public abstract class AbstractAgentManager
 	} else
 	{
 	    _log.debug("startContainer() : MicroRuntime is already running");
-	    startAllAgents(activity, agentStartupCallback, model);
+	    startAllAgents(activity, agentStartupCallback, gmail, model);
 	}
     }
 
     private void startAllAgents(final Activity activity,
 	    final RuntimeCallback<AgentController> agentStartupCallback,
-	    Object model)
+	    String gmail, Object model)
     {
 	_log.debug("startAllAgents() ...");
 	for (Entry<String, Class<? extends Agent>> entry : getStartupAgentClasses()
 		.entrySet())
 	{
-	    _log.debug("startAllAgents() : startAgent ({})", entry.getKey());
-	    startOneAgent(entry.getValue(), entry.getKey(), activity,
+	    String agentName = entry.getKey() + "-" + gmail;
+	    _log.debug("startAllAgents() : startAgent ({})", entry.getKey()
+		    + agentName);
+	    startOneAgent(entry.getValue(), agentName, activity,
 		    agentStartupCallback, model);
 	}
 	_log.debug("startAllAgents() DONE");
@@ -130,7 +133,7 @@ public abstract class AbstractAgentManager
     protected abstract Map<String, Class<? extends Agent>> getStartupAgentClasses();
 
     private void startOneAgent(final Class<? extends Agent> agentClass,
-	    String nickName, final Activity activity,
+	    final String nickName, final Activity activity,
 	    final RuntimeCallback<AgentController> agentStartupCallback,
 	    Object model)
     {
@@ -144,13 +147,13 @@ public abstract class AbstractAgentManager
 		    {
 			_log.debug("startOneAgent : Successfully start of the "
 				+ agentClass.getName() + "...");
-			_readyAgents++;
+			readyAgents++;
 
 			try
 			{
 			    _log.debug("startOneAgent : call callback.onSuccess");
 			    agentStartupCallback.onSuccess(MicroRuntime
-				    .getAgent(agentClass.getSimpleName()));
+				    .getAgent(nickName));
 			} catch (ControllerException e)
 			{
 			    // Should never happen

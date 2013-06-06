@@ -60,17 +60,18 @@ public class PlayerAgentManager extends AbstractAgentManager
     }
 
     // seule méthode visible, utilisée pour démarrer tous les agents du player
-    public void startAgents(final Activity activity,
+    public void startAgents(final Activity activity, String gmail,
 	    final AgentActivityListener agentActivityListener)
     {
+	readyAgents = 0;
 	final RuntimeCallback<AgentController> agentStartupCallback = new RuntimeCallback<AgentController>() {
 
 	    @Override
 	    public void onSuccess(AgentController agent)
 	    {
-		_log.debug("startAgents() : {}/{}", _readyAgents,
+		_log.debug("startAgents() : {}/{}", readyAgents,
 			agentClassMap.size());
-		if (_readyAgents == agentClassMap.size())
+		if (readyAgents == agentClassMap.size())
 		{
 		    _log.debug("agentStartupCallback.onSuccess() : all agents ready !");
 		    agentActivityListener.onAllAgentsReady();
@@ -84,7 +85,9 @@ public class PlayerAgentManager extends AbstractAgentManager
 	    }
 	};
 	_log.debug("startAgents() ...");
-	startJadePlatform(activity, agentStartupCallback, new PlayerModel());
+
+	startJadePlatform(activity, agentStartupCallback, gmail,
+		new PlayerModel());
 	_log.debug("startAgents() DONE");
     }
 

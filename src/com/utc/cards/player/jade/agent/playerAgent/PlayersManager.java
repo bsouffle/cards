@@ -15,19 +15,18 @@ import org.slf4j.LoggerFactory;
 import com.utc.cards.common.ontology.Joined;
 import com.utc.cards.common.ontology.Left;
 
-public class SubscriptionBehaviour extends CyclicBehaviour
+public class PlayersManager extends CyclicBehaviour
 {
-    private static Logger log = LoggerFactory
-	    .getLogger(SubscriptionBehaviour.class);
+    private static Logger log = LoggerFactory.getLogger(PlayersManager.class);
 
     private PlayerAgent agent;
     private MessageTemplate template;
     private List<AID> participants;
     private static final long serialVersionUID = 2074669021578670687L;
 
-    public SubscriptionBehaviour(PlayerAgent playerAgent)
+    public PlayersManager(PlayerAgent playerAgent)
     {
-	super();
+	super(playerAgent);
 	this.agent = playerAgent;
     }
 
@@ -42,6 +41,7 @@ public class SubscriptionBehaviour extends CyclicBehaviour
 	subscription
 		.addReceiver(new AID(CARDS_HOST_AGENT_NAME, AID.ISLOCALNAME));
 	agent.send(subscription);
+	log.debug("agent.getLocalName() send subscription...");
 	// Initialize the template used to receive notifications
 	// from the HostAgent
 	template = MessageTemplate.MatchConversationId(convId);
@@ -65,7 +65,11 @@ public class SubscriptionBehaviour extends CyclicBehaviour
 			Joined joined = (Joined) p;
 			List<AID> aid = (List<AID>) joined.getWho();
 			for (AID a : aid)
+			{
+			    log.info(" --> IN : JOINED = " + a.getName());
 			    participants.add(a);
+
+			}
 			onPlayersChanged();
 		    }
 		    if (p instanceof Left)
@@ -73,7 +77,10 @@ public class SubscriptionBehaviour extends CyclicBehaviour
 			Left left = (Left) p;
 			List<AID> aid = (List<AID>) left.getWho();
 			for (AID a : aid)
+			{
+			    log.info(" --> IN : LEFT = " + a.getName());
 			    participants.remove(a);
+			}
 			onPlayersChanged();
 		    }
 		} catch (Exception e)
@@ -93,7 +100,7 @@ public class SubscriptionBehaviour extends CyclicBehaviour
 
     private void handleUnexpected(ACLMessage msg)
     {
-	// TODO Auto-generated method stub
+	log.error("handleUnexpected !");
 
     }
 

@@ -9,6 +9,7 @@ public class Constants
     public static final String HOST_IP = "mainContainerIp";
 
     public static final String LOCAL_IP = "localIp";
+    public static final String GMAIL = "gmail";
 
     // nom des agents
     public static final String CARDS_HOST_AGENT_NAME = "host-agent";
