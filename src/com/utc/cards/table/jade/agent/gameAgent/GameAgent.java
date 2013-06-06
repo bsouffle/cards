@@ -46,7 +46,7 @@ public class GameAgent extends Agent implements IGameAgent
 	//
 	// // Add initial behaviours
 	// addBehaviour(new ...Behaviour(this));
-
+	addBehaviour(new GameListenerBehaviour(this));
 	// // Initialize the message used to convey spoken sentences
 	// spokenMsg = new ACLMessage(ACLMessage.INFORM);
 	// spokenMsg.setConversationId(CHAT_ID);

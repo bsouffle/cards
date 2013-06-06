@@ -30,6 +30,7 @@ public class initialCardDistributionBehaviour extends OneShotBehaviour
     public void action()
     {
 	// TODO Auto-generated method stub
-	rules.getInitialCardDistribution(deck, players);
+	List<Deck> cardDistribution = rules.getInitialCardDistribution(deck,
+		players);
     }
 }

@@ -2,13 +2,15 @@ package com.utc.cards.table.jade.agent.rulesAgent;
 
 import jade.core.Agent;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.content.Context;
 
 import com.utc.cards.model.HostModel;
-import com.utc.cards.model.deck.Deck;
+import com.utc.cards.model.card.Card;
 import com.utc.cards.model.player.IPlayer;
 
 public class RulesAgent extends Agent implements IRulesAgent
@@ -48,8 +50,8 @@ public class RulesAgent extends Agent implements IRulesAgent
 	}
 	//
 	// // Add initial behaviours
-	addBehaviour(new initialCardDistributionBehaviour(this));
 	addBehaviour(new determineFirstPlayerBehaviour(this));
+	addBehaviour(new RulesListenerBehaviour(this));
 
 	// // Initialize the message used to convey spoken sentences
 	// spokenMsg = new ACLMessage(ACLMessage.INFORM);
@@ -63,13 +65,14 @@ public class RulesAgent extends Agent implements IRulesAgent
     public void sendInitialCards()
     {
 	// TODO Auto-generated method stub
-
+	addBehaviour(new initialCardDistributionBehaviour(this));
     }
 
     @Override
-    public void validatePlayerCards(Deck cards)
+    public void validatePlayerCards(List<Card> Cards, IPlayer player)
     {
 	// TODO Auto-generated method stub
+	addBehaviour(new validerCoupBehaviour(this, Cards, player));
 
     }
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.utc.cards.R;
+import com.utc.cards.model.HostModel;
 import com.utc.cards.model.card.Card;
 import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.game.AbstractGameRules;
@@ -11,9 +12,10 @@ import com.utc.cards.model.player.IPlayer;
 
 public class DameDePiqueRules extends AbstractGameRules
 {
-    
+
     @Override
-    public IPlayer determineFirstPlayer(final Deck deck, final List<IPlayer> players)
+    public IPlayer determineFirstPlayer(final Deck deck,
+	    final List<IPlayer> players)
     {
 	Card deuxDeTrêfle = deck.getCardByResourceId(R.raw.cards_2c);
 	// celui qui a le deux de trêfle commence
@@ -61,6 +63,13 @@ public class DameDePiqueRules extends AbstractGameRules
 	    return deck.get((int) (Math.random() * (double) deck.size()));
 	}
 	return null;
+    }
+
+    @Override
+    public boolean validerCoup(List<Card> Cards, IPlayer player, HostModel model)
+    {
+	// TODO Auto-generated method stub
+	return false;
     }
 
 }
