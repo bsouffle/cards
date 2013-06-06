@@ -8,7 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.content.Context;
+import android.content.Intent;
 
+import com.utc.cards.Constants;
 import com.utc.cards.games.GameContainer;
 import com.utc.cards.model.PlayerModel;
 import com.utc.cards.model.deck.Deck;
@@ -137,6 +139,11 @@ public class PlayerAgent extends Agent implements IPlayerAgent
 	model.setGame(GameContainer.getGameByName(selectedGame));
 	model.getGame().setStatus(GameStatus.IN_GAME);
 
+	// on informe la vue : l'activity
+	Intent intent = new Intent();
+	intent.setAction(Constants.SHOW_GAME);
+	log.debug("Sending broadcast " + intent.getAction());
+	context.sendBroadcast(intent);
 	// load game activity implementation
 	// wait for cards and turn
     }

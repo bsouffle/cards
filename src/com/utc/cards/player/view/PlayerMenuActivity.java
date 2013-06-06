@@ -13,8 +13,11 @@ import org.slf4j.LoggerFactory;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +30,7 @@ import android.widget.TextView;
 
 import com.utc.cards.Constants;
 import com.utc.cards.R;
+import com.utc.cards.model.PlayerModel;
 import com.utc.cards.player.jade.AgentActivityListener;
 import com.utc.cards.player.jade.PlayerAgentManager;
 import com.utc.cards.player.jade.agent.playerAgent.IPlayerAgent;
@@ -70,7 +74,8 @@ public class PlayerMenuActivity extends Activity
     private IPlayerAgent playerAgent;
     private IPlayerHelperAgent playerHelperAgent;
 
-    // private MyReceiver myReceiver;
+    private MyReceiver myReceiver;
+
     //
     // private CardsContainer _cardsContainer;
     //
@@ -101,15 +106,19 @@ public class PlayerMenuActivity extends Activity
 	final EditText hostIpAddressEditText = (EditText) findViewById(R.id.hostIpAddressEditText);
 	hostIpAddressEditText.setText(localIpAddress);
 
-	// }
-	//
-	// myReceiver = new MyReceiver();
-	// IntentFilter showChatFilter = new IntentFilter();
-	// showChatFilter.addAction("jade.demo.chat.SHOW_CHAT");
-	// registerReceiver(myReceiver, showChatFilter);
+	registerReceivers();
+
 	String gmailAddress = settings.getString(GMAIL, "");
 	final TextView googleAccountTextView = (TextView) findViewById(R.id.googleAccountTextView);
 	googleAccountTextView.setText("Google Account : " + gmailAddress);
+    }
+
+    private void registerReceivers()
+    {
+	myReceiver = new MyReceiver();
+	IntentFilter showChatFilter = new IntentFilter();
+	showChatFilter.addAction(Constants.SHOW_GAME);
+	registerReceiver(myReceiver, showChatFilter);
     }
 
     public void connect(View view)
@@ -176,26 +185,24 @@ public class PlayerMenuActivity extends Activity
 	alert.show();
     }
 
-    //
-    // //
-    // // private class MyReceiver extends BroadcastReceiver {
-    // //
-    // // @Override
-    // // public void onReceive(Context context, Intent intent) {
-    // // String action = intent.getAction();
-    // // log.info("Received intent " + action);
-    // // if (action.equalsIgnoreCase("jade.demo.chat.KILL")) {
-    // // finish();
-    // // }
-    // // // if (action.equalsIgnoreCase("jade.demo.chat.SHOW_CHAT")) {
-    // // // Intent showChat = new Intent(MainActivity.this,
-    // // // DameDePiquePlayerActivity.class);
-    // // // showChat.putExtra("nickname", nickname);
-    // // // MainActivity.this
-    // // // .startActivityForResult(showChat, CHAT_REQUEST);
-    // // // }
-    // // }
-    // }
+    private class MyReceiver extends BroadcastReceiver
+    {
+
+	@Override
+	public void onReceive(Context context, Intent intent)
+	{
+	    String action = intent.getAction();
+	    log.info("Received intent " + action);
+	    if (action.equalsIgnoreCase(Constants.SHOW_GAME))
+	    {
+		IPlayerGameActivity activity = PlayerModel.Instance().getGame()
+			.createPlayerGameActivity();
+		Intent showChat = new Intent(PlayerMenuActivity.this,
+			activity.getClass());
+		PlayerMenuActivity.this.startActivity(showChat);
+	    }
+	}
+    }
 
     private void loadPlayerAgent()
     {

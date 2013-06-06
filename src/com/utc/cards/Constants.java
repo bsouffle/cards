@@ -16,4 +16,9 @@ public class Constants
     public static final String CARDS_HOST_GAME_AGENT_NAME = "host-agent";
     public static final String CARDS_PLAYER_AGENT_NAME = "player-agent";
     public static final String CARDS_PLAYER_HELPER_AGENT_NAME = "player-helper-agent";
+
+    // Intents utilisés entre les agents et les activity
+    public static final String SHOW_GAME = "SHOW_GAME";
+    public static final int SHOW_GAME_ = 0;
+    public static final String GAME_NAME = "GAME_NAME";
 }

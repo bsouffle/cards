@@ -1,16 +1,17 @@
 package com.utc.cards.model;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
 import com.utc.cards.model.deck.Deck;
-import com.utc.cards.model.game.IGame;
 import com.utc.cards.model.game.Fold;
+import com.utc.cards.model.game.IGame;
 import com.utc.cards.model.player.IPlayer;
 
 public class HostModel
 {
+    private static HostModel instance;
+
     /**
      * le jeu actuellement chargé
      */
@@ -35,6 +36,12 @@ public class HostModel
     private HostModel()
     {
 	super();
+	instance = this;
+    }
+
+    public static HostModel Instance()
+    {
+	return instance;
     }
 
     public IGame getGame()

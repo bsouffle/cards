@@ -30,12 +30,19 @@ public class CardsActivity extends Activity
     public static final int PLAYER_REQUEST = 0;
     public static final int HOST_REQUEST = 1;
 
+    // private MyReceiver myReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.activity_cards);
 	setUserGmail();
+	// myReceiver = new MyReceiver();
+
+	// IntentFilter refreshChatFilter = new IntentFilter();
+	// refreshChatFilter.addAction("jade.demo.chat.REFRESH_CHAT");
+	// registerReceiver(myReceiver, refreshChatFilter);
     }
 
     @Override
@@ -49,7 +56,6 @@ public class CardsActivity extends Activity
     public void playerMode(View view)
     {
 	Intent intent = new Intent(this, PlayerMenuActivity.class);
-
 	startActivityForResult(intent, PLAYER_REQUEST);
     }
 
@@ -100,4 +106,24 @@ public class CardsActivity extends Activity
 	    }
 	}
     }
+
+    // private class MyReceiver extends BroadcastReceiver
+    // {
+    //
+    // @Override
+    // public void onReceive(Context context, Intent intent)
+    // {
+    // String action = intent.getAction();
+    // log.debug("Received intent {}", action);
+    // if (action.equalsIgnoreCase(Constants.SHOW_GAME))
+    // {
+    // Intent intent = new Intent(CardsActivity.this,
+    // TableSelectGameActivity.class);
+    // startActivityForResult(intent, HOST_REQUEST);
+    //
+    // }
+    //
+    // }
+    // }
+
 }
