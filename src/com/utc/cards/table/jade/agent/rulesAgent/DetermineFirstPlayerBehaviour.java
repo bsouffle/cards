@@ -8,21 +8,21 @@ import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.game.IRules;
 import com.utc.cards.model.player.IPlayer;
 
-public class initialCardDistributionBehaviour extends OneShotBehaviour
+public class DetermineFirstPlayerBehaviour extends OneShotBehaviour
 {
+
     private RulesAgent agent;
     private Deck deck;
     private List<IPlayer> players;
     private IRules rules;
 
-    public initialCardDistributionBehaviour(RulesAgent a)
+    public DetermineFirstPlayerBehaviour(RulesAgent a)
     {
 	super(a);
 	this.agent = a;
 	this.deck = agent.getModel().getGame().getDeck();
 	this.players = agent.getModel().getGame().getPlayers();
 	this.rules = agent.getModel().getGame().getRules();
-
 	// TODO Auto-generated constructor stub
     }
 
@@ -30,7 +30,6 @@ public class initialCardDistributionBehaviour extends OneShotBehaviour
     public void action()
     {
 	// TODO Auto-generated method stub
-	List<Deck> cardDistribution = rules.getInitialCardDistribution(deck,
-		players);
+	IPlayer firstPlayer = rules.determineFirstPlayer(deck, players);
     }
 }

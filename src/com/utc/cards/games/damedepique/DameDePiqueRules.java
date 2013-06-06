@@ -17,12 +17,12 @@ public class DameDePiqueRules extends AbstractGameRules
     public IPlayer determineFirstPlayer(final Deck deck,
 	    final List<IPlayer> players)
     {
-	Card deuxDeTrêfle = deck.getCardByResourceId(R.raw.cards_2c);
+	Card deuxDeTrefle = deck.getCardByResourceId(R.raw.cards_2c);
 	// celui qui a le deux de trêfle commence
 	IPlayer firstPlayer = null;
 	for (IPlayer player : players)
 	{
-	    if (player.getHand().contains(deuxDeTrêfle))
+	    if (player.getHand().contains(deuxDeTrefle))
 	    {
 		firstPlayer = player;
 		break;

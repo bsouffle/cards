@@ -8,7 +8,7 @@ import com.utc.cards.common.jade.AbstractGameBehaviour;
 // Behaviour 
 public class DameDePiqueGameBehaviour extends AbstractGameBehaviour
 {
-    private boolean débutTour;
+    private boolean debutTour;
     private int tour;
     private int nbPli;
     private boolean partiFini;
@@ -17,7 +17,7 @@ public class DameDePiqueGameBehaviour extends AbstractGameBehaviour
     {
 	super();
 	tour = 1;
-	débutTour = true;
+	debutTour = true;
 	nbPli = 0;
 	partiFini = false;
 	// TODO Auto-generated constructor stub
@@ -31,7 +31,7 @@ public class DameDePiqueGameBehaviour extends AbstractGameBehaviour
     public void action()
     {
 	// TODO: distribution des cartes entres les différents joueurs
-	if (débutTour) // si l'on est au début du tour, il faut effectuer des
+	if (debutTour) // si l'on est au début du tour, il faut effectuer des
 		       // échanges de cartes
 	{
 	    switch (tour) { // en fonction du tour que l'on est en train de
@@ -50,7 +50,7 @@ public class DameDePiqueGameBehaviour extends AbstractGameBehaviour
 		break;
 	    }
 	    tour = tour % 4 + 1;
-	    débutTour = false;
+	    debutTour = false;
 	} else
 	{
 	    if (nbPli < 13)
