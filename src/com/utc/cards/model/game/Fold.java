@@ -1,43 +1,45 @@
 package com.utc.cards.model.game;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.player.IPlayer;
-import com.utc.cards.utils.Utils;
 
 public class Fold implements Parcelable
 {
-    private Map<String, Deck> foldCards = new HashMap<String, Deck>();
+
+    private List<Entry<String, Deck>> foldCards = new ArrayList<Entry<String, Deck>>();
 
     public void setCards(IPlayer player, Deck cards)
     {
-	foldCards.put(player.getName(), cards);
+	// foldCards.put(player.getName(), cards);
     }
 
-    public Deck getCards(IPlayer player)
-    {
-	return foldCards.get(player);
-    }
-
-    public Map<String, Deck> getFoldCards()
-    {
-	return foldCards;
-    }
+    // public Deck getCards(IPlayer player)
+    // {
+    // // return foldCards.get(player);
+    // }
+    //
+    // public Map<String, Deck> getFoldCards()
+    // {
+    // // return foldCards;
+    // }
 
     public void setFoldCards(Map<String, Deck> cardsMap)
     {
-	this.foldCards = cardsMap;
+	// this.foldCards = cardsMap;
     }
 
     public Fold(Parcel parcel)
     {
 	super();
-	foldCards = Utils.readMap(parcel, Deck.class);
+	// foldCards = Utils.readMap(parcel, Deck.class);
     }
 
     @Override
@@ -49,7 +51,7 @@ public class Fold implements Parcelable
     @Override
     public void writeToParcel(Parcel parcel, int flags)
     {
-	Utils.writeMap(foldCards, parcel);
+	// Utils.writeMap(foldCards, parcel);
     }
 
     public static final Parcelable.Creator<Fold> CREATOR = new Parcelable.Creator<Fold>() {

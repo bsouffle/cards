@@ -58,6 +58,12 @@ public class RulesListenerBehaviour extends CyclicBehaviour
 		    }
 		    agent.validatePlayerCards(pt.getCards(), pt.getPlayer());
 		    break;
+		case PLAYER_START:
+		    agent.determinateFirstPlayer();
+		    break;
+		case ASK_ADVICE:
+
+		    break;
 		default:
 		    break;
 		}

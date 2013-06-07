@@ -72,4 +72,11 @@ public class DameDePiqueRules extends AbstractGameRules
 	return false;
     }
 
+    @Override
+    public Card conseilCoup(Deck handPlayer, IPlayer player, HostModel model)
+    {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
 }
