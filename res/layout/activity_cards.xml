@@ -6,32 +6,38 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context=".CardsActivity" >
 
-    <Button
+    <ImageView
+        android:id="@+id/logoCards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+        
+        <Button
         android:id="@+id/playerModeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center|left"
-        android:layout_weight="1"
+        android:layout_gravity="bottom|left"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp"
         android:text="@string/player" 
         android:onClick="playerMode" />
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|center_vertical|center_horizontal"
-        android:layout_weight="1"
-        android:src="@drawable/ic_launcher" />
-
-    <Button
-        android:id="@+id/hostModeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|right"
-        android:layout_weight="1"
-        android:text="@string/host"
-        android:onClick="hostMode" />
+	    <Button
+	        android:id="@+id/hostModeButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="bottom|right"
+	        android:layout_alignParentRight="true"
+	        android:layout_marginRight="20dp"
+	        android:text="@string/host"
+	        android:onClick="hostMode" />
+    </RelativeLayout>
 
 </LinearLayout>

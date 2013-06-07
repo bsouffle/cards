@@ -12,9 +12,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.utc.cards.R;
 import com.utc.cards.player.jade.PlayerAgentManager;
@@ -29,6 +34,7 @@ public class CardsActivity extends Activity
     public final static String EXTRA_MESSAGE = "com.utc.cards.EXTRA_MESSAGE";
     public static final int PLAYER_REQUEST = 0;
     public static final int HOST_REQUEST = 1;
+    private Point _screenDimention = new Point();
 
     // private MyReceiver myReceiver;
 
@@ -37,6 +43,28 @@ public class CardsActivity extends Activity
     {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.activity_cards);
+
+	getScreenSize();
+
+	setLogoDimension();
+    }
+
+    private void setLogoDimension()
+    {
+	ImageView img = (ImageView) findViewById(R.id.logoCards);
+
+	double diff = 0.5;
+	double w = _screenDimention.y * 0.7;
+	double h = w * diff;
+
+	LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) w,
+		(int) h);
+
+	lp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
+	lp.topMargin = (int) (_screenDimention.y * 0.2);
+
+	img.setLayoutParams(lp);
+
 	setUserGmail();
 	// myReceiver = new MyReceiver();
 
@@ -53,9 +81,16 @@ public class CardsActivity extends Activity
 	return true;
     }
 
+    private void getScreenSize()
+    {
+	Display display = getWindowManager().getDefaultDisplay();
+	display.getSize(_screenDimention);
+    }
+
     public void playerMode(View view)
     {
 	Intent intent = new Intent(this, PlayerMenuActivity.class);
+
 	startActivityForResult(intent, PLAYER_REQUEST);
     }
 

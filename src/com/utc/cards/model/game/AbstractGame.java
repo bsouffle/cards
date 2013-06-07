@@ -18,6 +18,7 @@ public abstract class AbstractGame implements IGame
     protected Deck deck;
     protected IRules rules = null;
     protected GameStatus status = GameStatus.SUBSCRIPTION;
+    protected int resource;
 
     protected Integer maxPlayerCount = null;
     protected Integer minPlayerCount = null;
@@ -179,5 +180,17 @@ public abstract class AbstractGame implements IGame
     public void setStatus(GameStatus status)
     {
 	this.status = status;
+    }
+
+    @Override
+    public int getLogoResource()
+    {
+	return resource;
+    }
+
+    @Override
+    public void setLogoResource(int res)
+    {
+	resource = res;
     }
 }

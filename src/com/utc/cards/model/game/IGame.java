@@ -44,4 +44,8 @@ public interface IGame
 
     public void setStatus(GameStatus status);
 
+    public int getLogoResource();
+
+    public void setLogoResource(int res);
+
 }
