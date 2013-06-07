@@ -1,9 +1,7 @@
 package com.utc.cards.common.view;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Context;
 import android.graphics.Point;
 import android.widget.RelativeLayout;
 
@@ -17,7 +15,7 @@ public class CardsContainer
     private RelativeLayout _associatedLayout;
     // private Context _context;
 
-    private final int STARTING_X = 20;
+    public static int STARTING_X = 20;
     public static int CARD_DISTANCE = 80;
 
     private Point _screenDimention;
