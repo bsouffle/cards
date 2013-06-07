@@ -20,23 +20,35 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
 
 	IGame g = new DameDePique();
 
-	IPlayer p = new HumanPlayer("Benoit");
-	g.addPlayer(p);
+	IPlayer p1 = new HumanPlayer("Benoit");
+	g.addPlayer(p1);
+
+	IPlayer p2 = new HumanPlayer("Florian");
+	g.addPlayer(p2);
+
+	IPlayer p3 = new HumanPlayer("Bobby");
+	g.addPlayer(p3);
+
+	IPlayer p4 = new HumanPlayer("Pokemon");
+	g.addPlayer(p4);
 
 	// COTE PLAYER ET HOTE pour obtenir l'objet Rules, on passera par
-	// l'agent "RulesAgent" de l'HOTE, pas directement via la rÃ©fÃ©rence
+	// l'agent "RulesAgent" de l'HOTE, pas directement via la référence
 	//
 	// le principe serait que seul cet agent utilisera getRules ou un truc
-	// similaire pour avoir/initialiser les rÃ¨gles, ensuite toutes les
+	// similaire pour avoir/initialiser les règles, ensuite toutes les
 	// demandes (qui joue au prochain tour, comment se passe la fin d'un
-	// tour, est-ce que la partie est terminÃ©e ?
+	// tour, est-ce que la partie est terminée ?
 	// passeront par l'agent RulesAgent
+
 	IRules rules = g.getRules();
 	Deck hand = rules.getInitialCardDistribution(g.getDeck(),
 		g.getPlayers()).get(0);
-	p.setHand(hand);
+	p1.setHand(hand);
 
-	drawCards(p.getHand());
+	System.out.println("p1.getHand()" + p1.getHand());
+
+	drawCards(p1.getHand(), 13);
     }
 
     @Override

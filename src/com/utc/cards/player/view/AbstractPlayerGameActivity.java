@@ -10,11 +10,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -44,6 +44,10 @@ public abstract class AbstractPlayerGameActivity extends Activity implements
     {
 	super.onCreate(savedInstanceState);
 	getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+	// Get the size of the display screen
+	getScreenSize();
+
 	onCreateHook(savedInstanceState);
 
     }
@@ -75,41 +79,58 @@ public abstract class AbstractPlayerGameActivity extends Activity implements
 	return true;
     }
 
-    protected void drawCards(List<Card> cards)
+    private void getScreenSize()
     {
+	Display display = getWindowManager().getDefaultDisplay();
+	display.getSize(_screenDimention);
+    }
+
+    protected void drawCards(List<Card> cards, int nbMaxCardsMain)
+    {
+	System.out.println("TEST 1");
 	final View view = findViewById(R.id.cardsLayout);
+	final View viewSendingLayout = findViewById(R.id.sendingLayout);
 
 	if (view != null)
 	{
-
+	    System.out.println("TEST 2");
 	    List<CardView> cardViews = new ArrayList<CardView>();
-
-	    for (Card card : cards)
-	    {
-		cardViews.add(new CardView(card, card.getResourceId(), view
-			.getContext()));
-	    }
 
 	    if (_screenDimention.y > 0)
 	    {
 		// Set the cards dimension according to the size of the display
 		// screen
-		int w = (int) (_screenDimention.x * 21 / 100);
+		int w = (int) ((_screenDimention.x * 1.6 * nbMaxCardsMain) / 100);
 		CardView.CARD_WIDTH = w;
 
+		for (Card card : cards)
+		{
+		    cardViews.add(new CardView(card, card.getResourceId(), view
+			    .getContext()));
+		}
+
 		// Set margins
-		int m = (int) (_screenDimention.y * 3 / 100);
 
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-			LinearLayout.LayoutParams.MATCH_PARENT,
-			LinearLayout.LayoutParams.WRAP_CONTENT);
+		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+			RelativeLayout.LayoutParams.MATCH_PARENT,
+			RelativeLayout.LayoutParams.WRAP_CONTENT);
 
-		lp.setMargins(0, m, 0, m);
+		lp.addRule(RelativeLayout.BELOW, viewSendingLayout.getId());
+
+		lp.setMargins(0, 20, 0, 0);
+
 		view.setLayoutParams(lp);
 
 		// The container of the cards
+
+		CardsContainer.CARD_DISTANCE = ((_screenDimention.x - 2
+			* CardsContainer.STARTING_X - CardView.CARD_WIDTH) / (nbMaxCardsMain - 1));
+
 		_cardsContainer = new CardsContainer((RelativeLayout) view,
 			_screenDimention, cardViews);
+
+		System.out.println("_cardsssssssssssssssss : "
+			+ _cardsContainer);
 	    }
 	}
     }
@@ -122,7 +143,7 @@ public abstract class AbstractPlayerGameActivity extends Activity implements
 	{
 	    if (_screenDimention.y > 0)
 	    {
-		int h = (int) (_screenDimention.y * 10 / 100);
+		int h = (int) (_screenDimention.y * 15 / 100);
 		view.setMinimumHeight(h);
 	    }
 
@@ -137,6 +158,12 @@ public abstract class AbstractPlayerGameActivity extends Activity implements
 
 	if (view != null)
 	{
+	    if (_screenDimention.y > 0)
+	    {
+		int h = (int) (_screenDimention.y * 15 / 100);
+		view.setMinimumHeight(h);
+	    }
+
 	    SeekBar bar = (SeekBar) view;
 
 	    bar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -147,7 +174,16 @@ public abstract class AbstractPlayerGameActivity extends Activity implements
 		{
 		    // When the user changes the progress value, we change the
 		    // distance between cards
-		    CardsContainer.CARD_DISTANCE = progress;
+
+		    // Length of the player's hand
+		    int lengthHand = ((_cardsContainer.getCards().size() - 1)
+			    * progress + CardView.CARD_WIDTH);
+
+		    if (lengthHand <= (_screenDimention.x - 2 * CardsContainer.STARTING_X))
+		    {
+			CardsContainer.CARD_DISTANCE = progress;
+		    }
+
 		    _cardsContainer.refresh();
 		}
 
