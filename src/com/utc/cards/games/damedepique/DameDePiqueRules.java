@@ -79,4 +79,18 @@ public class DameDePiqueRules extends AbstractGameRules
 	return null;
     }
 
+    @Override
+    public int getInitialScore()
+    {
+	// TODO Auto-generated method stub
+	return 0;
+    }
+
+    @Override
+    public int calculScore(Deck deck)
+    {
+	// TODO Auto-generated method stub
+	return 0;
+    }
+
 }

@@ -19,4 +19,8 @@ public interface IRules
 
     public Card conseilCoup(Deck handPlayer, IPlayer player, HostModel model);
 
+    public int getInitialScore();
+
+    public int calculScore(Deck deck);
+
 }

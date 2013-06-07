@@ -21,11 +21,11 @@ public class HostModel
      */
     private Map<IPlayer, Map<String, Deck>> _playerHands;
     /**
-     * l'état actuel des cartes de l'hôte
+     * l'état actuel des cartes de l'hôte (pioche)
      */
     private Map<String, Deck> _hostDecks;
     /**
-     * les plis précédents
+     * les plis précédents -> avoir la possibilité de lier un pli à un joueur?
      */
     private Stack<Fold> _oldFolds;
     /**

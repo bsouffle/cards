@@ -7,12 +7,13 @@ import com.utc.cards.model.deck.Deck;
 
 public abstract class AbstractPlayer implements IPlayer
 {
-
     public final static String MAIN_HAND = "main";
 
     private String _name;
 
     private Map<String, Deck> _hands = new HashMap<String, Deck>();
+
+    private int _score;
 
     public AbstractPlayer(String name)
     {
@@ -47,6 +48,16 @@ public abstract class AbstractPlayer implements IPlayer
     public void setHand(Deck hand, String handType)
     {
 	this._hands.put(handType, hand);
+    }
+
+    public int getScore()
+    {
+	return _score;
+    }
+
+    public void setScore(int _score)
+    {
+	this._score = _score;
     }
 
 }
