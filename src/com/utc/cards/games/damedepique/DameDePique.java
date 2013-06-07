@@ -3,6 +3,7 @@ package com.utc.cards.games.damedepique;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.utc.cards.R;
 import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.deck.Traditionnal52Deck;
 import com.utc.cards.model.game.AbstractGame;
@@ -23,6 +24,8 @@ public class DameDePique extends AbstractGame
     public DameDePique()
     {
 	super("Dame de Pique", LEGAL_PLAYER_COUNT);
+
+	setLogoResource(R.drawable.logo_dame_de_pique);
     }
 
     // @Override

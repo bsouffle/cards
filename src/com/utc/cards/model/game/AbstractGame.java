@@ -18,7 +18,7 @@ public abstract class AbstractGame implements IGame
     protected Deck deck;
     protected IRules rules = null;
     protected GameStatus status = GameStatus.SUBSCRIPTION;
-    protected int resource;
+    protected int resource = -1;
 
     protected Integer maxPlayerCount = null;
     protected Integer minPlayerCount = null;

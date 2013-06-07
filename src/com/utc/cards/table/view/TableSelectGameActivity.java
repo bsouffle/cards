@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.digitalaria.gama.wheel.Wheel;
 import com.utc.cards.R;
 import com.utc.cards.games.GameContainer;
-import com.utc.cards.games.damedepique.DameDePique;
 import com.utc.cards.model.game.IGame;
 import com.utc.cards.table.TableController;
 
@@ -37,15 +36,17 @@ public class TableSelectGameActivity extends Activity
     {
 	_controller = new TableController();
 
-	IGame g = new DameDePique();
-	g.setLogoResource(R.drawable.logo_dame_de_pique);
-	GameContainer.addGame(g);
-
 	_games = new ArrayList<IGame>(GameContainer.getGames());
 
 	while (_games.size() < 6 && _games.size() > 0)
 	{
 	    _games.add(_games.get(0));
+	}
+
+	for (IGame t : _games)
+	{
+	    System.out.println("Logooo " + t.getName() + " - "
+		    + t.getLogoResource());
 	}
     }
 
@@ -146,6 +147,7 @@ public class TableSelectGameActivity extends Activity
 	int i = 0;
 	for (IGame g : data)
 	{
+	    System.out.println("logoo: " + g.getLogoResource());
 	    Drawable tmp = _res.getDrawable(g.getLogoResource());
 
 	    double diff = (double) tmp.getIntrinsicHeight()
