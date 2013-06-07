@@ -1,6 +1,8 @@
 package com.utc.cards.model.game;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 
 import com.utc.cards.model.HostModel;
 import com.utc.cards.model.card.Card;
@@ -21,6 +23,8 @@ public interface IRules
 
     public int getInitialScore();
 
-    public int calculScore(Deck deck);
+    public Map<String, Deck> calculScore(Stack<Fold> plisFini);
+
+    public void determinateWinnerCurrentFold();
 
 }

@@ -93,4 +93,24 @@ public class RulesAgent extends Agent implements IRulesAgent
 
     }
 
+    @Override
+    public void calculScore()
+    {
+	// TODO Auto-generated method stub
+	addBehaviour(new CalculScoreBehaviour(this));
+    }
+
+    @Override
+    public void initScore()
+    {
+	// TODO Auto-generated method stub
+	addBehaviour(new InitScoreBehaviour(this));
+    }
+
+    @Override
+    public void determinateWinnerCurrentFold()
+    {
+	// TODO Auto-generated method stub
+
+    }
 }

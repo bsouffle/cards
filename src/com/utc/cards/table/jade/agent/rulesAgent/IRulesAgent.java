@@ -13,9 +13,15 @@ public interface IRulesAgent
 
     public void determinateFirstPlayer();
 
+    public void initScore();
+
+    public void calculScore();
+
     // listen REQUEST validate PLAYER_CARDS
     public void validatePlayerCards(List<Card> Cards, IPlayer player);
 
     public void askAdvice(Deck hand, IPlayer player);
+
+    public void determinateWinnerCurrentFold();
 
 }

@@ -16,6 +16,8 @@ public class Fold implements Parcelable
 
     private List<Entry<String, Deck>> foldCards = new ArrayList<Entry<String, Deck>>();
 
+    private IPlayer winner;
+
     public void setCards(IPlayer player, Deck cards)
     {
 	// foldCards.put(player.getName(), cards);
