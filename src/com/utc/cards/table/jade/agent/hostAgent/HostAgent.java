@@ -58,7 +58,7 @@ public class HostAgent extends Agent implements IHostAgent
 	// addBehaviour(new HostListenerBehaviour(this));
 
 	// Behaviour d'inscription au jeu
-	log.debug("addBehaviour : SubscriptionResponder");
+	log.debug("addBehaviour : SubscriptionBehaviour");
 	// addBehaviour(new SubscriptionResponder(this, sTemplate, this));
 	addBehaviour(new SubscriptionBehaviour(this));
 

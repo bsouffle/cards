@@ -33,7 +33,7 @@ public class HostModel
      */
     private Fold _currentFold;
 
-    private HostModel()
+    public HostModel()
     {
 	super();
 	instance = this;

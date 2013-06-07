@@ -4,6 +4,9 @@ import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.utc.cards.model.HostModel;
 import com.utc.cards.model.game.GameStatus;
 
@@ -15,7 +18,8 @@ public class SubscriptionBehaviour extends CyclicBehaviour
 {
 
     private static final long serialVersionUID = -1033764098211298884L;
-
+    private static Logger log = LoggerFactory
+	    .getLogger(SubscriptionBehaviour.class);
     private MessageTemplate subscriptionTemplate = MessageTemplate
 	    .MatchPerformative(ACLMessage.SUBSCRIBE);
     private HostAgent agent;
@@ -38,12 +42,13 @@ public class SubscriptionBehaviour extends CyclicBehaviour
 	    if (subscriptionIsOpen() && !gameIsFull())
 	    {
 		reply.setPerformative(ACLMessage.AGREE);
-
+		log.debug("Subscription AGREE");
 	    } else
 	    {
 		reply.setPerformative(ACLMessage.REFUSE);
+		log.debug("Subscription REFUSE");
 	    }
-	    agent.send(message);
+	    agent.send(reply);
 	}
 	block();
     }
