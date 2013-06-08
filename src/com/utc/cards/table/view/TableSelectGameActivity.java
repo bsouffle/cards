@@ -14,6 +14,7 @@ import android.view.Display;
 import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.digitalaria.gama.wheel.Wheel;
@@ -90,7 +91,7 @@ public class TableSelectGameActivity extends Activity
     {
 	_res = getApplicationContext().getResources();
 
-	int diameter = _screenDimention.x / 2;
+	int diameter = (int) (_screenDimention.x / 1.3);
 
 	_wheel = (Wheel) findViewById(R.id.wheel);
 	_wheel.setItems(getDrawableFromData(_games));
@@ -103,11 +104,11 @@ public class TableSelectGameActivity extends Activity
 	_wheel.setOnItemSelectionUpdatedListener(wl);
 
 	LinearLayout l = (LinearLayout) findViewById(R.id.wheelContainer);
-	LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-		LinearLayout.LayoutParams.FILL_PARENT,
-		LinearLayout.LayoutParams.FILL_PARENT);
+	RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+		RelativeLayout.LayoutParams.WRAP_CONTENT,
+		RelativeLayout.LayoutParams.WRAP_CONTENT);
 
-	lp.bottomMargin = (int) (-_screenDimention.y * 0.8);
+	lp.bottomMargin = (int) (-_screenDimention.y);
 
 	l.setLayoutParams(lp);
 

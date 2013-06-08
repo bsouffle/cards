@@ -4,38 +4,52 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     tools:context=".TableSelectGameActivity">
-
-    <TextView
-        android:id="@+id/gameToLaunchLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|center_vertical"
-        android:layout_marginTop="5dp"
-        android:text="Jeu à lancer" >
-     </TextView>
-     
-    <Button
-        android:id="@+id/selectGameButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|center_vertical"
-        android:text="Lancer le jeu" 
-        android:onClick="selectGameClick"/>
     
-    <LinearLayout
-    	android:id="@+id/wheelContainer"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:orientation="vertical"
-	    android:layout_gravity="bottom|center_horizontal">
+    <RelativeLayout 
+        android:layout_width="match_parent"
+	    android:layout_height="match_parent">
         
-	    <com.digitalaria.gama.wheel.Wheel
-	        android:id="@+id/wheel"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center_horizontal">
-
-	    </com.digitalaria.gama.wheel.Wheel>
-    </LinearLayout>
+        <LinearLayout
+	    	android:id="@+id/wheelContainer"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:orientation="vertical"
+		    android:layout_gravity="bottom|center_horizontal">
+	        
+		    <com.digitalaria.gama.wheel.Wheel
+		        android:id="@+id/wheel"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_horizontal">
+	
+		    </com.digitalaria.gama.wheel.Wheel>
+	    </LinearLayout>
+        
+        <LinearLayout 
+            android:layout_width="match_parent"
+	    	android:layout_height="match_parent"
+	    	android:orientation="vertical"
+	    	android:gravity="bottom"
+	    	android:layout_marginBottom="10dp"
+	    	android:layout_centerHorizontal="true"
+	    	android:layout_alignParentBottom="true">
+            <TextView
+		        android:id="@+id/gameToLaunchLabel"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center|center_vertical"
+		        android:layout_marginTop="5dp"
+		        android:text="Jeu à lancer" >
+		     </TextView>
+		     
+		    <Button
+		        android:id="@+id/selectGameButton"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center|center_vertical"
+		        android:text="Lancer le jeu" 
+		        android:onClick="selectGameClick"/>
+        </LinearLayout>
+    </RelativeLayout>
         
 </LinearLayout>
