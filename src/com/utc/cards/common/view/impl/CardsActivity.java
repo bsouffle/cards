@@ -61,7 +61,7 @@ public class CardsActivity extends Activity
 		(int) h);
 
 	lp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
-	lp.topMargin = (int) (_screenDimention.y * 0.2);
+	lp.topMargin = (int) (_screenDimention.y * 0.1);
 
 	img.setLayoutParams(lp);
 

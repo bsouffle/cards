@@ -13,17 +13,32 @@ import com.utc.cards.model.player.IPlayer;
 public class TableController
 {
 
-    private static Logger _log = LoggerFactory
-	    .getLogger(TableController.class);
+    private static Logger _log = LoggerFactory.getLogger(TableController.class);
 
     private IGame _game;
+
+    private static TableController _instance;
+
+    private TableController()
+    {
+    }
+
+    public static TableController getInstance()
+    {
+	if (_instance == null)
+	{
+	    _instance = new TableController();
+	}
+
+	return _instance;
+    }
 
     public void loadGame(IGame game)
     {
 	_log.debug("loadGame()");
 
 	setGame(game);
-	
+
 	// wait for players / IA to subscribe
 	startSubscription();
     }
@@ -75,7 +90,8 @@ public class TableController
     private void distributeInitialCards()
     {
 	_log.debug("distributeInitialCards()");
-	List<Deck> hands = _game.getRules().getInitialCardDistribution(_game.getDeck(), _game.getPlayers());
+	List<Deck> hands = _game.getRules().getInitialCardDistribution(
+		_game.getDeck(), _game.getPlayers());
 
 	// TODO check order, use the same index ?
 

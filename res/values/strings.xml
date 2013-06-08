@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">CARDS</string>
@@ -11,13 +10,15 @@
     <string name="title_activity_cards">CardsActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="title_activity_select_game">SelectGameActivity</string>
-    <string name="title_activity_launch_game">LaunchGameActivity</string>
+    <string name="title_activity_select_game">Selection du jeu</string>
+    <string name="title_activity_launch_game">Preparation de la partie</string>
     <string name="title_activity_player_menu">PlayerMenuActivity</string>
     <string name="title_activity_dameDePique_player_game">DameDePiqueActivity</string>
     <string name="join">Rejoindre</string>
     <string name="play_card">Play Card</string>
     <string name="msg_interface_exc">Erreur interface lors de la récupération d\'un agent</string>
     <string name="msg_controller_exc">Erreur controller lors de la récupération d\'un agent</string>
+    <string name="selected_game_label">Selected game</string>
+    <string name="title_activity_dameDePique_table_game">Plateau de jeu</string>
     
 </resources>

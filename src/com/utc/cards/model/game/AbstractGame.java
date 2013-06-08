@@ -1,5 +1,7 @@
 package com.utc.cards.model.game;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,8 @@ public abstract class AbstractGame implements IGame
 
     private static Logger log = LoggerFactory.getLogger(AbstractGame.class);
 
+    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
     protected String name;
     protected Deck deck;
     protected IRules rules = null;
@@ -23,6 +27,9 @@ public abstract class AbstractGame implements IGame
     protected Integer maxPlayerCount = null;
     protected Integer minPlayerCount = null;
     protected int[] legalPlayerCount = null;
+
+    public static final String NEW_PLAYER_EVENT = "NEW PLAYER EVENT";
+
     /**
      * la liste des joueurs dans leur ordre de jeu (après lancement de la
      * partie, sinon ordre non garanti)
@@ -108,11 +115,26 @@ public abstract class AbstractGame implements IGame
     }
 
     @Override
+    public List<String> getPlayerNames()
+    {
+	ArrayList<String> res = new ArrayList<String>();
+
+	for (IPlayer p : getPlayers())
+	{
+	    res.add(p.getName());
+	}
+
+	return res;
+    }
+
+    @Override
     public final void addPlayer(IPlayer player)
     {
 	log.debug("addPlayer()");
 
 	_players.add(player);
+
+	pcs.firePropertyChange(NEW_PLAYER_EVENT, null, player);
     }
 
     @Override
@@ -192,5 +214,11 @@ public abstract class AbstractGame implements IGame
     public void setLogoResource(int res)
     {
 	resource = res;
+    }
+
+    @Override
+    public void registerListener(PropertyChangeListener pcl)
+    {
+	pcs.addPropertyChangeListener(pcl);
     }
 }

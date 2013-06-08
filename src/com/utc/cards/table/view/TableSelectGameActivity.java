@@ -25,7 +25,6 @@ import com.utc.cards.table.TableController;
 public class TableSelectGameActivity extends Activity
 {
     private IGame _selectedGame = null;
-    private TableController _controller;
 
     private Resources _res;
     private Wheel _wheel;
@@ -34,8 +33,6 @@ public class TableSelectGameActivity extends Activity
 
     public TableSelectGameActivity()
     {
-	_controller = new TableController();
-
 	_games = new ArrayList<IGame>(GameContainer.getGames());
 
 	while (_games.size() < 6 && _games.size() > 0)
@@ -55,7 +52,7 @@ public class TableSelectGameActivity extends Activity
 	IGame selectedGame = getSelectedGame();
 	if (selectedGame != null)
 	{
-	    _controller.loadGame(selectedGame);
+	    TableController.getInstance().loadGame(selectedGame);
 	}
     }
 
@@ -124,7 +121,7 @@ public class TableSelectGameActivity extends Activity
 	updateGameToLaunchLabel(_selectedGame.getName());
     }
 
-    public void launchGameClick(View view)
+    public void selectGameClick(View view)
     {
 	System.out.println("Launch Game");
 
@@ -153,7 +150,7 @@ public class TableSelectGameActivity extends Activity
 	    double diff = (double) tmp.getIntrinsicHeight()
 		    / (double) tmp.getIntrinsicWidth();
 
-	    double w = _screenDimention.x * 0.15;
+	    double w = _screenDimention.x * 0.2;
 	    double h = w * diff;
 
 	    ret[i++] = resize(tmp, w, h);

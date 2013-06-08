@@ -56,9 +56,9 @@ public class DameDePique extends AbstractGame
     }
 
     @Override
-    public DameDePiqueTableGameActivity createTableGameActivity()
+    public Class getTableGameActivity()
     {
-	return new DameDePiqueTableGameActivity();
+	return DameDePiqueTableGameActivity.class;
     }
 
     @Override
@@ -66,5 +66,4 @@ public class DameDePique extends AbstractGame
     {
 	return new DameDePiquePlayerGameActivity();
     }
-
 }

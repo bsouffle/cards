@@ -34,11 +34,13 @@
         </activity>
         <activity
             android:name="com.utc.cards.table.view.TableSelectGameActivity"
-            android:label="@string/title_activity_select_game" >
+            android:label="@string/title_activity_select_game" 
+            android:screenOrientation="sensorLandscape">
         </activity>
         <activity
             android:name="com.utc.cards.table.view.TableLaunchGameActivity"
-            android:label="@string/title_activity_launch_game" >
+            android:label="@string/title_activity_launch_game"
+            android:screenOrientation="sensorLandscape" >
         </activity>
         <activity
             android:name="com.utc.cards.player.view.PlayerMenuActivity"
@@ -47,6 +49,10 @@
         <activity
             android:name="com.utc.cards.games.damedepique.DameDePiquePlayerGameActivity"
             android:label="@string/title_activity_dameDePique_player_game" >
+        </activity>
+        <activity
+            android:name="com.utc.cards.games.damedepique.DameDePiqueTableGameActivity"
+            android:label="@string/title_activity_dameDePique_table_game" >
         </activity>
     </application>
 

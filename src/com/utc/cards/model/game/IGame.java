@@ -1,18 +1,18 @@
 package com.utc.cards.model.game;
 
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.player.IPlayer;
-import com.utc.cards.player.view.IPlayerGameActivity;
-import com.utc.cards.table.view.ITableGameActivity;
+import com.utc.cards.player.view.AbstractPlayerGameActivity;
 
 public interface IGame
 {
 
-    public ITableGameActivity createTableGameActivity();
+    public Class getTableGameActivity();
 
-    public IPlayerGameActivity createPlayerGameActivity();
+    public AbstractPlayerGameActivity createPlayerGameActivity();
 
     public String getName();
 
@@ -25,6 +25,8 @@ public interface IGame
     public IRules getRules();
 
     public List<IPlayer> getPlayers();
+
+    public List<String> getPlayerNames();
 
     public void addPlayer(IPlayer player);
 
@@ -48,4 +50,5 @@ public interface IGame
 
     public void setLogoResource(int res);
 
+    public void registerListener(PropertyChangeListener pcl);
 }
