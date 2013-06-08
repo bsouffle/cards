@@ -110,7 +110,8 @@ public class TableLaunchGameActivity extends Activity implements
 		    (int) w, LayoutParams.WRAP_CONTENT);
 
 	    lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-	    lp.topMargin = (int) (_screenDimention.y * 0.1);
+	    lp.topMargin = 15;
+	    lp.bottomMargin = 100;
 
 	    _listView.setLayoutParams(lp);
 	}
