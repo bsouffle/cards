@@ -20,5 +20,6 @@
     <string name="msg_controller_exc">Erreur controller lors de la récupération d\'un agent</string>
     <string name="selected_game_label">Selected game</string>
     <string name="title_activity_dameDePique_table_game">Plateau de jeu</string>
-    
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 </resources>
