@@ -34,132 +34,128 @@ public class TableSelectGameActivity extends Activity
 
     public TableSelectGameActivity()
     {
-	_games = new ArrayList<IGame>(GameContainer.getGames());
+        _games = new ArrayList<IGame>(GameContainer.getGames());
 
-	while (_games.size() < 6 && _games.size() > 0)
-	{
-	    _games.add(_games.get(0));
-	}
+        while (_games.size() < 6 && _games.size() > 0)
+        {
+            _games.add(_games.get(0));
+        }
     }
 
     public void launchSelectedGame()
     {
-	IGame selectedGame = getSelectedGame();
-	if (selectedGame != null)
-	{
-	    TableController.getInstance().loadGame(selectedGame);
-	}
+        IGame selectedGame = getSelectedGame();
+        if (selectedGame != null)
+        {
+            TableController.getInstance().loadGame(selectedGame);
+        }
     }
 
     private IGame getSelectedGame()
     {
-	return _selectedGame;
+        return _selectedGame;
     }
 
     private void getScreenSize()
     {
-	Display display = getWindowManager().getDefaultDisplay();
-	display.getSize(_screenDimention);
+        Display display = getWindowManager().getDefaultDisplay();
+        display.getSize(_screenDimention);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.activity_select_game);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_select_game);
 
-	getScreenSize();
+        getScreenSize();
 
-	drawCarousel();
+        drawCarousel();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-	// Inflate the menu; this adds items to the action bar if it is present.
-	getMenuInflater().inflate(R.menu.select_game, menu);
-	return true;
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.select_game, menu);
+        return true;
     }
 
     private void drawCarousel()
     {
-	_res = getApplicationContext().getResources();
+        _res = getApplicationContext().getResources();
 
-	int diameter = (int) (_screenDimention.x / 1.3);
+        int diameter = (int) (_screenDimention.x / 1.3);
 
-	_wheel = (Wheel) findViewById(R.id.wheel);
-	_wheel.setItems(getDrawableFromData(_games));
+        _wheel = (Wheel) findViewById(R.id.wheel);
+        _wheel.setItems(getDrawableFromData(_games));
 
-	_wheel.setWheelDiameter(diameter);
+        _wheel.setWheelDiameter(diameter);
 
-	MyWheelListener wl = new MyWheelListener(_wheel, this);
+        MyWheelListener wl = new MyWheelListener(_wheel, this);
 
-	_wheel.setOnItemClickListener(wl);
-	_wheel.setOnItemSelectionUpdatedListener(wl);
+        _wheel.setOnItemClickListener(wl);
+        _wheel.setOnItemSelectionUpdatedListener(wl);
 
-	LinearLayout l = (LinearLayout) findViewById(R.id.wheelContainer);
-	RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-		RelativeLayout.LayoutParams.WRAP_CONTENT,
-		RelativeLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout l = (LinearLayout) findViewById(R.id.wheelContainer);
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
-	lp.bottomMargin = (int) (-_screenDimention.y);
+        lp.bottomMargin = (int) (-_screenDimention.y);
 
-	l.setLayoutParams(lp);
+        l.setLayoutParams(lp);
 
-	setGameToLaunch(0);
+        setGameToLaunch(0);
     }
 
     public void setGameToLaunch(int i)
     {
-	_selectedGame = _games.get(i);
+        _selectedGame = _games.get(i);
 
-	updateGameToLaunchLabel(_selectedGame.getName());
+        updateGameToLaunchLabel(_selectedGame.getName());
     }
 
     public void selectGameClick(View view)
     {
-	System.out.println("Launch Game");
+        System.out.println("Launch Game");
 
-	launchSelectedGame();
+        launchSelectedGame();
 
-	Intent intent = new Intent(this, TableLaunchGameActivity.class);
-	startActivity(intent);
+        Intent intent = new Intent(this, TableLaunchGameActivity.class);
+        startActivity(intent);
     }
 
     private void updateGameToLaunchLabel(String name)
     {
-	TextView label = (TextView) findViewById(R.id.gameToLaunchLabel);
+        TextView label = (TextView) findViewById(R.id.gameToLaunchLabel);
 
-	label.setText(name);
+        label.setText(name);
     }
 
     private Drawable[] getDrawableFromData(ArrayList<IGame> data)
     {
-	Drawable[] ret = new Drawable[data.size()];
-	int i = 0;
-	for (IGame g : data)
-	{
-	    System.out.println("logoo: " + g.getLogoResource());
-	    Drawable tmp = _res.getDrawable(g.getLogoResource());
+        Drawable[] ret = new Drawable[data.size()];
+        int i = 0;
 
-	    double diff = (double) tmp.getIntrinsicHeight()
-		    / (double) tmp.getIntrinsicWidth();
+        for (IGame g : data)
+        {
+            Drawable tmp = _res.getDrawable(g.getLogoResource());
 
-	    double w = _screenDimention.x * 0.2;
-	    double h = w * diff;
+            double diff = (double) tmp.getIntrinsicHeight() / (double) tmp.getIntrinsicWidth();
 
-	    ret[i++] = resize(tmp, w, h);
-	}
+            double w = _screenDimention.x * 0.2;
+            double h = w * diff;
 
-	return ret;
+            ret[i++] = resize(tmp, w, h);
+        }
+
+        return ret;
     }
 
     private Drawable resize(Drawable image, double w, double h)
     {
-	Bitmap d = ((BitmapDrawable) image).getBitmap();
-	Bitmap bitmapOrig = Bitmap.createScaledBitmap(d, (int) w, (int) h,
-		false);
-	return new BitmapDrawable(bitmapOrig);
+        Bitmap d = ((BitmapDrawable) image).getBitmap();
+        Bitmap bitmapOrig = Bitmap.createScaledBitmap(d, (int) w, (int) h, false);
+        return new BitmapDrawable(bitmapOrig);
     }
 
 }
