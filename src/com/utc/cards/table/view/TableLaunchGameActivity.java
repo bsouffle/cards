@@ -51,9 +51,10 @@ public class TableLaunchGameActivity extends Activity implements PropertyChangeL
 
         setSelectedGameLogoAndLabel();
 
-        updatePlayerList();
+        updatePlayerList(); // Au cas ou des joueurs auraient été ajoutés avant que le listener ne soit en place
 
         // Test pour affichage liste des joueurs
+
         _selectedGame.addPlayer(new HumanPlayer("Benoit"));
         _selectedGame.addPlayer(new HumanPlayer("Bobby"));
         _selectedGame.addPlayer(new HumanPlayer("Benoit 2"));
@@ -120,6 +121,10 @@ public class TableLaunchGameActivity extends Activity implements PropertyChangeL
 
     public void setSelectedGameLogoAndLabel()
     {
+        // Logo du jeu selectionné
+        //
+        //
+
         ImageView img = (ImageView) findViewById(R.id.selectedGameLogo);
 
         Drawable tmp = getApplicationContext().getResources().getDrawable(_selectedGame.getLogoResource());
@@ -137,9 +142,23 @@ public class TableLaunchGameActivity extends Activity implements PropertyChangeL
 
         img.setLayoutParams(lp);
 
+        //
+        //
+
+        // Label du jeu selectionné
+        //
+        //
+
         TextView text = (TextView) findViewById(R.id.selectedGameLabel);
 
         text.setText(_selectedGame.getName());
+
+        //
+        //
+
+        // Positionnement des infos relatives au jeu selectionné (label + logo)
+        //
+        //
 
         LinearLayout container = (LinearLayout) findViewById(R.id.selectedGameInfo);
 
@@ -150,8 +169,12 @@ public class TableLaunchGameActivity extends Activity implements PropertyChangeL
 
         container.setLayoutParams(lp2);
 
+        //
+        //
+
     }
 
+    // Méthode "OnClick" liée à la vue
     public void launchGameClick(View view)
     {
         _log.debug("Lancement d'une partie");
@@ -162,6 +185,7 @@ public class TableLaunchGameActivity extends Activity implements PropertyChangeL
         startActivity(intent);
     }
 
+    // Méthode "OnClick" liée à la vue
     public void optionsClick(View view)
     {
         _log.debug("Options");

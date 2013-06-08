@@ -36,6 +36,7 @@ public class TableSelectGameActivity extends Activity
     {
         _games = new ArrayList<IGame>(GameContainer.getGames());
 
+        // Arrangement graphique pour la roue: s'il y a moins de 6 jeux, on duplique le premier jeu
         while (_games.size() < 6 && _games.size() > 0)
         {
             _games.add(_games.get(0));
@@ -104,7 +105,7 @@ public class TableSelectGameActivity extends Activity
 
         l.setLayoutParams(lp);
 
-        setGameToLaunch(0);
+        setGameToLaunch(0); // Par défaut le jeu à lancer est le premier de la liste
     }
 
     public void setGameToLaunch(int i)
@@ -114,16 +115,6 @@ public class TableSelectGameActivity extends Activity
         updateGameToLaunchLabel(_selectedGame.getName());
     }
 
-    public void selectGameClick(View view)
-    {
-        System.out.println("Launch Game");
-
-        launchSelectedGame();
-
-        Intent intent = new Intent(this, TableLaunchGameActivity.class);
-        startActivity(intent);
-    }
-
     private void updateGameToLaunchLabel(String name)
     {
         TextView label = (TextView) findViewById(R.id.gameToLaunchLabel);
@@ -131,6 +122,7 @@ public class TableSelectGameActivity extends Activity
         label.setText(name);
     }
 
+    // Récupère une liste d'objects Drawable à partir des jeux IGame et de leur ressource logo
     private Drawable[] getDrawableFromData(ArrayList<IGame> data)
     {
         Drawable[] ret = new Drawable[data.size()];
@@ -151,11 +143,24 @@ public class TableSelectGameActivity extends Activity
         return ret;
     }
 
+    // Pour redimensionner un objet Drawable
     private Drawable resize(Drawable image, double w, double h)
     {
         Bitmap d = ((BitmapDrawable) image).getBitmap();
         Bitmap bitmapOrig = Bitmap.createScaledBitmap(d, (int) w, (int) h, false);
+
         return new BitmapDrawable(bitmapOrig);
+    }
+
+    // Méthode "OnClick" liée à la vue
+    public void selectGameClick(View view)
+    {
+        System.out.println("Launch Game");
+
+        launchSelectedGame();
+
+        Intent intent = new Intent(this, TableLaunchGameActivity.class);
+        startActivity(intent);
     }
 
 }

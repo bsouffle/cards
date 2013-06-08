@@ -7,31 +7,28 @@ import com.digitalaria.gama.wheel.WheelAdapter;
 import com.digitalaria.gama.wheel.WheelAdapter.OnItemClickListener;
 import com.digitalaria.gama.wheel.WheelAdapter.OnItemSelectionUpdatedListener;
 
-public class MyWheelListener implements OnItemClickListener,
-	OnItemSelectionUpdatedListener
+// Utilisée pour la gestion des interactions avec la roue des jeux disponibles
+public class MyWheelListener implements OnItemClickListener, OnItemSelectionUpdatedListener
 {
 
     Wheel _wheel;
     TableSelectGameActivity _activity;
 
-    public MyWheelListener(Wheel wheel,
-	    TableSelectGameActivity tableSelectGameActivity)
+    public MyWheelListener(Wheel wheel, TableSelectGameActivity tableSelectGameActivity)
     {
-	_wheel = wheel;
-	_activity = tableSelectGameActivity;
+        _wheel = wheel;
+        _activity = tableSelectGameActivity;
     }
 
     @Override
     public void onItemSelectionUpdated(View view, int index)
     {
-	_activity.setGameToLaunch(index);
+        _activity.setGameToLaunch(index);
     }
 
     @Override
-    public void onItemClick(WheelAdapter<?> parent, View view, int position,
-	    long id)
+    public void onItemClick(WheelAdapter<?> parent, View view, int position, long id)
     {
 
     }
-
 }
