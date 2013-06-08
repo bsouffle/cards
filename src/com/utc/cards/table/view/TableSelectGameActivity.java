@@ -13,9 +13,9 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.digitalaria.gama.wheel.Wheel;
 import com.utc.cards.R;
@@ -117,9 +117,9 @@ public class TableSelectGameActivity extends Activity
 
     private void updateGameToLaunchLabel(String name)
     {
-        TextView label = (TextView) findViewById(R.id.gameToLaunchLabel);
+        Button b = (Button) findViewById(R.id.selectGameButton);
 
-        label.setText(name);
+        b.setText(name);
     }
 
     // Récupère une liste d'objects Drawable à partir des jeux IGame et de leur ressource logo

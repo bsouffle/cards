@@ -25,6 +25,8 @@
         
         <Button
 	        android:id="@+id/playerModeButton"
+	        android:background="@drawable/red_button"
+	        style="@style/button_text"
 	        android:layout_width="120dp"
 	        android:layout_height="wrap_content"
 	        android:gravity="center"
@@ -33,6 +35,8 @@
 
 	    <Button
 	        android:id="@+id/hostModeButton"
+	        android:background="@drawable/red_button"
+	        style="@style/button_text"
 	        android:layout_width="120dp"
 	        android:layout_height="wrap_content"
 	        android:gravity="center"

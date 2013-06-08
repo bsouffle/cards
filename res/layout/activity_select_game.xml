@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background_gradient"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
@@ -30,25 +31,21 @@
 	    	android:layout_height="match_parent"
 	    	android:orientation="vertical"
 	    	android:gravity="bottom"
-	    	android:layout_marginBottom="10dp"
+	    	android:layout_marginBottom="20dp"
 	    	android:layout_centerHorizontal="true"
 	    	android:layout_alignParentBottom="true">
-            <TextView
-		        android:id="@+id/gameToLaunchLabel"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_gravity="center|center_vertical"
-		        android:layout_marginTop="5dp"
-		        android:text="Jeu à lancer" >
-		     </TextView>
-		     
+		    
+            
 		    <Button
 		        android:id="@+id/selectGameButton"
+		        android:background="@drawable/red_button"
+	        	style="@style/button_text"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_gravity="center|center_vertical"
 		        android:text="Lancer le jeu" 
 		        android:onClick="selectGameClick"/>
+		    
         </LinearLayout>
     </RelativeLayout>
         
