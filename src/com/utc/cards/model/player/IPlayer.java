@@ -17,4 +17,8 @@ public interface IPlayer
 
     public void setHand(Deck hand, String handType);
 
+    public void setScore(int newScore);
+
+    public int getScore();
+
 }

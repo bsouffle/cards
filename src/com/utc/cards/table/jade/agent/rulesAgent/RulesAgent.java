@@ -11,6 +11,7 @@ import android.content.Context;
 
 import com.utc.cards.model.HostModel;
 import com.utc.cards.model.card.Card;
+import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.player.IPlayer;
 
 public class RulesAgent extends Agent implements IRulesAgent
@@ -50,8 +51,6 @@ public class RulesAgent extends Agent implements IRulesAgent
 	}
 	//
 	// // Add initial behaviours
-	addBehaviour(new DetermineFirstPlayerBehaviour(this));
-
 	addBehaviour(new RulesListenerBehaviour(this));
 
 	// // Initialize the message used to convey spoken sentences
@@ -79,10 +78,39 @@ public class RulesAgent extends Agent implements IRulesAgent
     }
 
     @Override
-    public void sendAdvice(IPlayer player)
+    public void determinateFirstPlayer()
+    {
+	// TODO Auto-generated method stub
+	addBehaviour(new DetermineFirstPlayerBehaviour(this));
+
+    }
+
+    @Override
+    public void askAdvice(Deck hand, IPlayer player)
+    {
+	// TODO Auto-generated method stub
+	addBehaviour(new AskAdviceBehaviour(this, hand, player));
+
+    }
+
+    @Override
+    public void calculScore()
+    {
+	// TODO Auto-generated method stub
+	addBehaviour(new CalculScoreBehaviour(this));
+    }
+
+    @Override
+    public void initScore()
+    {
+	// TODO Auto-generated method stub
+	addBehaviour(new InitScoreBehaviour(this));
+    }
+
+    @Override
+    public void determinateWinnerCurrentFold()
     {
 	// TODO Auto-generated method stub
 
     }
-
 }

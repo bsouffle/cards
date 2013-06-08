@@ -1,197 +1,91 @@
 package com.utc.cards.player.view;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Point;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 
-import com.utc.cards.R;
-import com.utc.cards.common.view.CardView;
-import com.utc.cards.common.view.CardsContainer;
-import com.utc.cards.common.view.listener.SendDragListener;
-import com.utc.cards.model.card.Card;
-import com.utc.cards.player.jade.PlayerAgentManager;
+import com.utc.cards.Constants;
+import com.utc.cards.model.game.InfoType;
+import com.utc.cards.utils.Utils;
 
 public abstract class AbstractPlayerGameActivity extends Activity implements
 	IPlayerGameActivity
 {
+    protected MyReceiver myReceiver;
 
-    private static Logger _log = LoggerFactory
+    private static Logger log = LoggerFactory
 	    .getLogger(AbstractPlayerGameActivity.class);
+
     // private MyReceiver myReceiver;
-
-    private CardsContainer _cardsContainer;
-
-    private PlayerAgentManager _agentManager = PlayerAgentManager.instance();
-    private Point _screenDimention = new Point();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
 	super.onCreate(savedInstanceState);
+	// empeche mise en veille
 	getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	onCreateHook(savedInstanceState);
+
+	// récupération des agents
+	setContentView(getLayout());
+	registerReceivers();
+	onCreateHook();
 
     }
-
-    public abstract void onCreateHook(Bundle savedInstanceState);
-
-    public abstract void drawGameCards();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
 	// Inflate the menu; this adds items to the action bar if it is present.
-	getMenuInflater().inflate(R.menu.mainmenu, menu);
+	getMenuInflater().inflate(getMenu(), menu);
 	return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-	switch (item.getItemId()) {
-	case R.id.action_clue:
-	    _cardsContainer.centerCard("Club_4");
-	    break;
+    protected abstract int getMenu();
 
-	default:
-	    break;
-	}
+    public abstract int getLayout();
 
-	return true;
-    }
-
-    protected void drawCards(List<Card> cards)
-    {
-	final View view = findViewById(R.id.cardsLayout);
-
-	if (view != null)
-	{
-
-	    List<CardView> cardViews = new ArrayList<CardView>();
-
-	    for (Card card : cards)
-	    {
-		cardViews.add(new CardView(card, card.getResourceId(), view
-			.getContext()));
-	    }
-
-	    if (_screenDimention.y > 0)
-	    {
-		// Set the cards dimension according to the size of the display
-		// screen
-		int w = (int) (_screenDimention.x * 21 / 100);
-		CardView.CARD_WIDTH = w;
-
-		// Set margins
-		int m = (int) (_screenDimention.y * 3 / 100);
-
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-			LinearLayout.LayoutParams.MATCH_PARENT,
-			LinearLayout.LayoutParams.WRAP_CONTENT);
-
-		lp.setMargins(0, m, 0, m);
-		view.setLayoutParams(lp);
-
-		// The container of the cards
-		_cardsContainer = new CardsContainer((RelativeLayout) view,
-			_screenDimention, cardViews);
-	    }
-	}
-    }
-
-    protected void drawSendingPanel()
-    {
-	final View view = findViewById(R.id.sendingLayout);
-
-	if (view != null)
-	{
-	    if (_screenDimention.y > 0)
-	    {
-		int h = (int) (_screenDimention.y * 10 / 100);
-		view.setMinimumHeight(h);
-	    }
-
-	    view.setBackgroundColor(android.graphics.Color.GRAY);
-	    view.setOnDragListener(new SendDragListener(_cardsContainer));
-	}
-    }
-
-    protected void drawSeekBar()
-    {
-	final View view = findViewById(R.id.seekBar);
-
-	if (view != null)
-	{
-	    SeekBar bar = (SeekBar) view;
-
-	    bar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-
-		@Override
-		public void onProgressChanged(SeekBar arg0, int progress,
-			boolean arg2)
-		{
-		    // When the user changes the progress value, we change the
-		    // distance between cards
-		    CardsContainer.CARD_DISTANCE = progress;
-		    _cardsContainer.refresh();
-		}
-
-		@Override
-		public void onStartTrackingTouch(SeekBar arg0)
-		{
-		}
-
-		@Override
-		public void onStopTrackingTouch(SeekBar arg0)
-		{
-		}
-
-	    });
-	}
-    }
+    public abstract void onCreateHook();
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    protected void onDestroy()
     {
-	// if (requestCode == PARTICIPANTS_REQUEST) {
-	// if (resultCode == RESULT_OK) {
-	// // TODO: A partecipant was picked. Send a private message.
-	// }
-	// }
-	// }
+	super.onDestroy();
+	unregisterReceiver(myReceiver);
+	log.debug("Destroy activity!");
+    }
 
-	//
-	// private class MyReceiver extends BroadcastReceiver {
-	//
-	// @Override
-	// public void onReceive(Context context, Intent intent) {
-	// String action = intent.getAction();
-	// log.info("Received intent " + action);
-	// if (action.equalsIgnoreCase("jade.demo.chat.KILL")) {
-	// finish();
-	// }
-	// // if (action.equalsIgnoreCase("jade.demo.chat.SHOW_CHAT")) {
-	// // Intent showChat = new Intent(MainActivity.this,
-	// // DameDePiquePlayerActivity.class);
-	// // showChat.putExtra("nickname", nickname);
-	// // MainActivity.this
-	// // .startActivityForResult(showChat, CHAT_REQUEST);
-	// // }
-	// }
+    private class MyReceiver extends BroadcastReceiver
+    {
+
+	@Override
+	public void onReceive(Context context, Intent intent)
+	{
+	    String action = intent.getAction();
+	    log.info("Received intent " + action);
+	    if (action.equalsIgnoreCase(Constants.POP_INFO))
+	    {
+		Utils.showAlertDialog(getThis(),
+			intent.getStringExtra(InfoType.INFO.name()), false);
+	    }
+	}
+
+    }
+
+    public abstract Activity getThis();
+
+    private void registerReceivers()
+    {
+	myReceiver = new MyReceiver();
+	IntentFilter showChatFilter = new IntentFilter();
+	showChatFilter.addAction(Constants.POP_INFO);
+	registerReceiver(myReceiver, showChatFilter);
     }
 }

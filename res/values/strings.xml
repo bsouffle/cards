@@ -2,8 +2,9 @@
 <resources>
 
     <string name="app_name">CARDS</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="menu_clue">Indice</string>
+    <string name="menu_settings">Options</string>
+    <string name="menu_exit">Quitter</string>
     <string name="player">Joueur</string>
     <string name="host">Hôte</string>
     <string name="host_ip_address">Adresse IP de l\'hôte</string>
@@ -11,13 +12,23 @@
     <string name="title_activity_cards">CardsActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="title_activity_select_game">SelectGameActivity</string>
-    <string name="title_activity_launch_game">LaunchGameActivity</string>
-    <string name="title_activity_player_menu">PlayerMenuActivity</string>
-    <string name="title_activity_dameDePique_player_game">DameDePiqueActivity</string>
-    <string name="join">Rejoindre</string>
+    <string name="title_activity_select_game">Choix du jeu</string>
+    <string name="title_activity_launch_game">Attente des joueurs</string>
+    <string name="title_activity_player_menu">Connexion</string>
+    <string name="title_activity_dame_de_pique_player_game">Dame de Pique</string>
+    <string name="title_activity_dame_de_pique_table_game">Dame de Pique</string>
+    <string name="join">Rejoindre partie</string>
     <string name="play_card">Play Card</string>
     <string name="msg_interface_exc">Erreur interface lors de la récupération d\'un agent</string>
     <string name="msg_controller_exc">Erreur controller lors de la récupération d\'un agent</string>
+    <string name="selectDDP">Dame de pique</string>
+    <string name="gameStartButton">Démarrer la partie</string>
+    <string name="playerList">Liste des joueurs</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="label_host">Adresse IP du serveur :</string>
+    <string name="button_save">Sauvegarder</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
     
 </resources>

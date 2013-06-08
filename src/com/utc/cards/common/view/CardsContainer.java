@@ -1,9 +1,7 @@
 package com.utc.cards.common.view;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Context;
 import android.graphics.Point;
 import android.widget.RelativeLayout;
 

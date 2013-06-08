@@ -13,8 +13,7 @@ import com.utc.cards.model.player.IPlayer;
 public class TableController
 {
 
-    private static Logger _log = LoggerFactory
-	    .getLogger(TableController.class);
+    private static Logger _log = LoggerFactory.getLogger(TableController.class);
 
     private IGame _game;
 
@@ -23,7 +22,7 @@ public class TableController
 	_log.debug("loadGame()");
 
 	setGame(game);
-	
+
 	// wait for players / IA to subscribe
 	startSubscription();
     }
@@ -32,50 +31,51 @@ public class TableController
     public void launchGame()
     {
 	_log.debug("launchGame()");
-	completePlayersWithIA();
+	// completePlayersWithIA();
 	distributeInitialCards();
 	notifyTurn(_game.getPlayers().get(0));
     }
 
-    private void completePlayersWithIA()
-    {
-	_log.debug("completePlayersWithIA()");
-	int actualPlayerCount = _game.getPlayers().size();
-
-	if (_game.getMinPlayerCount() != 0)
-	{
-	    int neededIACount = 0;
-	    // might need to add IA
-	    if (_game.getLegalPlayerCounts().length != 0)
-	    {
-		int smallestLegalPlayerCount = 0;
-		for (int i = 0; i < _game.getLegalPlayerCounts().length; i++)
-		{
-		    if (_game.getLegalPlayerCounts()[i] > actualPlayerCount)
-		    {
-			smallestLegalPlayerCount = _game.getLegalPlayerCounts()[i];
-			break;
-		    }
-		}
-
-		neededIACount = smallestLegalPlayerCount - actualPlayerCount;
-	    } else
-	    {
-		neededIACount = _game.getMinPlayerCount() - actualPlayerCount;
-
-	    }
-	    for (int i = 0; i < neededIACount; i++)
-	    {
-		addIAPlayer();
-	    }
-	}
-    }
+    // private void completePlayersWithIA()
+    // {
+    // _log.debug("completePlayersWithIA()");
+    // int actualPlayerCount = _game.getPlayers().size();
+    //
+    // if (_game.getMinPlayerCount() != 0)
+    // {
+    // int neededIACount = 0;
+    // // might need to add IA
+    // if (_game.getLegalPlayerCounts().length != 0)
+    // {
+    // int smallestLegalPlayerCount = 0;
+    // for (int i = 0; i < _game.getLegalPlayerCounts().length; i++)
+    // {
+    // if (_game.getLegalPlayerCounts()[i] > actualPlayerCount)
+    // {
+    // smallestLegalPlayerCount = _game.getLegalPlayerCounts()[i];
+    // break;
+    // }
+    // }
+    //
+    // neededIACount = smallestLegalPlayerCount - actualPlayerCount;
+    // } else
+    // {
+    // neededIACount = _game.getMinPlayerCount() - actualPlayerCount;
+    //
+    // }
+    // for (int i = 0; i < neededIACount; i++)
+    // {
+    // addIAPlayer();
+    // }
+    // }
+    // }
 
     // use rules via behaviours
     private void distributeInitialCards()
     {
 	_log.debug("distributeInitialCards()");
-	List<Deck> hands = _game.getRules().getInitialCardDistribution(_game.getDeck(), _game.getPlayers());
+	List<Deck> hands = _game.getRules().getInitialCardDistribution(
+		_game.getDeck(), _game.getPlayers());
 
 	// TODO check order, use the same index ?
 

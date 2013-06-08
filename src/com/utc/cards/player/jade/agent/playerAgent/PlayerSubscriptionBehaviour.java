@@ -39,6 +39,7 @@ public class PlayerSubscriptionBehaviour extends Behaviour
 	subscription.setConversationId(convId);
 	subscription.addReceiver(new AID(Constants.CARDS_HOST_AGENT_NAME,
 		AID.ISLOCALNAME));
+	subscription.setContent(agent.getGmail());
 	log.debug("send SUBSCRIPTION");
 	agent.send(subscription);
 
@@ -62,9 +63,9 @@ public class PlayerSubscriptionBehaviour extends Behaviour
 		agent.onGameSubscriptionAgree();
 		break;
 	    case ACLMessage.REFUSE:
-		// display message "partie pleine"
 		log.debug("received REFUSE");
 
+		// display message "partie pleine"
 		agent.onGameSubscriptionRefuse();
 		break;
 	    }

@@ -1,6 +1,8 @@
 package com.utc.cards.model.game;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 
 import com.utc.cards.model.HostModel;
 import com.utc.cards.model.card.Card;
@@ -16,5 +18,13 @@ public interface IRules
     public IPlayer determineFirstPlayer(final Deck deck, List<IPlayer> players);
 
     public boolean validerCoup(List<Card> Cards, IPlayer player, HostModel model);
+
+    public Card conseilCoup(Deck handPlayer, IPlayer player, HostModel model);
+
+    public int getInitialScore();
+
+    public Map<String, Deck> calculScore(Stack<Fold> plisFini);
+
+    public void determinateWinnerCurrentFold();
 
 }

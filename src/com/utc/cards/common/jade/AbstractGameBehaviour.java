@@ -5,7 +5,8 @@ import jade.core.behaviours.Behaviour;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractGameBehaviour extends Behaviour
+public abstract class AbstractGameBehaviour extends Behaviour implements
+	IGameBehaviour
 {
 
     private static final long serialVersionUID = 4022889241349356796L;

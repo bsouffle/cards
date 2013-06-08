@@ -5,6 +5,18 @@ public class Info
     private InfoType type;
     private String json;
 
+    public Info()
+    {
+	super();
+    }
+
+    public Info(InfoType type, String json)
+    {
+	super();
+	this.type = type;
+	this.json = json;
+    }
+
     public InfoType getType()
     {
 	return type;

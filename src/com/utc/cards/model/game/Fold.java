@@ -23,7 +23,7 @@ public class Fold implements Parcelable
     {
 	return foldCards.get(player);
     }
-
+    
     public Map<String, Deck> getFoldCards()
     {
 	return foldCards;

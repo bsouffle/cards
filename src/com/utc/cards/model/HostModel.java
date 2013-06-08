@@ -1,5 +1,8 @@
 package com.utc.cards.model;
 
+import jade.core.AID;
+
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
@@ -19,19 +22,21 @@ public class HostModel
     /**
      * l'état actuel des mains des joueurs
      */
-    private Map<IPlayer, Map<String, Deck>> _playerHands;
+    private Map<IPlayer, Map<String, Deck>> _playerHands = new HashMap<IPlayer, Map<String, Deck>>();
     /**
      * l'état actuel des cartes de l'hôte
      */
-    private Map<String, Deck> _hostDecks;
+    private Map<String, Deck> _hostDecks = new HashMap<String, Deck>();
     /**
      * les plis précédents
      */
-    private Stack<Fold> _oldFolds;
+    private Stack<Fold> _oldFolds = new Stack<Fold>();
     /**
      * le pli courant
      */
     private Fold _currentFold;
+
+    private Map<String, AID> _playersMap = new HashMap<String, AID>();
 
     public HostModel()
     {
@@ -92,6 +97,11 @@ public class HostModel
     public void setCurrentFold(Fold currentFold)
     {
 	this._currentFold = currentFold;
+    }
+
+    public Map<String, AID> getPlayersMap()
+    {
+	return _playersMap;
     }
 
 }

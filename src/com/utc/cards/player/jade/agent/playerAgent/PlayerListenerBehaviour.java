@@ -33,17 +33,24 @@ public class PlayerListenerBehaviour extends CyclicBehaviour
 		{
 		    info = Mapper.getObjectMapper().readValue(msg.getContent(),
 			    Info.class);
-		} catch (Exception ex)
+		} catch (Exception e)
 		{
-
+		    e.printStackTrace();
 		}
 		switch (info.getType()) {
 		case INFO:
 		    agent.notifyInfo(info.getJson());
 		    break;
 		case PLAYERS_LIST:
-		    String players[] = info.getJson().split("|");
-		    agent.notifyPlayersChanged(players);
+		    if (info.getJson().contains("|"))
+		    {
+			String players[] = info.getJson().split("|");
+			agent.notifyPlayersChanged(players);
+		    } else
+		    {
+			String players[] = { info.getJson() };
+			agent.notifyPlayersChanged(players);
+		    }
 		    break;
 		case PLAYER_TURN:
 		    agent.onPlayerTurn();

@@ -21,6 +21,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <service android:name="jade.android.MicroRuntimeService" />
+        <service android:name="jade.android.RuntimeService" />
 
         <activity
             android:name="com.utc.cards.common.view.impl.CardsActivity"
@@ -46,7 +47,15 @@
         </activity>
         <activity
             android:name="com.utc.cards.games.damedepique.DameDePiquePlayerGameActivity"
-            android:label="@string/title_activity_dameDePique_player_game" >
+            android:label="@string/title_activity_dame_de_pique_player_game" >
+        </activity>
+        <activity
+            android:name="com.utc.cards.games.damedepique.DameDePiqueTableGamActivity"
+            android:label="@string/title_activity_dame_de_pique_table_game" >
+        </activity>
+        <activity
+            android:name="com.utc.cards.common.view.impl.SettingsActivity"
+            android:label="@string/title_activity_settings" >
         </activity>
     </application>
 

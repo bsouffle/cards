@@ -32,5 +32,7 @@ public class InitialCardDistributionBehaviour extends OneShotBehaviour
 	// TODO Auto-generated method stub
 	List<Deck> cardDistribution = rules.getInitialCardDistribution(deck,
 		players);
+	// TODO: envoyer des messages avec les cartes aux différents joueur
+	// TODO: enregistrer dans le modèle les différents mains des joueurs
     }
 }

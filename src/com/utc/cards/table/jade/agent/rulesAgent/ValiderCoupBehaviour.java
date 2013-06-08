@@ -34,6 +34,12 @@ public class ValiderCoupBehaviour extends OneShotBehaviour
     {
 	// TODO Auto-generated method stub
 	boolean response = rules.validerCoup(Cards, player, model);
+
+	// TODO: envoie response au joueur
+	if (response)
+	{
+	    // TODO: envoie carte et nom du joueur à l'agent game
+	}
     }
 
 }

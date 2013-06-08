@@ -2,12 +2,15 @@ package com.utc.cards.games.damedepique;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 
 import com.utc.cards.R;
 import com.utc.cards.model.HostModel;
 import com.utc.cards.model.card.Card;
 import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.game.AbstractGameRules;
+import com.utc.cards.model.game.Fold;
 import com.utc.cards.model.player.IPlayer;
 
 public class DameDePiqueRules extends AbstractGameRules
@@ -18,7 +21,7 @@ public class DameDePiqueRules extends AbstractGameRules
 	    final List<IPlayer> players)
     {
 	Card deuxDeTrefle = deck.getCardByResourceId(R.raw.cards_2c);
-	// celui qui a le deux de tr�fle commence
+	// celui qui a le deux de trêfle commence
 	IPlayer firstPlayer = null;
 	for (IPlayer player : players)
 	{
@@ -70,6 +73,34 @@ public class DameDePiqueRules extends AbstractGameRules
     {
 	// TODO Auto-generated method stub
 	return false;
+    }
+
+    @Override
+    public Card conseilCoup(Deck handPlayer, IPlayer player, HostModel model)
+    {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public int getInitialScore()
+    {
+	// TODO Auto-generated method stub
+	return 0;
+    }
+
+    @Override
+    public Map<String, Deck> calculScore(Stack<Fold> plisFini)
+    {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public void determinateWinnerCurrentFold()
+    {
+	// TODO Auto-generated method stub
+
     }
 
 }

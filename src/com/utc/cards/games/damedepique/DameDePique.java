@@ -1,8 +1,13 @@
 package com.utc.cards.games.damedepique;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.utc.cards.R;
+import com.utc.cards.common.jade.IGameBehaviour;
 import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.deck.Traditionnal52Deck;
 import com.utc.cards.model.game.AbstractGame;
@@ -14,15 +19,21 @@ public class DameDePique extends AbstractGame
     private static Logger _log = LoggerFactory.getLogger(DameDePique.class);
 
     private static final int MIN_PLAYERS = 4;
-    private static final int MAX_PLAYERS = 4; // une variante � 6 de la dame de
+    private static final int MAX_PLAYERS = 4; // une variante à 6 de la dame de
 					      // pique existe bien, mais je ne
 					      // connais pour le moment pas les
-					      // r�gles.
-    private static final int[] LEGAL_PLAYER_COUNT = { MIN_PLAYERS, MAX_PLAYERS };
+					      // règles.
+    private static final List<Integer> LEGAL_PLAYER_COUNT = new ArrayList<Integer>();
+    static
+    {
+	LEGAL_PLAYER_COUNT.add(MIN_PLAYERS);
+	LEGAL_PLAYER_COUNT.add(MAX_PLAYERS);
+    }
 
     public DameDePique()
     {
 	super("Dame de Pique", LEGAL_PLAYER_COUNT);
+	setLogoResource(R.drawable.logo_dame_de_pique);
     }
 
     // @Override
@@ -33,7 +44,7 @@ public class DameDePique extends AbstractGame
     // }
 
     @Override
-    public int[] getLegalPlayerCounts()
+    public List<Integer> getLegalPlayerCounts()
     {
 	return LEGAL_PLAYER_COUNT;
     }
@@ -62,6 +73,12 @@ public class DameDePique extends AbstractGame
     public DameDePiquePlayerGameActivity createPlayerGameActivity()
     {
 	return new DameDePiquePlayerGameActivity();
+    }
+
+    @Override
+    public IGameBehaviour createGameBehaviour()
+    {
+	return new DameDePiqueGameBehaviour();
     }
 
 }

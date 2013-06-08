@@ -1,86 +1,42 @@
 package com.utc.cards.player.view;
 
 import static com.utc.cards.Constants.GMAIL;
-import static com.utc.cards.Constants.HOST_IP;
 import static com.utc.cards.Constants.JADE_CARDS_PREFS_FILE;
-import static com.utc.cards.Constants.LOCAL_IP;
-import jade.core.MicroRuntime;
-import jade.wrapper.ControllerException;
-import jade.wrapper.StaleProxyException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.Menu;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.utc.cards.Constants;
 import com.utc.cards.R;
 import com.utc.cards.model.PlayerModel;
-import com.utc.cards.player.jade.AgentActivityListener;
-import com.utc.cards.player.jade.PlayerAgentManager;
-import com.utc.cards.player.jade.agent.playerAgent.IPlayerAgent;
-import com.utc.cards.player.jade.agent.playerHelperAgent.IPlayerHelperAgent;
+import com.utc.cards.model.game.InfoType;
 import com.utc.cards.utils.Utils;
+//import com.utc.cards.player.jade.PlayerAgentManager;
+//import com.utc.cards.player.jade.agent.playerAgent.IPlayerAgent;
+//import com.utc.cards.player.jade.agent.playerHelperAgent.IPlayerHelperAgent;
 
 public class PlayerMenuActivity extends Activity
 {
-
-    private class AgentStartListener implements AgentActivityListener
-    {
-
-	@Override
-	public void onAllAgentsReady()
-	{
-	    // mHandler to update view from another thread
-	    mHandler.post(new Runnable() {
-
-		@Override
-		public void run()
-		{
-		    log.info("onAllAgentsReady");
-		    final Button button = (Button) PlayerMenuActivity.this
-			    .findViewById(R.id.joinButton);
-		    button.setEnabled(true);
-		    // tous les agents sont prets
-		    // on initialise les interfaces pour pouvoir les utiliser
-		    loadPlayerAgent();
-		    loadPlayerHelperAgent();
-		}
-
-	    });
-
-	}
-    }
-
     private static Logger log = LoggerFactory
 	    .getLogger(PlayerMenuActivity.class);
 
-    private Handler mHandler = new Handler();
-    private IPlayerAgent playerAgent;
-    private IPlayerHelperAgent playerHelperAgent;
+    // private Handler mHandler = new Handler();
+    // private IPlayerAgent playerAgent;
+    // private IPlayerHelperAgent playerHelperAgent;
 
     private MyReceiver myReceiver;
-
-    //
-    // private CardsContainer _cardsContainer;
-    //
-    // private PlayerAgentManager agentManager = PlayerAgentManager.instance();
-    // private Point _screenDimention = new Point();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -88,28 +44,14 @@ public class PlayerMenuActivity extends Activity
 	super.onCreate(savedInstanceState);
 	getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	setContentView(R.layout.activity_player_menu);
-	// if (AndroidHelper.isEmulator())
-	// {
-	// // Emulator: this is needed to work with emulated devices
-	// editText.setText(AndroidHelper.LOOPBACK);
-	// } else
-	// {
-
-	SharedPreferences settings = getSharedPreferences(
-		JADE_CARDS_PREFS_FILE, Context.MODE_PRIVATE);
-	String localHost = settings.getString(LOCAL_IP, "");
-	// Ce n'est pas la bonne adresse, mais comme il faut être sur le même
-	// réseau on peut afficher la même adresse ip pour la corriger plus
-	// rapidement
-	String localIpAddress = localHost;
-
-	final EditText hostIpAddressEditText = (EditText) findViewById(R.id.hostIpAddressEditText);
-	hostIpAddressEditText.setText(localIpAddress);
 
 	registerReceivers();
 
+	SharedPreferences settings = getSharedPreferences(
+		JADE_CARDS_PREFS_FILE, Context.MODE_PRIVATE);
 	String gmailAddress = settings.getString(GMAIL, "");
-	final TextView googleAccountTextView = (TextView) findViewById(R.id.googleAccountTextView);
+
+	TextView googleAccountTextView = (TextView) findViewById(R.id.googleAccountTextView);
 	googleAccountTextView.setText("Google Account : " + gmailAddress);
     }
 
@@ -119,70 +61,26 @@ public class PlayerMenuActivity extends Activity
 	IntentFilter showChatFilter = new IntentFilter();
 	showChatFilter.addAction(Constants.SHOW_GAME);
 	registerReceiver(myReceiver, showChatFilter);
-    }
 
-    public void connect(View view)
-    {
-	final EditText ipAddressEditText = (EditText) findViewById(R.id.hostIpAddressEditText);
-	String hostIp = ipAddressEditText.getText().toString();
+	IntentFilter popInfoFilter = new IntentFilter();
+	popInfoFilter.addAction(Constants.POP_INFO);
+	registerReceiver(myReceiver, popInfoFilter);
 
-	SharedPreferences settings = getSharedPreferences(
-		JADE_CARDS_PREFS_FILE, Context.MODE_PRIVATE);
-	String localIp = settings.getString(LOCAL_IP, "");
+	IntentFilter playerListFilter = new IntentFilter();
+	playerListFilter.addAction(Constants.PLAYER_LIST);
+	registerReceiver(myReceiver, playerListFilter);
 
-	boolean ipsValids = Utils.validateIps(hostIp, localIp);
-
-	if (ipsValids)
-	{
-	    log.info("PlayerMenuActivity.connect : ipsValids (local: "
-		    + localIp + ", host: " + hostIp + ")");
-	    log.info("PlayerMenuActivity.connect : try starting jade platform");
-
-	    log.info("JADE_CARDS_PREFS_FILE :");
-	    log.info(HOST_IP + " = " + hostIp);
-	    SharedPreferences.Editor editor = settings.edit();
-	    editor.putString(HOST_IP, hostIp);
-	    editor.commit();
-
-	    // auto add some behaviour in agent.startup()
-	    PlayerAgentManager.instance().startAgents(this,
-		    settings.getString(GMAIL, ""), new AgentStartListener());
-	} else
-	{
-	    log.info("ips invalid");
-	}
-
+	IntentFilter gameNameFilter = new IntentFilter();
+	gameNameFilter.addAction(Constants.GAME_NAME);
+	registerReceiver(myReceiver, gameNameFilter);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
+    protected void onDestroy()
     {
-	// Inflate the menu; this adds items to the action bar if it is present.
-	getMenuInflater().inflate(R.menu.player_menu, menu);
-	return true;
-    }
-
-    //
-    // private void getScreenSize() {
-    // Display display = getWindowManager().getDefaultDisplay();
-    // display.getSize(_screenDimention);
-    // }
-    //
-
-    private void showAlertDialog(String message, final boolean fatal)
-    {
-	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	builder.setMessage(message).setCancelable(false)
-		.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-		    public void onClick(DialogInterface dialog, int id)
-		    {
-			dialog.cancel();
-			if (fatal)
-			    finish();
-		    }
-		});
-	AlertDialog alert = builder.create();
-	alert.show();
+	super.onDestroy();
+	unregisterReceiver(myReceiver);
+	log.debug("Destroy activity!");
     }
 
     private class MyReceiver extends BroadcastReceiver
@@ -193,54 +91,58 @@ public class PlayerMenuActivity extends Activity
 	{
 	    String action = intent.getAction();
 	    log.info("Received intent " + action);
+
 	    if (action.equalsIgnoreCase(Constants.SHOW_GAME))
-	    {
+	    { // lance l'activity de jeu
 		IPlayerGameActivity activity = PlayerModel.Instance().getGame()
 			.createPlayerGameActivity();
 		Intent showChat = new Intent(PlayerMenuActivity.this,
 			activity.getClass());
 		PlayerMenuActivity.this.startActivity(showChat);
+
+	    } else if (action.equalsIgnoreCase(Constants.POP_INFO))
+	    { // afficher une info
+		Utils.showAlertDialog(PlayerMenuActivity.this,
+			intent.getStringExtra(InfoType.INFO.name()), false);
+
+	    } else if (action.equalsIgnoreCase(Constants.PLAYER_LIST))
+	    { // met à jour la liste des joueurs
+		String[] players = intent
+			.getStringArrayExtra(Constants.PLAYER_LIST);
+		ListView playerList = (ListView) findViewById(R.id.playerList);
+		playerList.setAdapter(new ArrayAdapter<String>(
+			PlayerMenuActivity.this,
+			android.R.layout.simple_list_item_1, players));
+
+	    } else if (action.equalsIgnoreCase(Constants.GAME_NAME))
+	    { // met à jour le nom du jeu
+		TextView gameName = (TextView) findViewById(R.id.gameNamePlayerMenu);
+		gameName.setText(intent.getStringExtra(Constants.GAME_NAME));
 	    }
+
 	}
     }
 
-    private void loadPlayerAgent()
-    {
-	try
-	{
-	    SharedPreferences settings = getSharedPreferences(
-		    JADE_CARDS_PREFS_FILE, Context.MODE_PRIVATE);
-	    playerAgent = MicroRuntime.getAgent(
-		    Constants.CARDS_PLAYER_AGENT_NAME + "-"
-			    + settings.getString(GMAIL, "")).getO2AInterface(
-		    IPlayerAgent.class);
-	    log.debug("playerAgent loaded !");
-	} catch (StaleProxyException e)
-	{
-	    showAlertDialog(getString(R.string.msg_interface_exc), true);
-	} catch (ControllerException e)
-	{
-	    showAlertDialog(getString(R.string.msg_controller_exc), true);
-	}
-    }
-
-    private void loadPlayerHelperAgent()
-    {
-	try
-	{
-	    SharedPreferences settings = getSharedPreferences(
-		    JADE_CARDS_PREFS_FILE, Context.MODE_PRIVATE);
-	    playerHelperAgent = MicroRuntime.getAgent(
-		    Constants.CARDS_PLAYER_HELPER_AGENT_NAME + "-"
-			    + settings.getString(GMAIL, "")).getO2AInterface(
-		    IPlayerHelperAgent.class);
-	    log.debug("playerHelperAgent loaded !");
-	} catch (StaleProxyException e)
-	{
-	    showAlertDialog(getString(R.string.msg_interface_exc), true);
-	} catch (ControllerException e)
-	{
-	    showAlertDialog(getString(R.string.msg_controller_exc), true);
-	}
-    }
+    // private void loadPlayerAgent()
+    // {
+    // SharedPreferences settings = getSharedPreferences(
+    // JADE_CARDS_PREFS_FILE, Context.MODE_PRIVATE);
+    // playerAgent = PlayerAgentManager.instance().getAgent(
+    // this,
+    // Constants.CARDS_PLAYER_AGENT_NAME + "-"
+    // + settings.getString(GMAIL, ""), IPlayerAgent.class);
+    // log.debug("playerAgent loaded !");
+    // }
+    //
+    // private void loadPlayerHelperAgent()
+    // {
+    // SharedPreferences settings = getSharedPreferences(
+    // JADE_CARDS_PREFS_FILE, Context.MODE_PRIVATE);
+    // playerHelperAgent = PlayerAgentManager.instance().getAgent(
+    // this,
+    // Constants.CARDS_PLAYER_HELPER_AGENT_NAME + "-"
+    // + settings.getString(GMAIL, ""),
+    // IPlayerHelperAgent.class);
+    // log.debug("playerAgent loaded !");
+    // }
 }

@@ -15,53 +15,37 @@
         android:layout_alignParentTop="true"
         android:orientation="vertical" >
 
-          <TextView
+        <TextView
             android:id="@+id/googleAccountTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|center_vertical"
             android:text="" />
-          
-        <TextView
-            android:id="@+id/hostIpAddressTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|center_vertical"
-            android:text="@string/host_ip_address" />
 
-        <EditText
-            android:id="@+id/hostIpAddressEditText"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10" >
+            android:layout_height="wrap_content" >
 
-            <requestFocus />
-        </EditText>
-
-        <Button
-            android:id="@+id/connectButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|center_vertical"
-            android:text="@string/connect"
-            android:onClick="connect" />
+            <Button
+                android:id="@+id/joinButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:onClick="join"
+                android:text="@string/join" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/gameName"
+            android:id="@+id/gameNamePlayerMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|center_vertical"
-            android:layout_marginTop="50dp"
-            android:text="NomDuJeu" />
+            android:layout_marginTop="50dp" />
 
-        <Button
-            android:id="@+id/joinButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|center_vertical"
-            android:enabled="false"
-            android:text="@string/join" 
-            android:onClick="join"/>
+        <ListView
+            android:id="@+id/playerList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </ListView>
     </LinearLayout>
 
 </RelativeLayout>

@@ -6,13 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.content.Context;
+import android.content.Intent;
 
+import com.utc.cards.Constants;
 import com.utc.cards.model.HostModel;
-//import jade.core.AID;
-//import jade.domain.DFService;
-//import jade.domain.FIPAException;
-//import jade.domain.FIPAAgentManagement.DFAgentDescription;
-//import jade.domain.FIPAAgentManagement.ServiceDescription;
+import com.utc.cards.model.game.InfoType;
 
 public class HostAgent extends Agent implements IHostAgent
 {
@@ -55,7 +53,7 @@ public class HostAgent extends Agent implements IHostAgent
 	}
 
 	// écoute la plupart des demandes des playerAgent
-	// addBehaviour(new HostListenerBehaviour(this));
+	addBehaviour(new HostListenerBehaviour(this));
 
 	// Behaviour d'inscription au jeu
 	log.debug("addBehaviour : SubscriptionBehaviour");
@@ -66,11 +64,13 @@ public class HostAgent extends Agent implements IHostAgent
 	registerO2AInterface(IHostAgent.class, this);
     }
 
+    // envoie le nom du jeu à tous les joueurs
     @Override
     public void sendGameSelected()
     {
-	// TODO Auto-generated method stub
-
+	log.debug("sendGameSelected() addBehaviour : InfoBehaviour");
+	addBehaviour(new InfoBehaviour(this, InfoType.GAME_SELECTION, model
+		.getGame().getName(), model.getPlayersMap().values()));
     }
 
     @Override
@@ -95,6 +95,12 @@ public class HostAgent extends Agent implements IHostAgent
     public HostModel getModel()
     {
 	return model;
+    }
+
+    public void onPlayerJoin(String playerName)
+    {
+	Intent intent = new Intent(Constants.PLAYER_JOIN);
+	context.sendBroadcast(intent);
     }
 
 }

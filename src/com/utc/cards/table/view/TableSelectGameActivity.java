@@ -1,28 +1,128 @@
 package com.utc.cards.table.view;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.SortedSet;
 
-import com.utc.cards.R;
-import com.utc.cards.R.layout;
-import com.utc.cards.R.menu;
-import com.utc.cards.games.damedepique.DameDePique;
-import com.utc.cards.model.game.IGame;
-import com.utc.cards.table.TableController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.Display;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
+import com.digitalaria.gama.wheel.Wheel;
+import com.utc.cards.Constants;
+import com.utc.cards.R;
+import com.utc.cards.games.GameContainer;
+import com.utc.cards.model.HostModel;
+import com.utc.cards.model.game.IGame;
+import com.utc.cards.table.jade.agent.HostAgentManager;
+import com.utc.cards.table.jade.agent.hostAgent.IHostAgent;
 
 public class TableSelectGameActivity extends Activity
 {
-    private Map<String, IGame> games = new HashMap<String, IGame>();
-    private IGame selectedGame = null;
-    private TableController _controller;
 
-    public TableSelectGameActivity()
+    private static Logger log = LoggerFactory
+	    .getLogger(TableSelectGameActivity.class);
+    private IHostAgent hostAgent;
+    private Handler mHandler = new Handler();
+
+    private IGame _selectedGame = null;
+
+    private Resources _res;
+    private Wheel _wheel;
+    private ArrayList<IGame> _games;
+    private Point _screenDimention = new Point();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
     {
-	_controller = new TableController();
+	super.onCreate(savedInstanceState);
+	setContentView(R.layout.activity_select_game);
+	SortedSet<String> games = GameContainer.getCompleteGameNameList();
+	// chargement des jeux pour afficher la liste
+	_games = new ArrayList<IGame>(GameContainer.getGames());
+
+	// Arrangement graphique pour la roue: s'il y a moins de 6 jeux, on
+	// duplique le premier jeu
+	while (_games.size() < 6 && _games.size() > 0)
+	{
+	    _games.add(_games.get(0));
+	}
+
+	getScreenSize();
+
+	drawCarousel();
+    }
+
+    private void drawCarousel()
+    {
+	_res = getApplicationContext().getResources();
+
+	int diameter = (int) (_screenDimention.x / 1.3);
+
+	_wheel = (Wheel) findViewById(R.id.wheel);
+	_wheel.setItems(getDrawableFromData(_games));
+
+	_wheel.setWheelDiameter(diameter);
+
+	MyWheelListener wl = new MyWheelListener(_wheel, this);
+
+	_wheel.setOnItemClickListener(wl);
+	_wheel.setOnItemSelectionUpdatedListener(wl);
+
+	LinearLayout l = (LinearLayout) findViewById(R.id.wheelContainer);
+	RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+		RelativeLayout.LayoutParams.WRAP_CONTENT,
+		RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+	lp.bottomMargin = (int) (-_screenDimention.y);
+
+	l.setLayoutParams(lp);
+
+	setGameToLaunch(0); // Par dÃ©faut le jeu Ã  lancer est le premier de la
+			    // liste
+    }
+
+    private void updateGameToLaunchLabel(String name)
+    {
+	Button b = (Button) findViewById(R.id.selectGameButton);
+
+	b.setText(name);
+    }
+
+    // RÃ©cupÃ¨re une liste d'objects Drawable Ã  partir des jeux IGame et de
+    // leur ressource logo
+    private Drawable[] getDrawableFromData(ArrayList<IGame> data)
+    {
+	Drawable[] ret = new Drawable[data.size()];
+	int i = 0;
+
+	for (IGame g : data)
+	{
+	    Drawable tmp = _res.getDrawable(g.getLogoResource());
+
+	    double diff = (double) tmp.getIntrinsicHeight()
+		    / (double) tmp.getIntrinsicWidth();
+
+	    double w = _screenDimention.x * 0.2;
+	    double h = w * diff;
+
+	    ret[i++] = resize(tmp, w, h);
+	}
+
+	return ret;
     }
 
     public void launchSelectedGame()
@@ -30,28 +130,79 @@ public class TableSelectGameActivity extends Activity
 	IGame selectedGame = getSelectedGame();
 	if (selectedGame != null)
 	{
-	    _controller.loadGame(selectedGame);
+	    log.debug("launchSelectedGame");
+	    // la validation de la selection charge le jeu dans le model
+
+	    HostModel.Instance().setGame(selectedGame);
+	    // informe les joueurs du jeu selectionne
+	    // hostAgent.sendGameSelected();
+	    // affiche l'écran d'inscription
+	    Intent intent = new Intent(this, TableLaunchGameActivity.class);
+	    startActivity(intent);
 	}
     }
 
     private IGame getSelectedGame()
     {
-	return selectedGame;
+	return _selectedGame;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
+    private void getScreenSize()
     {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.activity_select_game);
+	Display display = getWindowManager().getDefaultDisplay();
+	display.getSize(_screenDimention);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
+    private void loadHostAgent()
     {
-	// Inflate the menu; this adds items to the action bar if it is present.
-	getMenuInflater().inflate(R.menu.select_game, menu);
-	return true;
+	log.debug("loadHostAgent()");
+	// mHandler to update view from another thread
+	mHandler.post(new Runnable() {
+
+	    @Override
+	    public void run()
+	    {
+		hostAgent = HostAgentManager.instance().getAgent(
+			TableSelectGameActivity.this,
+			Constants.CARDS_HOST_AGENT_NAME, IHostAgent.class);
+		log.debug("hostAgent loaded !");
+
+	    }
+
+	});
+
     }
 
+    public IHostAgent getHostAgent()
+    {
+	return hostAgent;
+    }
+
+    public void setGameToLaunch(int index)
+    {
+	_selectedGame = _games.get(index);
+
+	updateGameToLaunchLabel(_selectedGame.getName());
+    }
+
+    // Pour redimensionner un objet Drawable
+    private Drawable resize(Drawable image, double w, double h)
+    {
+	Bitmap d = ((BitmapDrawable) image).getBitmap();
+	Bitmap bitmapOrig = Bitmap.createScaledBitmap(d, (int) w, (int) h,
+		false);
+
+	return new BitmapDrawable(bitmapOrig);
+    }
+
+    // MÃ©thode "OnClick" liÃ©e Ã  la vue
+    public void selectGameClick(View view)
+    {
+	System.out.println("Launch Game");
+
+	launchSelectedGame();
+
+	Intent intent = new Intent(this, TableLaunchGameActivity.class);
+	startActivity(intent);
+    }
 }

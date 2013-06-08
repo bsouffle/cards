@@ -7,8 +7,11 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -22,8 +25,8 @@ public class Utils
     public static boolean validateIps(String hostIp, String localIp)
     {
 	_log.debug("validateIps({},{})", hostIp, localIp);
-	return validateIp(hostIp) && validateIp(localIp)
-		&& sameNetwork(hostIp, localIp);
+	return !hostIp.equals(localIp) && validateIp(hostIp)
+		&& validateIp(localIp) && sameNetwork(hostIp, localIp);
     }
 
     private static boolean validateIp(String ip)
@@ -202,5 +205,24 @@ public class Utils
 	    out.writeStringArray(new String[0]);
 	    out.writeBundle(Bundle.EMPTY);
 	}
+    }
+
+    public static void showAlertDialog(final Activity activity, String message,
+	    final boolean fatal)
+    {
+
+	AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+	builder.setMessage(message).setCancelable(false)
+		.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialog, int id)
+		    {
+			dialog.cancel();
+			if (fatal)
+			    activity.finish();
+		    }
+		});
+	AlertDialog alert = builder.create();
+	alert.show();
+
     }
 }

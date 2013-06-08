@@ -1,6 +1,5 @@
 package com.utc.cards.model.player;
 
-
 public class IAPlayer extends AbstractPlayer
 {
 

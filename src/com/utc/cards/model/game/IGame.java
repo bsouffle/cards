@@ -2,6 +2,7 @@ package com.utc.cards.model.game;
 
 import java.util.List;
 
+import com.utc.cards.common.jade.IGameBehaviour;
 import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.player.IPlayer;
 import com.utc.cards.player.view.IPlayerGameActivity;
@@ -13,6 +14,8 @@ public interface IGame
     public ITableGameActivity createTableGameActivity();
 
     public IPlayerGameActivity createPlayerGameActivity();
+
+    public IGameBehaviour createGameBehaviour();
 
     public String getName();
 
@@ -38,10 +41,14 @@ public interface IGame
     //
     // public void launchGame();
 
-    public int[] getLegalPlayerCounts();
+    public List<Integer> getLegalPlayerCounts();
 
     public GameStatus getStatus();
 
     public void setStatus(GameStatus status);
+
+    public int getLogoResource();
+
+    public void setLogoResource(int res);
 
 }

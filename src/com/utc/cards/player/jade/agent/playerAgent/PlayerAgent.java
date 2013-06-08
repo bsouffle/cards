@@ -15,6 +15,7 @@ import com.utc.cards.games.GameContainer;
 import com.utc.cards.model.PlayerModel;
 import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.game.GameStatus;
+import com.utc.cards.model.game.InfoType;
 
 public class PlayerAgent extends Agent implements IPlayerAgent
 {
@@ -26,6 +27,7 @@ public class PlayerAgent extends Agent implements IPlayerAgent
     private Context context;
 
     private String selectedGame = "";
+    private String gmail;
 
     @Override
     protected void setup()
@@ -36,7 +38,7 @@ public class PlayerAgent extends Agent implements IPlayerAgent
 	{
 	    if (args[0] instanceof Context)
 	    {
-		setContext((Context) args[0]);
+		context = (Context) args[0];
 	    } else
 	    {
 		log.error("Missing Context arg during agent setup");
@@ -47,6 +49,13 @@ public class PlayerAgent extends Agent implements IPlayerAgent
 	    } else
 	    {
 		log.error("Missing PlayerModel arg during agent setup");
+	    }
+	    if (args[2] instanceof String)
+	    {
+		gmail = (String) args[2];
+	    } else
+	    {
+		log.error("Missing gmail arg during agent setup");
 	    }
 	}
 
@@ -104,37 +113,49 @@ public class PlayerAgent extends Agent implements IPlayerAgent
 	return context;
     }
 
-    public void setContext(Context context)
-    {
-	this.context = context;
-    }
-
     public void onGameSubscriptionAgree()
     {
-	// TODO Auto-generated method stub
+	log.debug("onGameSubscriptionAgree()");
+	// FIXME: disable connect button
+	notifyInfo("Connexion réussie");
     }
 
     public void onGameSubscriptionRefuse()
     {
-	// TODO Auto-generated method stub
-
+	log.debug("onGameSubscriptionRefuse()");
+	notifyInfo("Connexion refusée");
     }
 
-    public void notifyInfo(String content)
+    /**
+     * pour afficher une popup
+     * 
+     * @param info
+     */
+    public void notifyInfo(String info)
     {
-	// TODO Auto-generated method stub
-
+	log.debug("notifyInfo()");
+	Intent intent = new Intent(Constants.POP_INFO);
+	intent.putExtra(InfoType.INFO.name(), info);
+	log.debug("Sending INTENT " + intent.getAction());
+	context.sendBroadcast(intent);
     }
 
+    /**
+     * met a jour la liste affichée des participants
+     * 
+     * @param players
+     */
     public void notifyPlayersChanged(String[] players)
     {
-	// TODO Auto-generated method stub
-
+	log.debug("notifyPlayersChanged()");
+	Intent intent = new Intent(Constants.PLAYER_LIST);
+	intent.putExtra(Constants.PLAYER_LIST, players);
+	log.debug("Sending INTENT " + intent.getAction());
+	context.sendBroadcast(intent);
     }
 
     public void onGameStart()
     {
-	// TODO Auto-generated method stub
 	// change gameStatus
 	model.setGame(GameContainer.getGameByName(selectedGame));
 	model.getGame().setStatus(GameStatus.IN_GAME);
@@ -142,16 +163,24 @@ public class PlayerAgent extends Agent implements IPlayerAgent
 	// on informe la vue : l'activity
 	Intent intent = new Intent();
 	intent.setAction(Constants.SHOW_GAME);
-	log.debug("Sending broadcast " + intent.getAction());
+	log.debug("Sending INTENT " + intent.getAction());
 	context.sendBroadcast(intent);
-	// load game activity implementation
-	// wait for cards and turn
     }
 
     public void onGameSelection(String gameName)
     {
+	log.debug("onGameSelection({})", gameName);
 	selectedGame = gameName;
+	// update UI, affiche le nom du jeu
+	Intent intent = new Intent(Constants.GAME_NAME);
+	log.debug("Sending INTENT " + intent.getAction());
+	intent.putExtra(Constants.GAME_NAME, selectedGame);
+	context.sendBroadcast(intent);
+    }
 
+    public String getGmail()
+    {
+	return gmail;
     }
 
 }

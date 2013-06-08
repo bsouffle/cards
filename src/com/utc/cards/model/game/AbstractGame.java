@@ -18,10 +18,11 @@ public abstract class AbstractGame implements IGame
     protected Deck deck;
     protected IRules rules = null;
     protected GameStatus status = GameStatus.SUBSCRIPTION;
+    protected int resource = -1;
 
     protected Integer maxPlayerCount = null;
     protected Integer minPlayerCount = null;
-    protected int[] legalPlayerCount = null;
+    protected List<Integer> legalPlayerList = null;
     /**
      * la liste des joueurs dans leur ordre de jeu (après lancement de la
      * partie, sinon ordre non garanti)
@@ -37,11 +38,11 @@ public abstract class AbstractGame implements IGame
 		+ " players)");
     }
 
-    public AbstractGame(String name, int[] legalPlayerCount)
+    public AbstractGame(String name, List<Integer> legalPlayerCount)
     {
-	this(name, legalPlayerCount[0],
-		legalPlayerCount[legalPlayerCount.length - 1]);
-	this.legalPlayerCount = legalPlayerCount;
+	this(name, legalPlayerCount.get(0), legalPlayerCount
+		.get(legalPlayerCount.size() - 1));
+	this.legalPlayerList = legalPlayerCount;
 	logLegalPlayerCountConstructor();
     }
 
@@ -50,11 +51,11 @@ public abstract class AbstractGame implements IGame
 	boolean first = true;
 	StringBuilder legalPlayerString = new StringBuilder();
 
-	for (int index = 0; index < this.legalPlayerCount.length; index++)
+	for (int index = 0; index < this.legalPlayerList.size(); index++)
 	{
 	    if (first)
 	    {
-	    } else if (index == (this.legalPlayerCount.length - 1))
+	    } else if (index == (this.legalPlayerList.size() - 1))
 	    {
 		legalPlayerString.append(" or ");
 	    } else
@@ -62,7 +63,7 @@ public abstract class AbstractGame implements IGame
 		legalPlayerString.append(", ");
 	    }
 
-	    legalPlayerString.append(this.legalPlayerCount[index]);
+	    legalPlayerString.append(this.legalPlayerList.get(index));
 	    first = false;
 	}
 
@@ -93,10 +94,10 @@ public abstract class AbstractGame implements IGame
 	return minPlayerCount;
     }
 
-    public final int[] getLegalPlayerCount()
+    public final List<Integer> getLegalPlayerList()
     {
-	log.debug("getLegalPlayerCount()");
-	return legalPlayerCount;
+	log.debug("getLegalPlayerList()");
+	return legalPlayerList;
     }
 
     @Override
@@ -179,5 +180,17 @@ public abstract class AbstractGame implements IGame
     public void setStatus(GameStatus status)
     {
 	this.status = status;
+    }
+
+    @Override
+    public int getLogoResource()
+    {
+	return resource;
+    }
+
+    @Override
+    public void setLogoResource(int res)
+    {
+	resource = res;
     }
 }

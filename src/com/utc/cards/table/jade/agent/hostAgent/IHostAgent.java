@@ -1,5 +1,7 @@
 package com.utc.cards.table.jade.agent.hostAgent;
 
+import com.utc.cards.model.HostModel;
+
 public interface IHostAgent
 {
     // public void openSuscription();
@@ -12,5 +14,7 @@ public interface IHostAgent
     public void createIAPlayer();
 
     public void removeIAPlayer();
+
+    public HostModel getModel();
 
 }

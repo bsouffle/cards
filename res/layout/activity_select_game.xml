@@ -1,4 +1,55 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background_gradient"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context=".TableSelectGameActivity">
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+	    android:layout_height="match_parent">
+        
+        <LinearLayout
+	    	android:id="@+id/wheelContainer"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:orientation="vertical"
+		    android:layout_gravity="bottom|center_horizontal">
+	        
+		    <com.digitalaria.gama.wheel.Wheel
+		        android:id="@+id/wheel"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_horizontal">
+	
+		    </com.digitalaria.gama.wheel.Wheel>
+	    </LinearLayout>
+        
+        <LinearLayout 
+            android:layout_width="match_parent"
+	    	android:layout_height="match_parent"
+	    	android:orientation="vertical"
+	    	android:gravity="bottom"
+	    	android:layout_marginBottom="20dp"
+	    	android:layout_centerHorizontal="true"
+	    	android:layout_alignParentBottom="true">
+		    
+            
+		    <Button
+		        android:id="@+id/selectGameButton"
+		        android:background="@drawable/red_button"
+	        	style="@style/button_text"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center|center_vertical"
+		        android:text="Lancer le jeu" 
+		        android:onClick="selectGameClick"/>
+		    
+        </LinearLayout>
+    </RelativeLayout>
+        <!-- <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,9 +59,24 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".TableSelectGameActivity" >
 
-    <TextView
+    <Button
+        android:id="@+id/selectDDPButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:onClick="selectDDP"
+        android:text="@string/selectDDP" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:text="@string/title_activity_select_game" />
 
 </RelativeLayout>
+-->
+</LinearLayout>
