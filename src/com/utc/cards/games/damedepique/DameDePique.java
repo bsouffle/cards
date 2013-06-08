@@ -20,20 +20,20 @@ public class DameDePique extends AbstractGame
 
     private static final int MIN_PLAYERS = 4;
     private static final int MAX_PLAYERS = 4; // une variante à 6 de la dame de
-					      // pique existe bien, mais je ne
-					      // connais pour le moment pas les
-					      // règles.
+    // pique existe bien, mais je ne
+    // connais pour le moment pas les
+    // règles.
     private static final List<Integer> LEGAL_PLAYER_COUNT = new ArrayList<Integer>();
     static
     {
-	LEGAL_PLAYER_COUNT.add(MIN_PLAYERS);
-	LEGAL_PLAYER_COUNT.add(MAX_PLAYERS);
+        LEGAL_PLAYER_COUNT.add(MIN_PLAYERS);
+        LEGAL_PLAYER_COUNT.add(MAX_PLAYERS);
     }
 
     public DameDePique()
     {
-	super("Dame de Pique", LEGAL_PLAYER_COUNT);
-	setLogoResource(R.drawable.logo_dame_de_pique);
+        super("Dame de Pique", LEGAL_PLAYER_COUNT);
+        setLogoResource(R.drawable.logo_dame_de_pique);
     }
 
     // @Override
@@ -46,39 +46,39 @@ public class DameDePique extends AbstractGame
     @Override
     public List<Integer> getLegalPlayerCounts()
     {
-	return LEGAL_PLAYER_COUNT;
+        return LEGAL_PLAYER_COUNT;
     }
 
     @Override
     protected IRules createRules()
     {
-	_log.debug("createRules()");
-	return new DameDePiqueRules();
+        _log.debug("createRules()");
+        return new DameDePiqueRules();
     }
 
     @Override
     public Deck createDeck()
     {
-	_log.debug("createDeck()");
-	return new Traditionnal52Deck();
+        _log.debug("createDeck()");
+        return new Traditionnal52Deck();
     }
 
     @Override
     public DameDePiqueTableGameActivity createTableGameActivity()
     {
-	return new DameDePiqueTableGameActivity();
+        return new DameDePiqueTableGameActivity();
     }
 
     @Override
     public DameDePiquePlayerGameActivity createPlayerGameActivity()
     {
-	return new DameDePiquePlayerGameActivity();
+        return new DameDePiquePlayerGameActivity();
     }
 
     @Override
     public IGameBehaviour createGameBehaviour()
     {
-	return new DameDePiqueGameBehaviour();
+        return new DameDePiqueGameBehaviour();
     }
 
 }

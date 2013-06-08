@@ -29,6 +29,8 @@ public interface IGame
 
     public List<IPlayer> getPlayers();
 
+    public List<String> getPlayerNames();
+
     public void addPlayer(IPlayer player);
 
     public void removePlayer(IPlayer player);

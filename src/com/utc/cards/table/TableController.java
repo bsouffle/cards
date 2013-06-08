@@ -17,6 +17,22 @@ public class TableController
 
     private IGame _game;
 
+    private static TableController _instance;
+
+    private TableController()
+    {
+    }
+
+    public static TableController getInstance()
+    {
+	if (_instance == null)
+	{
+	    _instance = new TableController();
+	}
+
+	return _instance;
+    }
+
     public void loadGame(IGame game)
     {
 	_log.debug("loadGame()");

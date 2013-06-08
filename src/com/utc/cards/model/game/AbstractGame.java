@@ -23,103 +23,116 @@ public abstract class AbstractGame implements IGame
     protected Integer maxPlayerCount = null;
     protected Integer minPlayerCount = null;
     protected List<Integer> legalPlayerList = null;
+    protected int[] legalPlayerCount = null;
+
     /**
-     * la liste des joueurs dans leur ordre de jeu (après lancement de la
-     * partie, sinon ordre non garanti)
+     * la liste des joueurs dans leur ordre de jeu (après lancement de la partie, sinon ordre non garanti)
      */
     protected List<IPlayer> _players = new ArrayList<IPlayer>();
 
     public AbstractGame(String name, int maxPlayerCount, int minPlayerCount)
     {
-	this.name = name;
-	this.maxPlayerCount = maxPlayerCount;
-	this.minPlayerCount = minPlayerCount;
-	log.debug("AbstractGame() (" + minPlayerCount + " to " + maxPlayerCount
-		+ " players)");
+        this.name = name;
+        this.maxPlayerCount = maxPlayerCount;
+        this.minPlayerCount = minPlayerCount;
+        log.debug("AbstractGame() (" + minPlayerCount + " to " + maxPlayerCount + " players)");
     }
 
     public AbstractGame(String name, List<Integer> legalPlayerCount)
     {
-	this(name, legalPlayerCount.get(0), legalPlayerCount
-		.get(legalPlayerCount.size() - 1));
-	this.legalPlayerList = legalPlayerCount;
-	logLegalPlayerCountConstructor();
+        this(name, legalPlayerCount.get(0), legalPlayerCount.get(legalPlayerCount.size() - 1));
+        this.legalPlayerList = legalPlayerCount;
+        logLegalPlayerCountConstructor();
     }
 
     private void logLegalPlayerCountConstructor()
     {
-	boolean first = true;
-	StringBuilder legalPlayerString = new StringBuilder();
+        boolean first = true;
+        StringBuilder legalPlayerString = new StringBuilder();
 
-	for (int index = 0; index < this.legalPlayerList.size(); index++)
-	{
-	    if (first)
-	    {
-	    } else if (index == (this.legalPlayerList.size() - 1))
-	    {
-		legalPlayerString.append(" or ");
-	    } else
-	    {
-		legalPlayerString.append(", ");
-	    }
+        for (int index = 0; index < this.legalPlayerList.size(); index++)
+        {
+            if (first)
+            {
+            }
+            else if (index == (this.legalPlayerList.size() - 1))
+            {
+                legalPlayerString.append(" or ");
+            }
+            else
+            {
+                legalPlayerString.append(", ");
+            }
 
-	    legalPlayerString.append(this.legalPlayerList.get(index));
-	    first = false;
-	}
+            legalPlayerString.append(this.legalPlayerList.get(index));
+            first = false;
+        }
 
-	log.debug("AbstractGame() (require " + legalPlayerString + " players)");
+        log.debug("AbstractGame() (require " + legalPlayerString + " players)");
     }
 
     @Override
     public String getName()
     {
-	log.debug("getName()");
+        log.debug("getName()");
 
-	return name;
+        return name;
     }
 
     @Override
     public int getMaxPlayerCount()
     {
-	log.debug("getMaxPlayerCount()");
+        log.debug("getMaxPlayerCount()");
 
-	return maxPlayerCount;
+        return maxPlayerCount;
     }
 
     @Override
     public int getMinPlayerCount()
     {
-	log.debug("getMinPlayerCount()");
+        log.debug("getMinPlayerCount()");
 
-	return minPlayerCount;
+        return minPlayerCount;
     }
 
     public final List<Integer> getLegalPlayerList()
     {
-	log.debug("getLegalPlayerList()");
-	return legalPlayerList;
+        log.debug("getLegalPlayerList()");
+        return legalPlayerList;
     }
 
     @Override
     public final List<IPlayer> getPlayers()
     {
-	log.debug("getPlayers()");
-	return _players;
+        log.debug("getPlayers()");
+        return _players;
+    }
+
+    @Override
+    public List<String> getPlayerNames()
+    {
+        ArrayList<String> res = new ArrayList<String>();
+
+        for (IPlayer p : getPlayers())
+        {
+            res.add(p.getName());
+        }
+
+        return res;
     }
 
     @Override
     public final void addPlayer(IPlayer player)
     {
-	log.debug("addPlayer()");
-
-	_players.add(player);
+        log.debug("addPlayer()");
+        _players.add(player);
     }
 
     @Override
     public final void removePlayer(IPlayer player)
     {
-	log.debug("removePlayer()");
-	_players.remove(player);
+        log.debug("removePlayer()");
+        _players.remove(player);
     }
 
     // @Override
@@ -148,12 +161,12 @@ public abstract class AbstractGame implements IGame
     @Override
     public final Deck getDeck()
     {
-	log.debug("getAllGameCards()");
-	if (deck == null)
-	{
-	    deck = createDeck();
-	}
-	return deck;
+        log.debug("getAllGameCards()");
+        if (deck == null)
+        {
+            deck = createDeck();
+        }
+        return deck;
     }
 
     // seulement pour l'agent "RulesAgent"
@@ -162,35 +175,36 @@ public abstract class AbstractGame implements IGame
     @Override
     public final IRules getRules()
     {
-	log.debug("getAllGameCards()");
-	if (rules == null)
-	{
-	    rules = createRules();
-	}
-	return rules;
+        log.debug("getAllGameCards()");
+        if (rules == null)
+        {
+            rules = createRules();
+        }
+        return rules;
     }
 
     @Override
     public GameStatus getStatus()
     {
-	return status;
+        return status;
     }
 
     @Override
     public void setStatus(GameStatus status)
     {
-	this.status = status;
+        this.status = status;
     }
 
     @Override
     public int getLogoResource()
     {
-	return resource;
+        return resource;
     }
 
     @Override
     public void setLogoResource(int res)
     {
-	resource = res;
+        resource = res;
     }
+
 }

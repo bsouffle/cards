@@ -15,11 +15,9 @@ import com.utc.cards.table.jade.agent.gameAgent.IGameAgent;
 import com.utc.cards.table.jade.agent.hostAgent.IHostAgent;
 import com.utc.cards.table.jade.agent.rulesAgent.IRulesAgent;
 
-public abstract class AbstractTableGameActivity extends Activity implements
-	ITableGameActivity
+public abstract class AbstractTableGameActivity extends Activity implements ITableGameActivity
 {
-    private static Logger log = LoggerFactory
-	    .getLogger(TableLaunchGameActivity.class);
+    private static Logger log = LoggerFactory.getLogger(TableLaunchGameActivity.class);
 
     protected IRulesAgent rulesAgent;
     protected IGameAgent gameAgent;
@@ -28,51 +26,47 @@ public abstract class AbstractTableGameActivity extends Activity implements
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-	super.onCreate(savedInstanceState);
-	getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	// récupération des agents
-	loadAgents();
-	log.debug("onCreate() : agent chargés pour l'activity de JEU");
-	setContentView(getLayout());
-	onCreateHook();
-
+        super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        // récupération des agents
+        loadAgents();
+        log.debug("onCreate() : agent chargés pour l'activity de JEU");
+        setContentView(getLayout());
+        onCreateHook(savedInstanceState);
     }
 
-    public abstract void onCreateHook();
+    public abstract void onCreateHook(Bundle savedInstanceState);
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-	// Inflate the menu; this adds items to the action bar if it is present.
-	getMenuInflater().inflate(getMenu(), menu);
-	return true;
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(getMenu(), menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-	switch (item.getItemId()) {
-	// case R.id.game_menu_host:
-	// // Intent showSettings = new Intent(this, SettingsActivity.class);
-	// // startActivity(showSettings);
-	// return true;
+        switch (item.getItemId())
+        {
+        // case R.id.game_menu_host:
+        // // Intent showSettings = new Intent(this, SettingsActivity.class);
+        // // startActivity(showSettings);
+        // return true;
 
-	default:
-	    return super.onOptionsItemSelected(item);
-	}
+        default:
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     public abstract int getLayout();
 
     private void loadAgents()
     {
-	hostAgent = HostAgentManager.instance().getAgent(this,
-		Constants.CARDS_HOST_AGENT_NAME, IHostAgent.class);
-	gameAgent = HostAgentManager.instance().getAgent(this,
-		Constants.CARDS_HOST_GAME_AGENT_NAME, IGameAgent.class);
-	rulesAgent = HostAgentManager.instance().getAgent(this,
-		Constants.CARDS_HOST_RULES_AGENT_NAME, IRulesAgent.class);
-
+        hostAgent = HostAgentManager.instance().getAgent(this, Constants.CARDS_HOST_AGENT_NAME, IHostAgent.class);
+        gameAgent = HostAgentManager.instance().getAgent(this, Constants.CARDS_HOST_GAME_AGENT_NAME, IGameAgent.class);
+        rulesAgent = HostAgentManager.instance().getAgent(this, Constants.CARDS_HOST_RULES_AGENT_NAME, IRulesAgent.class);
     }
 
     protected abstract int getMenu();

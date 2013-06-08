@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">CARDS</string>
@@ -16,8 +15,9 @@
     <string name="title_activity_launch_game">Attente des joueurs</string>
     <string name="title_activity_player_menu">Connexion</string>
     <string name="title_activity_dame_de_pique_player_game">Dame de Pique</string>
-    <string name="title_activity_dame_de_pique_table_game">Dame de Pique</string>
+    <string name="title_activity_dame_de_pique_table_game">Plateau de jeu</string>
     <string name="join">Rejoindre partie</string>
+
     <string name="play_card">Play Card</string>
     <string name="msg_interface_exc">Erreur interface lors de la récupération d\'un agent</string>
     <string name="msg_controller_exc">Erreur controller lors de la récupération d\'un agent</string>
@@ -28,7 +28,7 @@
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="label_host">Adresse IP du serveur :</string>
     <string name="button_save">Sauvegarder</string>
+    <string name="selected_game_label">Selected game</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    
 </resources>

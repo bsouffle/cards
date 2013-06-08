@@ -35,6 +35,7 @@ import com.utc.cards.R;
 import com.utc.cards.games.GameContainer;
 import com.utc.cards.model.HostModel;
 import com.utc.cards.model.game.GameStatus;
+import com.utc.cards.model.game.IGame;
 import com.utc.cards.player.jade.AgentActivityListener;
 import com.utc.cards.table.jade.agent.HostAgentManager;
 import com.utc.cards.table.jade.agent.hostAgent.IHostAgent;
@@ -43,202 +44,136 @@ import com.utc.cards.utils.Utils;
 public class TableLaunchGameActivity extends Activity
 {
 
-    private static Logger log = LoggerFactory
-	    .getLogger(TableLaunchGameActivity.class);
+    private static Logger log = LoggerFactory.getLogger(TableLaunchGameActivity.class);
     private IHostAgent hostAgent;
     protected Handler mHandler = new Handler();
     private MyReceiver myReceiver;
 
+    private static Logger _log = LoggerFactory.getLogger(TableLaunchGameActivity.class);
+    private IGame _selectedGame;
     private Point _screenDimention = new Point();
     private ListView _listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.activity_launch_game);
-	loadHostAgent();
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_launch_game);
+        loadHostAgent();
 
-	// chargement des jeux pour afficher la liste
-	SortedSet<String> games = GameContainer.getCompleteGameNameList();
+        // chargement des jeux pour afficher la liste
+        SortedSet<String> games = GameContainer.getCompleteGameNameList();
 
-	registerReceivers();
+        registerReceivers();
 
-	getScreenSize();
+        getScreenSize();
 
-	setSelectedGameLogoAndLabel();
+        setSelectedGameLogoAndLabel();
 
-	updatePlayerList(); // Au cas ou des joueurs auraient Ã©tÃ© ajoutÃ©s
-			    // avant que le listener ne soit en place
+        updatePlayerList(); // Au cas ou des joueurs auraient Ã©tÃ© ajoutÃ©s
+        // avant que le listener ne soit en place
 
-	// Test pour affichage liste des joueurs
+        // Test pour affichage liste des joueurs
 
-	// _selectedGame.addPlayer(new HumanPlayer("Benoit"));
-	// _selectedGame.addPlayer(new HumanPlayer("Bobby"));
-	// _selectedGame.addPlayer(new HumanPlayer("Benoit 2"));
-	// _selectedGame.addPlayer(new HumanPlayer("Bobby 2"));
+        // _selectedGame.addPlayer(new HumanPlayer("Benoit"));
+        // _selectedGame.addPlayer(new HumanPlayer("Bobby"));
+        // _selectedGame.addPlayer(new HumanPlayer("Benoit 2"));
+        // _selectedGame.addPlayer(new HumanPlayer("Bobby 2"));
     }
 
     private void registerReceivers()
     {
-	myReceiver = new MyReceiver();
-	IntentFilter playerListFilter = new IntentFilter();
-	playerListFilter.addAction(Constants.PLAYER_LIST);
-	registerReceiver(myReceiver, playerListFilter);
+        myReceiver = new MyReceiver();
+        IntentFilter playerListFilter = new IntentFilter();
+        playerListFilter.addAction(Constants.PLAYER_LIST);
+        registerReceiver(myReceiver, playerListFilter);
     }
 
     @Override
     protected void onDestroy()
     {
-	super.onDestroy();
-	unregisterReceiver(myReceiver);
-	log.debug("Destroy activity!");
+        super.onDestroy();
+        unregisterReceiver(myReceiver);
+        log.debug("Destroy activity!");
     }
 
     private class MyReceiver extends BroadcastReceiver
     {
 
-	@Override
-	public void onReceive(Context context, Intent intent)
-	{
-	    String action = intent.getAction();
-	    log.info("Received intent " + action);
-	    if (action.equalsIgnoreCase(Constants.PLAYER_LIST))
-	    { // met à jour la liste des joueurs
-		String[] players = (String[]) HostModel.Instance()
-			.getPlayersMap().keySet().toArray();
-		ListView playerList = (ListView) findViewById(R.id.subscriberList);
-		playerList.setAdapter(new ArrayAdapter<String>(
-			TableLaunchGameActivity.this,
-			android.R.layout.simple_list_item_1, players));
-	    }
-	}
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            String action = intent.getAction();
+            log.info("Received intent " + action);
+            if (action.equalsIgnoreCase(Constants.PLAYER_LIST))
+            { // met à jour la liste des joueurs
+                String[] players = (String[]) HostModel.Instance().getPlayersMap().keySet().toArray();
+                ListView playerList = (ListView) findViewById(R.id.subscriberList);
+                playerList.setAdapter(new ArrayAdapter<String>(TableLaunchGameActivity.this, android.R.layout.simple_list_item_1, players));
+            }
+        }
     }
 
     private void loadHostAgent()
     {
-	try
-	{
-	    hostAgent = MicroRuntime.getAgent(Constants.CARDS_HOST_AGENT_NAME)
-		    .getO2AInterface(IHostAgent.class);
-	    log.debug("hostAgent loaded !");
-	} catch (StaleProxyException e)
-	{
-	    Utils.showAlertDialog(this, getString(R.string.msg_interface_exc),
-		    true);
-	} catch (ControllerException e)
-	{
-	    Utils.showAlertDialog(this, getString(R.string.msg_controller_exc),
-		    true);
-	}
+        try
+        {
+            hostAgent = MicroRuntime.getAgent(Constants.CARDS_HOST_AGENT_NAME).getO2AInterface(IHostAgent.class);
+            log.debug("hostAgent loaded !");
+        }
+        catch (StaleProxyException e)
+        {
+            Utils.showAlertDialog(this, getString(R.string.msg_interface_exc), true);
+        }
+        catch (ControllerException e)
+        {
+            Utils.showAlertDialog(this, getString(R.string.msg_controller_exc), true);
+        }
     }
 
     public void updatePlayerList()
     {
-	if (_listView == null)
-	{
-	    _listView = (ListView) findViewById(R.id.subscriberList);
+        if (_listView == null)
+        {
+            _listView = (ListView) findViewById(R.id.subscriberList);
 
-	    // _listView.setOnItemClickListener(new
-	    // AdapterView.OnItemClickListener()
-	    // {
-	    //
-	    // @Override
-	    // public void onItemClick(AdapterView<?> parent, final View view,
-	    // int position, long id)
-	    // {
-	    // log.debug("Player clicked: " +
-	    // _selectedGame.getPlayers().get(position).getName());
-	    // }
-	    // });
+            // _listView.setOnItemClickListener(new
+            // AdapterView.OnItemClickListener()
+            // {
+            //
+            // @Override
+            // public void onItemClick(AdapterView<?> parent, final View view,
+            // int position, long id)
+            // {
+            // log.debug("Player clicked: " +
+            // _selectedGame.getPlayers().get(position).getName());
+            // }
+            // });
 
-	    double w = _screenDimention.x * 0.3;
-	    RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-		    (int) w, LayoutParams.WRAP_CONTENT);
+            double w = _screenDimention.x * 0.3;
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((int) w, LayoutParams.WRAP_CONTENT);
 
-	    lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-	    lp.topMargin = 15;
-	    lp.bottomMargin = 100;
+            lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            lp.topMargin = 15;
+            lp.bottomMargin = 100;
 
-	    _listView.setLayoutParams(lp);
-	}
+            _listView.setLayoutParams(lp);
+        }
 
-	ArrayList<String> s = new ArrayList<String>(HostModel.Instance()
-		.getPlayersMap().keySet());
-	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-		android.R.layout.simple_list_item_activated_1, s);
+        ArrayList<String> s = new ArrayList<String>(HostModel.Instance().getPlayersMap().keySet());
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, s);
 
-	log.debug("Nb Players:" + HostModel.Instance().getPlayersMap().size());
-	// log.debug("Nb Players:" + _selectedGame.getPlayerNames().size());
+        log.debug("Nb Players:" + HostModel.Instance().getPlayersMap().size());
+        // log.debug("Nb Players:" + _selectedGame.getPlayerNames().size());
 
-	_listView.setAdapter(adapter);
+        _listView.setAdapter(adapter);
 
     }
 
     private void getScreenSize()
     {
-	Display display = getWindowManager().getDefaultDisplay();
-	display.getSize(_screenDimention);
-    }
-
-    public void setSelectedGameLogoAndLabel()
-    {
-	// Logo du jeu selectionnÃ©
-	//
-	//
-
-	ImageView img = (ImageView) findViewById(R.id.selectedGameLogo);
-
-	Drawable tmp = getApplicationContext().getResources().getDrawable(
-		HostModel.Instance().getGame().getLogoResource());
-
-	double diff = (double) tmp.getIntrinsicHeight()
-		/ (double) tmp.getIntrinsicWidth();
-
-	double w = _screenDimention.x * 0.25;
-	double h = w * diff;
-
-	img.setBackgroundResource(HostModel.Instance().getGame()
-		.getLogoResource());
-
-	LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) w,
-		(int) h);
-
-	lp.gravity = Gravity.CENTER_VERTICAL;
-
-	img.setLayoutParams(lp);
-
-	//
-	//
-
-	// Label du jeu selectionnÃ©
-	//
-	//
-
-	TextView text = (TextView) findViewById(R.id.selectedGameLabel);
-
-	text.setText(HostModel.Instance().getGame().getName());
-
-	//
-	//
-
-	// Positionnement des infos relatives au jeu selectionnÃ© (label + logo)
-	//
-	//
-
-	LinearLayout container = (LinearLayout) findViewById(R.id.selectedGameInfo);
-
-	RelativeLayout.LayoutParams lp2 = new RelativeLayout.LayoutParams(
-		LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-
-	lp2.leftMargin = (int) (_screenDimention.x * 0.25);
-	lp2.topMargin = (int) (_screenDimention.y * 0.1);
-
-	container.setLayoutParams(lp2);
-
-	//
-	//
-
+        Display display = getWindowManager().getDefaultDisplay();
+        display.getSize(_screenDimention);
     }
 
     /**
@@ -248,60 +183,118 @@ public class TableLaunchGameActivity extends Activity
      */
     public void startGame(View view)
     {
-	// FIXME: GESTION DE la création des IAs si pas assez de joueurs ??
-	// ici ou dans GameActivity ??
+        // FIXME: GESTION DE la création des IAs si pas assez de joueurs ??
+        // ici ou dans GameActivity ??
 
-	// FIXME: pour l'instant pas d'IA
-	if (HostModel.Instance().getGame().getLegalPlayerCounts()
-		.contains(HostModel.Instance().getPlayersMap().size()))
-	{
-	    // arret des inscriptions (le subscription behaviour teste cette
-	    // valeur)
-	    HostModel.Instance().getGame().setStatus(GameStatus.IN_GAME);
+        // FIXME: pour l'instant pas d'IA
+        if (HostModel.Instance().getGame().getLegalPlayerCounts().contains(HostModel.Instance().getPlayersMap().size()))
+        {
+            // arret des inscriptions (le subscription behaviour teste cette
+            // valeur)
+            HostModel.Instance().getGame().setStatus(GameStatus.IN_GAME);
 
-	    // INITIALISATION DES AGENTS
-	    // GameAgent et RulesAgent
-	    // (les agents doivent charger leurs behaviours initiaux eux-même)
-	    HostAgentManager.instance().startGameAndRulesAgent(this,
-		    HostModel.Instance(), new AgentActivityListener() {
+            // INITIALISATION DES AGENTS
+            // GameAgent et RulesAgent
+            // (les agents doivent charger leurs behaviours initiaux eux-même)
+            HostAgentManager.instance().startGameAndRulesAgent(this, HostModel.Instance(), new AgentActivityListener()
+            {
 
-			@Override
-			public void onAllAgentsReady()
-			{
-			    mHandler.post(new Runnable() {
+                @Override
+                public void onAllAgentsReady()
+                {
+                    mHandler.post(new Runnable()
+                    {
 
-				@Override
-				public void run()
-				{
-				    log.info("onGameAndRuleAgentsReady");
-				    // tous les agents pour le jeu sont prets
-				    // on passe à la vue du jeu
-				    ITableGameActivity activity = HostModel
-					    .Instance().getGame()
-					    .createTableGameActivity();
+                        @Override
+                        public void run()
+                        {
+                            log.info("onGameAndRuleAgentsReady");
+                            // tous les agents pour le jeu sont prets
+                            // on passe à la vue du jeu
+                            ITableGameActivity activity = HostModel.Instance().getGame().createTableGameActivity();
 
-				    Intent intent = new Intent(
-					    TableLaunchGameActivity.this,
-					    activity.getClass());
-				    // DEMARRAGE de l'activity de jeu
-				    // (DameDePiqueTableGameActivity
-				    // + classe abstraite)
-				    startActivity(intent);
-				}
+                            Intent intent = new Intent(TableLaunchGameActivity.this, activity.getClass());
+                            // DEMARRAGE de l'activity de jeu
+                            // (DameDePiqueTableGameActivity
+                            // + classe abstraite)
+                            startActivity(intent);
+                        }
 
-			    });
-			}
-		    });
-	} else
-	{
-	    Utils.showAlertDialog(this, "Pas assez de joueurs", false);
-	}
+                    });
+                }
+            });
+        }
+        else
+        {
+            Utils.showAlertDialog(this, "Pas assez de joueurs", false);
+        }
 
     }
 
     public IHostAgent getHostAgent()
     {
-	return hostAgent;
+        return hostAgent;
     }
 
+    public void setSelectedGameLogoAndLabel()
+    {
+        // Logo du jeu selectionné
+        //
+        //
+
+        ImageView img = (ImageView) findViewById(R.id.selectedGameLogo);
+
+        Drawable tmp = getApplicationContext().getResources().getDrawable(_selectedGame.getLogoResource());
+
+        double diff = (double) tmp.getIntrinsicHeight() / (double) tmp.getIntrinsicWidth();
+
+        double w = _screenDimention.x * 0.25;
+        double h = w * diff;
+
+        img.setBackgroundResource(_selectedGame.getLogoResource());
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) w, (int) h);
+
+        lp.gravity = Gravity.CENTER_VERTICAL;
+
+        img.setLayoutParams(lp);
+
+        //
+        //
+
+        // Label du jeu selectionné
+        //
+        //
+
+        TextView text = (TextView) findViewById(R.id.selectedGameLabel);
+
+        text.setText(_selectedGame.getName());
+
+        //
+        //
+
+        // Positionnement des infos relatives au jeu selectionné (label + logo)
+        //
+        //
+
+        LinearLayout container = (LinearLayout) findViewById(R.id.selectedGameInfo);
+
+        RelativeLayout.LayoutParams lp2 = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+
+        lp2.leftMargin = (int) (_screenDimention.x * 0.25);
+        lp2.topMargin = (int) (_screenDimention.y * 0.1);
+
+        container.setLayoutParams(lp2);
+
+        //
+        //
+
+    }
+
+    // Méthode "OnClick" liée à la vue
+    public void optionsClick(View view)
+    {
+        _log.debug("Options");
+
+    }
 }
