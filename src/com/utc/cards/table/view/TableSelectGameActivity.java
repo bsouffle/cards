@@ -40,12 +40,6 @@ public class TableSelectGameActivity extends Activity
 	{
 	    _games.add(_games.get(0));
 	}
-
-	for (IGame t : _games)
-	{
-	    System.out.println("Logooo " + t.getName() + " - "
-		    + t.getLogoResource());
-	}
     }
 
     public void launchSelectedGame()
