@@ -28,7 +28,7 @@ public abstract class AbstractGame implements IGame
     protected Integer minPlayerCount = null;
     protected int[] legalPlayerCount = null;
 
-    public static final String NEW_PLAYER_EVENT = "NEW PLAYER EVENT";
+    public static final String PLAYER_LIST_UPDATED = "PLAYER LIST UPDATED";
 
     /**
      * la liste des joueurs dans leur ordre de jeu (après lancement de la
@@ -134,7 +134,7 @@ public abstract class AbstractGame implements IGame
 
 	_players.add(player);
 
-	pcs.firePropertyChange(NEW_PLAYER_EVENT, null, player);
+	pcs.firePropertyChange(PLAYER_LIST_UPDATED, null, player);
     }
 
     @Override
@@ -142,6 +142,8 @@ public abstract class AbstractGame implements IGame
     {
 	log.debug("removePlayer()");
 	_players.remove(player);
+
+	pcs.firePropertyChange(PLAYER_LIST_UPDATED, player, null);
     }
 
     // @Override

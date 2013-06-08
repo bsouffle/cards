@@ -73,7 +73,7 @@ public class TableLaunchGameActivity extends Activity implements
     @Override
     public void propertyChange(PropertyChangeEvent event)
     {
-	if (event.getPropertyName().equals(AbstractGame.NEW_PLAYER_EVENT))
+	if (event.getPropertyName().equals(AbstractGame.PLAYER_LIST_UPDATED))
 	{
 	    _log.debug("Event received: " + event.getPropertyName());
 	    updatePlayerList();
