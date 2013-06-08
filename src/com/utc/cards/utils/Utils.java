@@ -55,7 +55,6 @@ public class Utils
 	    Integer intIpp;
 	    try
 	    {
-		_log.debug(ipp);
 		intIpp = Integer.parseInt(ipp);
 	    } catch (NumberFormatException e)
 	    {
