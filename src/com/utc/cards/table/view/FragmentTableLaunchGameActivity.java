@@ -61,7 +61,7 @@ public class FragmentTableLaunchGameActivity extends Fragment
 
         double diff = (double) tmp.getIntrinsicHeight() / (double) tmp.getIntrinsicWidth();
 
-        double w = _screenDimention.x * 0.25;
+        double w = _screenDimention.x * 0.30;
         double h = w * diff;
 
         img.setImageResource(HostModel.Instance().getGame().getLogoResource());

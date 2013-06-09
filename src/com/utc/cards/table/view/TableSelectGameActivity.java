@@ -111,22 +111,23 @@ public class TableSelectGameActivity extends Activity
 
         int diameter = (int) (_screenDimention.x / 1.3);
 
+        LinearLayout l = (LinearLayout) findViewById(R.id.wheelContainer);
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        lp.addRule(RelativeLayout.ALIGN_BOTTOM);
+        lp.bottomMargin = (int) (-_screenDimention.y);
+
+        l.setLayoutParams(lp);
+
         _wheel = (Wheel) findViewById(R.id.wheel);
         _wheel.setItems(getDrawableFromData(_games));
-
+        _wheel.setRotatedItem(true);
         _wheel.setWheelDiameter(diameter);
 
         MyWheelListener wl = new MyWheelListener(_wheel, this);
 
         _wheel.setOnItemClickListener(wl);
         _wheel.setOnItemSelectionUpdatedListener(wl);
-
-        LinearLayout l = (LinearLayout) findViewById(R.id.wheelContainer);
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-        lp.bottomMargin = (int) (-_screenDimention.y);
-
-        l.setLayoutParams(lp);
 
         setGameToLaunch(0); // Par défaut le jeu à lancer est le premier de la liste
     }
@@ -162,7 +163,7 @@ public class TableSelectGameActivity extends Activity
 
             double diff = (double) tmp.getIntrinsicHeight() / (double) tmp.getIntrinsicWidth();
 
-            double w = _screenDimention.x * 0.2;
+            double w = _screenDimention.x * 0.25;
             double h = w * diff;
 
             ret[i++] = Utils.resize(tmp, w, h);

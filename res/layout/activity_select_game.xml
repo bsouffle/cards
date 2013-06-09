@@ -14,8 +14,7 @@
 	    	android:id="@+id/wheelContainer"
 		    android:layout_width="match_parent"
 		    android:layout_height="match_parent"
-		    android:orientation="vertical"
-		    android:layout_gravity="bottom|center_horizontal">
+		    android:orientation="vertical">
 	        
 		    <com.digitalaria.gama.wheel.Wheel
 		        android:id="@+id/wheel"
