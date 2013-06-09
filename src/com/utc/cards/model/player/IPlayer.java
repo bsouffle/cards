@@ -5,6 +5,8 @@ import com.utc.cards.model.deck.Deck;
 public interface IPlayer
 {
 
+    public final static String MAIN_HAND = "main";
+
     public void playTurn();
 
     public String getName();

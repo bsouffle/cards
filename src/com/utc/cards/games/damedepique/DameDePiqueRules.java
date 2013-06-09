@@ -74,8 +74,76 @@ public class DameDePiqueRules extends AbstractGameRules
     @Override
     public boolean validerCoup(List<Card> Cards, IPlayer player, HostModel model)
     {
-        // TODO Auto-generated method stub
-        return false;
+        boolean responce = false;
+
+        Card cardPlay = Cards.get(0);
+        Fold plicourant = model.getCurrentFold();
+        Deck hand = player.getHand(player.MAIN_HAND);
+
+        Card callCard;
+
+        // Détermination de la première carte du pli à partir du gagnant du tour précèdent
+        if (model.getOldFolds().empty())
+            callCard = null;
+        else
+            callCard = plicourant.getCards(model.getOldFolds().lastElement().getWinner()).get(0);
+
+        // Si on est au premier tour
+        if (hand.size() == 13)
+        {
+            // Si c'est le premier à jouer
+            if (plicourant.getFoldCards().isEmpty())
+            {
+                // Si la carte jouer est le 2 de trèfle
+                if (cardPlay.equals(model.getGame().getDeck().getCardByResourceId(R.raw.cards_2c)))
+                    ;
+                responce = true;
+            }
+            else
+            {
+                // Si il joue la couleur appeler
+                if (((TraditionnalCard) cardPlay).getColor() == ((TraditionnalCard) callCard).getColor())
+                    responce = true;
+                else
+                {
+                    responce = true;
+                    // On vérifie qu'il n'a pas la couleur appeler dans sa main
+                    for (Card card : hand)
+                    {
+                        if (((TraditionnalCard) card).getColor() == ((TraditionnalCard) callCard).getColor())
+                            responce = false;
+                    }
+                    // Si il joue du coeur ou la dame de pique
+                    if (responce && (((TraditionnalCard) cardPlay).getColor() == Color.HEARTS || cardPlay.equals(model.getGame().getDeck().getCardByResourceId(R.raw.cards_qs))))
+                    {
+                        // On vérifie qu'il n'a pas de pique
+                        for (Card card : hand)
+                        {
+                            if (((TraditionnalCard) card).getColor() == Color.SPADES)
+                                responce = false;
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            // Si il joue la couleur appeler
+            if (((TraditionnalCard) cardPlay).getColor() == ((TraditionnalCard) callCard).getColor())
+                responce = true;
+            else
+            {
+                responce = true;
+                // On vérifie qu'il n'a pas la couleur appeler dans sa main
+                for (Card card : hand)
+                {
+                    if (((TraditionnalCard) card).getColor() == ((TraditionnalCard) callCard).getColor())
+                        responce = false;
+                }
+            }
+        }
+
+        return responce;
     }
 
     @Override
