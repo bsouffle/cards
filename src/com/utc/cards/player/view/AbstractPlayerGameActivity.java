@@ -1,8 +1,5 @@
 package com.utc.cards.player.view;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,19 +10,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.RelativeLayout;
 
 import com.utc.cards.Constants;
 import com.utc.cards.R;
-import com.utc.cards.common.view.CardView;
 import com.utc.cards.common.view.CardsContainer;
-import com.utc.cards.common.view.listener.SendDragListener;
-import com.utc.cards.model.card.Card;
 import com.utc.cards.model.game.InfoType;
 import com.utc.cards.utils.Utils;
 
@@ -47,9 +38,6 @@ public abstract class AbstractPlayerGameActivity extends Activity implements IPl
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(getLayout());
 
-        // Get the size of the display screen
-        getScreenSize();
-
         onCreateHook(savedInstanceState);
 
     }
@@ -57,6 +45,12 @@ public abstract class AbstractPlayerGameActivity extends Activity implements IPl
     public abstract void onCreateHook(Bundle savedInstanceState);
 
     public abstract void drawGameCards();
+
+    public abstract void getScreenSize();
+
+    public abstract void drawSendingPanel();
+
+    public abstract void drawSeekBar();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -82,72 +76,68 @@ public abstract class AbstractPlayerGameActivity extends Activity implements IPl
         return true;
     }
 
-    private void getScreenSize()
-    {
-        Display display = getWindowManager().getDefaultDisplay();
-        display.getSize(_screenDimention);
-    }
+    // private void getScreenSize()
+    // {
+    // Display display = getWindowManager().getDefaultDisplay();
+    // display.getSize(_screenDimention);
+    // }
 
-    protected void drawCards(List<Card> cards, int nbMaxCardsMain)
-    {
-        System.out.println("TEST 1");
-        final View view = findViewById(R.id.cardsLayout);
-        final View viewSendingLayout = findViewById(R.id.sendingLayout);
+    // protected void drawCards(List<Card> cards, int nbMaxCardsMain)
+    // {
+    // final View view = findViewById(R.id.cardsLayout);
+    // final View viewSendingLayout = findViewById(R.id.sendingLayout);
+    //
+    // if (view != null)
+    // {
+    // List<CardView> cardViews = new ArrayList<CardView>();
+    //
+    // if (_screenDimention.y > 0)
+    // {
+    // // Set the cards dimension according to the size of the display
+    // // screen
+    // int w = (int) ((_screenDimention.x * 1.6 * nbMaxCardsMain) / 100);
+    // CardView.CARD_WIDTH = w;
+    //
+    // for (Card card : cards)
+    // {
+    // cardViews.add(new CardView(card, card.getResourceId(), view.getContext()));
+    // }
+    //
+    // // Set margins
+    //
+    // RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+    //
+    // lp.addRule(RelativeLayout.BELOW, viewSendingLayout.getId());
+    //
+    // lp.setMargins(0, 20, 0, 0);
+    //
+    // view.setLayoutParams(lp);
+    //
+    // // The container of the cards
+    //
+    // CardsContainer.CARD_DISTANCE = ((_screenDimention.x - 2 * CardsContainer.STARTING_X - CardView.CARD_WIDTH) / (nbMaxCardsMain - 1));
+    //
+    // _cardsContainer = new CardsContainer((RelativeLayout) view, _screenDimention, cardViews);
+    // }
+    // }
+    // }
 
-        if (view != null)
-        {
-            System.out.println("TEST 2");
-            List<CardView> cardViews = new ArrayList<CardView>();
-
-            if (_screenDimention.y > 0)
-            {
-                // Set the cards dimension according to the size of the display
-                // screen
-                int w = (int) ((_screenDimention.x * 1.6 * nbMaxCardsMain) / 100);
-                CardView.CARD_WIDTH = w;
-
-                for (Card card : cards)
-                {
-                    cardViews.add(new CardView(card, card.getResourceId(), view.getContext()));
-                }
-
-                // Set margins
-
-                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-                lp.addRule(RelativeLayout.BELOW, viewSendingLayout.getId());
-
-                lp.setMargins(0, 20, 0, 0);
-
-                view.setLayoutParams(lp);
-
-                // The container of the cards
-
-                CardsContainer.CARD_DISTANCE = ((_screenDimention.x - 2 * CardsContainer.STARTING_X - CardView.CARD_WIDTH) / (nbMaxCardsMain - 1));
-
-                _cardsContainer = new CardsContainer((RelativeLayout) view, _screenDimention, cardViews);
-
-                System.out.println("_cardsssssssssssssssss : " + _cardsContainer);
-            }
-        }
-    }
-
-    protected void drawSendingPanel()
-    {
-        final View view = findViewById(R.id.sendingLayout);
-
-        if (view != null)
-        {
-            if (_screenDimention.y > 0)
-            {
-                int h = (int) (_screenDimention.y * 15 / 100);
-                view.setMinimumHeight(h);
-            }
-
-            view.setBackgroundColor(android.graphics.Color.GRAY);
-            view.setOnDragListener(new SendDragListener(_cardsContainer));
-        }
-    }
+    // protected void drawSendingPanel()
+    // {
+    // final View view = findViewById(R.id.sendingLayout);
+    //
+    // if (view != null)
+    // {
+    // if (_screenDimention.y > 0)
+    // {
+    // int h = (int) (_screenDimention.y * 15 / 100);
+    // view.setMinimumHeight(h);
+    // }
+    //
+    // view.setBackgroundColor(android.graphics.Color.GRAY);
+    // view.setOnDragListener(new SendDragListener(_cardsContainer));
+    // }
+    // }
 
     // protected void drawSeekBar()
     // {
@@ -213,8 +203,6 @@ public abstract class AbstractPlayerGameActivity extends Activity implements IPl
     protected abstract int getMenu();
 
     public abstract int getLayout();
-
-    public abstract void onCreateHook();
 
     @Override
     protected void onDestroy()

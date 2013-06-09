@@ -49,7 +49,7 @@ public class CardsContainer
 
     public void refresh()
     {
-        System.out.println("[REFRESH] " + _cardViews.size());
+        // System.out.println("[REFRESH] " + _cardViews.size());
 
         int x = STARTING_X;
 
@@ -67,7 +67,7 @@ public class CardsContainer
     // Allow to switch the position of one card according to its coordinates (x)
     public void update(String cardName, float x)
     {
-        System.out.println("SelectedCard: " + cardName + " - Position: " + x);
+        // System.out.println("SelectedCard: " + cardName + " - Position: " + x);
 
         CardView selectedCard = getCardByName(cardName);
 
@@ -164,5 +164,15 @@ public class CardsContainer
     public List<CardView> getCards()
     {
         return _cardViews;
+    }
+
+    public RelativeLayout get_associatedLayout()
+    {
+        return _associatedLayout;
+    }
+
+    public void set_associatedLayout(RelativeLayout _associatedLayout)
+    {
+        this._associatedLayout = _associatedLayout;
     }
 }

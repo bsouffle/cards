@@ -1,10 +1,10 @@
 package com.utc.cards.common.view.listener;
 
-import com.utc.cards.common.view.CardsContainer;
-
 import android.view.DragEvent;
 import android.view.View;
 import android.view.View.OnDragListener;
+
+import com.utc.cards.common.view.CardsContainer;
 
 public class CardDragListener implements OnDragListener
 {
@@ -14,69 +14,70 @@ public class CardDragListener implements OnDragListener
 
     public CardDragListener(CardsContainer container)
     {
-	_container = container;
+        _container = container;
     }
 
     @Override
     public boolean onDrag(View view, DragEvent dragEvent)
     {
-	int action = dragEvent.getAction();
+        int action = dragEvent.getAction();
 
-	switch (action) {
-	case DragEvent.ACTION_DRAG_STARTED:
-	    // view.setBackgroundColor(Color.YELLOW);
+        switch (action)
+        {
+        case DragEvent.ACTION_DRAG_STARTED:
+            // view.setBackgroundColor(Color.YELLOW);
 
-	    _selectedView = (View) dragEvent.getLocalState();
-	    break;
+            _selectedView = (View) dragEvent.getLocalState();
+            break;
 
-	case DragEvent.ACTION_DRAG_ENTERED:
-	    // view.setBackgroundColor(Color.RED);
-	    break;
+        case DragEvent.ACTION_DRAG_ENTERED:
+            // view.setBackgroundColor(Color.RED);
+            break;
 
-	case DragEvent.ACTION_DRAG_EXITED:
-	    // view.setBackgroundColor(Color.BLUE);
-	    break;
+        case DragEvent.ACTION_DRAG_EXITED:
+            // view.setBackgroundColor(Color.BLUE);
+            break;
 
-	case DragEvent.ACTION_DRAG_LOCATION:
-	    if (_selectedView != null)
-	    {
-		float x = dragEvent.getX();
+        case DragEvent.ACTION_DRAG_LOCATION:
+            if (_selectedView != null)
+            {
+                float x = dragEvent.getX();
 
-		String cardName = (String) _selectedView.getTag();
+                String cardName = (String) _selectedView.getTag();
 
-		_container.update(cardName, x);
-	    }
+                _container.update(cardName, x);
+            }
 
-	    break;
+            break;
 
-	case DragEvent.ACTION_DROP:
-	    if (_selectedView != null)
-	    {
-		float x = dragEvent.getX();
+        case DragEvent.ACTION_DROP:
+            if (_selectedView != null)
+            {
+                float x = dragEvent.getX();
 
-		String cardName = (String) _selectedView.getTag();
+                String cardName = (String) _selectedView.getTag();
 
-		// System.out.println("X: " + x + " Y: " + y);
+                // System.out.println("X: " + x + " Y: " + y);
 
-		cardName = (String) _selectedView.getTag();
+                cardName = (String) _selectedView.getTag();
 
-		_container.update(cardName, x);
+                _container.update(cardName, x);
 
-		_selectedView.setVisibility(View.VISIBLE);
-	    }
+                _selectedView.setVisibility(View.VISIBLE);
+            }
 
-	    break;
+            break;
 
-	case DragEvent.ACTION_DRAG_ENDED:
-	    // view.setBackgroundColor(Color.GREEN);
+        case DragEvent.ACTION_DRAG_ENDED:
+            // view.setBackgroundColor(Color.GREEN);
 
-	    _container.refresh();
+            _container.refresh();
 
-	default:
-	    break;
-	}
+        default:
+            break;
+        }
 
-	return true;
+        return true;
     }
 
 }

@@ -6,9 +6,11 @@ import java.util.List;
 import android.app.Activity;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -24,17 +26,32 @@ import com.utc.cards.model.game.IRules;
 import com.utc.cards.model.player.HumanPlayer;
 import com.utc.cards.model.player.IPlayer;
 import com.utc.cards.player.view.AbstractPlayerGameActivity;
+import com.utc.cards.player.view.listener.simpleOnScaleGestureListener;
 
 public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
 {
     private CardsContainer _cardsContainer;
     private Point _screenDimention = new Point();
 
+    private ScaleGestureDetector _scaleGestureDetector;
+
     @Override
     public void onCreateHook(Bundle savedInstanceState)
     {
-        // TODO Auto-generated method stub
+        // Get the size of the display screen
+        getScreenSize();
 
+        drawGameCards();
+
+        // Set the panel used to send cards to the host
+        drawSendingPanel();
+
+        // Set the bar which allows to modify the distance between two cards
+        drawSeekBar();
+
+        // Add simple gesture listener for handling pinch actions
+        SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
+        _scaleGestureDetector = new ScaleGestureDetector(this, new simpleOnScaleGestureListener(seekBar));
     }
 
     @Override
@@ -76,16 +93,10 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
         return R.menu.menu_dame_de_pique_game_player;
     }
 
-    @Override
-    public void onCreateHook()
+    public void getScreenSize()
     {
-        drawGameCards();
-
-        // Set the panel used to send cards to the host
-        drawSendingPanel();
-
-        // Set the bar which allows to modify the distance between two cards
-        drawSeekBar();
+        Display display = getWindowManager().getDefaultDisplay();
+        display.getSize(_screenDimention);
     }
 
     public void drawGameCards()
@@ -94,8 +105,17 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
 
         IGame g = new DameDePique();
 
-        IPlayer p = new HumanPlayer("Benoit");
-        g.addPlayer(p);
+        IPlayer p1 = new HumanPlayer("Benoit");
+        g.addPlayer(p1);
+
+        IPlayer p2 = new HumanPlayer("Florian");
+        g.addPlayer(p2);
+
+        IPlayer p3 = new HumanPlayer("Arnaud");
+        g.addPlayer(p3);
+
+        IPlayer p4 = new HumanPlayer("Random");
+        g.addPlayer(p4);
 
         // COTE PLAYER ET HOTE pour obtenir l'objet Rules, on passera par
         // l'agent "RulesAgent" de l'HOTE, pas directement via la référence
@@ -107,47 +127,56 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
         // passeront par l'agent RulesAgent
         IRules rules = g.getRules();
         Deck hand = rules.getInitialCardDistribution(g.getDeck(), g.getPlayers()).get(0);
-        p.setHand(hand);
+        p1.setHand(hand);
 
-        drawCards(p.getHand());
+        drawCards(p1.getHand());
     }
 
     protected void drawCards(List<Card> cards)
     {
+        System.out.println("_screenDimention.y = " + _screenDimention.y);
         final View view = findViewById(R.id.cardsLayout);
+        final View viewSendingLayout = findViewById(R.id.sendingLayout);
 
         if (view != null)
         {
-
             List<CardView> cardViews = new ArrayList<CardView>();
 
-            for (Card card : cards)
-            {
-                cardViews.add(new CardView(card, card.getResourceId(), view.getContext()));
-            }
+            int nbMaxCardsMain = 52 / 4;
 
             if (_screenDimention.y > 0)
             {
+
                 // Set the cards dimension according to the size of the display
                 // screen
-                int w = (int) (_screenDimention.x * 21 / 100);
+                int w = (int) ((_screenDimention.x * 1.6 * nbMaxCardsMain) / 100);
                 CardView.CARD_WIDTH = w;
 
+                for (Card card : cards)
+                {
+                    cardViews.add(new CardView(card, card.getResourceId(), view.getContext(), _scaleGestureDetector));
+                }
+
                 // Set margins
-                int m = (int) (_screenDimention.y * 3 / 100);
 
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
-                lp.setMargins(0, m, 0, m);
+                lp.addRule(RelativeLayout.BELOW, viewSendingLayout.getId());
+
+                lp.setMargins(0, 20, 0, 0);
+
                 view.setLayoutParams(lp);
 
                 // The container of the cards
+
+                CardsContainer.CARD_DISTANCE = ((_screenDimention.x - 2 * CardsContainer.STARTING_X - CardView.CARD_WIDTH) / (nbMaxCardsMain - 1));
+
                 _cardsContainer = new CardsContainer((RelativeLayout) view, _screenDimention, cardViews);
             }
         }
     }
 
-    protected void drawSendingPanel()
+    public void drawSendingPanel()
     {
         final View view = findViewById(R.id.sendingLayout);
 
@@ -155,7 +184,7 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
         {
             if (_screenDimention.y > 0)
             {
-                int h = (int) (_screenDimention.y * 10 / 100);
+                int h = (int) (_screenDimention.y * 15 / 100);
                 view.setMinimumHeight(h);
             }
 
@@ -164,12 +193,18 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
         }
     }
 
-    private void drawSeekBar()
+    public void drawSeekBar()
     {
         final View view = findViewById(R.id.seekBar);
 
         if (view != null)
         {
+            if (_screenDimention.y > 0)
+            {
+                int h = (int) (_screenDimention.y * 15 / 100);
+                view.setMinimumHeight(h);
+            }
+
             SeekBar bar = (SeekBar) view;
 
             bar.setOnSeekBarChangeListener(new OnSeekBarChangeListener()
@@ -180,7 +215,15 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
                 {
                     // When the user changes the progress value, we change the
                     // distance between cards
-                    CardsContainer.CARD_DISTANCE = progress;
+
+                    // Length of the player's hand
+                    int lengthHand = ((_cardsContainer.getCards().size() - 1) * progress + CardView.CARD_WIDTH);
+
+                    if (lengthHand <= (_screenDimention.x - 2 * CardsContainer.STARTING_X))
+                    {
+                        CardsContainer.CARD_DISTANCE = progress;
+                    }
+
                     _cardsContainer.refresh();
                 }
 
@@ -196,6 +239,14 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
 
             });
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        _scaleGestureDetector.onTouchEvent(event);
+
+        return true;
     }
 
 }
