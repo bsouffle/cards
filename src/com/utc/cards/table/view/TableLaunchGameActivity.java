@@ -35,7 +35,6 @@ import com.utc.cards.R;
 import com.utc.cards.games.GameContainer;
 import com.utc.cards.model.HostModel;
 import com.utc.cards.model.game.GameStatus;
-import com.utc.cards.model.game.IGame;
 import com.utc.cards.player.jade.AgentActivityListener;
 import com.utc.cards.table.jade.agent.HostAgentManager;
 import com.utc.cards.table.jade.agent.hostAgent.IHostAgent;
@@ -50,7 +49,6 @@ public class TableLaunchGameActivity extends Activity
     private MyReceiver myReceiver;
 
     private static Logger _log = LoggerFactory.getLogger(TableLaunchGameActivity.class);
-    private IGame _selectedGame;
     private Point _screenDimention = new Point();
     private ListView _listView;
 
@@ -244,14 +242,14 @@ public class TableLaunchGameActivity extends Activity
 
         ImageView img = (ImageView) findViewById(R.id.selectedGameLogo);
 
-        Drawable tmp = getApplicationContext().getResources().getDrawable(_selectedGame.getLogoResource());
+        Drawable tmp = getApplicationContext().getResources().getDrawable(hostAgent.getModel().getGame().getLogoResource());
 
         double diff = (double) tmp.getIntrinsicHeight() / (double) tmp.getIntrinsicWidth();
 
         double w = _screenDimention.x * 0.25;
         double h = w * diff;
 
-        img.setBackgroundResource(_selectedGame.getLogoResource());
+        img.setBackgroundResource(hostAgent.getModel().getGame().getLogoResource());
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) w, (int) h);
 
@@ -268,7 +266,7 @@ public class TableLaunchGameActivity extends Activity
 
         TextView text = (TextView) findViewById(R.id.selectedGameLabel);
 
-        text.setText(_selectedGame.getName());
+        text.setText(hostAgent.getModel().getGame().getName());
 
         //
         //

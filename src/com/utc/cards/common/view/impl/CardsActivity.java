@@ -112,6 +112,11 @@ public class CardsActivity extends Activity
 
                 EditText myEditText = (EditText) findViewById(R.id.hostIpAddressEditText);
                 imm.hideSoftInputFromWindow(myEditText.getWindowToken(), 0);
+
+                SharedPreferences settings = getSharedPreferences(JADE_CARDS_PREFS_FILE, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString(HOST_IP, myEditText.getText().toString());
+                editor.commit();
             }
 
             public void onDrawerOpened(View drawerView)
@@ -157,7 +162,6 @@ public class CardsActivity extends Activity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-
         switch (item.getItemId())
         {
         // case R.id.menu_settings:
