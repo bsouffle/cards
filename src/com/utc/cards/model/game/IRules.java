@@ -21,8 +21,8 @@ public interface IRules
 
     public int getInitialScore();
 
-    public void determinateWinnerCurrentFold();
+    public void calculScore(Deck deck, Stack<Fold> plisFini, List<IPlayer> players);
 
-    void calculScore(Deck deck, Stack<Fold> plisFini, List<IPlayer> players);
+    public void determinateWinnerCurrentFold(HostModel model);
 
 }

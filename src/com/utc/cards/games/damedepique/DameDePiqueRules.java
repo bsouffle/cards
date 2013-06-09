@@ -13,6 +13,7 @@ import com.utc.cards.model.HostModel;
 import com.utc.cards.model.card.Card;
 import com.utc.cards.model.card.Color;
 import com.utc.cards.model.card.TraditionnalCard;
+import com.utc.cards.model.card.TraditionnalCard.TraditionnalCardNames;
 import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.game.AbstractGameRules;
 import com.utc.cards.model.game.Fold;
@@ -237,10 +238,89 @@ public class DameDePiqueRules extends AbstractGameRules
     }
 
     @Override
-    public void determinateWinnerCurrentFold()
+    // Determine le gagnat du pli courrant et l'ajoute à la pile de plis joués
+    public void determinateWinnerCurrentFold(HostModel model)
     {
-        // TODO Auto-generated method stub
+        Map<Card, IPlayer> reversFold = new HashMap<Card, IPlayer>();
+        Fold fold = model.getCurrentFold();
+        Card callCard;
+        IPlayer winner;
+        Card masterCard;
+        List<IPlayer> players = model.getGame().getPlayers();
+        Deck deck = new Deck();
 
+        // Detremination de la carte appeler
+        if (model.getOldFolds().empty())
+        {
+            callCard = model.getGame().getDeck().getCardByResourceId(R.raw.cards_2c);
+        }
+        else
+            callCard = fold.getCards(model.getOldFolds().lastElement().getWinner()).get(0);
+
+        // Creation d'un tableau permettant de récuperer les joueurs à partir de leur carte
+        // Ainsi que récuperation du pli en temps que Deck
+        for (Entry<String, Deck> entry : fold.getFoldCards().entrySet())
+        {
+            for (IPlayer player : players)
+            {
+                if (player.toString().equals(entry.getKey()))
+                    reversFold.put(entry.getValue().get(0), player);
+            }
+            deck.add(entry.getValue().get(0));
+        }
+
+        masterCard = callCard;
+        deck.remove(callCard);
+        for (Card card : deck)
+        {
+            // Si la couleur est la même que la carte appelé
+            if (((TraditionnalCard) masterCard).getColor() == ((TraditionnalCard) card).getColor())
+            {
+                // On verifie que la valeur est plus forte*
+                if (getValueByName(((TraditionnalCard) card).getType()) > getValueByName(((TraditionnalCard) masterCard).getType()))
+                {
+                    masterCard = card;
+                }
+            }
+        }
+
+        // On recuppère le winnier a partir de sa carte
+        fold.setWinner(reversFold.get(masterCard));
+        model.getOldFolds().push(fold);
     }
 
+    private int getValueByName(TraditionnalCardNames name)
+    {
+        switch (name)
+        {
+        case _AS:
+            return 14;
+        case _10:
+            return 10;
+        case _2:
+            return 2;
+        case _3:
+            return 3;
+        case _4:
+            return 4;
+        case _5:
+            return 5;
+        case _6:
+            return 6;
+        case _7:
+            return 7;
+        case _8:
+            return 8;
+        case _9:
+            return 9;
+        case _J:
+            return 11;
+        case _K:
+            return 13;
+        case _Q:
+            return 12;
+        default:
+            return -1;
+        }
+    }
 }

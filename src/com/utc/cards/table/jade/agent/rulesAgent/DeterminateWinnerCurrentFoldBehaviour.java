@@ -13,18 +13,18 @@ public class DeterminateWinnerCurrentFoldBehaviour extends OneShotBehaviour
 
     public DeterminateWinnerCurrentFoldBehaviour(RulesAgent a)
     {
-	super(a);
-	this.agent = a;
-	this.model = agent.getModel();
-	this.rules = agent.getModel().getGame().getRules();
-	// TODO Auto-generated constructor stub
+        super(a);
+        this.agent = a;
+        this.model = agent.getModel();
+        this.rules = agent.getModel().getGame().getRules();
+        // TODO Auto-generated constructor stub
     }
 
     @Override
     public void action()
     {
-	// TODO Auto-generated method stub
-	rules.determinateWinnerCurrentFold();
+        // TODO Auto-generated method stub
+        rules.determinateWinnerCurrentFold(model);
 
     }
 
