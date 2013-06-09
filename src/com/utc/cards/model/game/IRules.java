@@ -1,7 +1,6 @@
 package com.utc.cards.model.game;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
 import com.utc.cards.model.HostModel;
@@ -12,8 +11,7 @@ import com.utc.cards.model.player.IPlayer;
 public interface IRules
 {
 
-    public List<Deck> getInitialCardDistribution(Deck deck,
-	    List<IPlayer> players);
+    public List<Deck> getInitialCardDistribution(Deck deck, List<IPlayer> players);
 
     public IPlayer determineFirstPlayer(final Deck deck, List<IPlayer> players);
 
@@ -23,8 +21,8 @@ public interface IRules
 
     public int getInitialScore();
 
-    public Map<String, Deck> calculScore(Stack<Fold> plisFini);
-
     public void determinateWinnerCurrentFold();
+
+    void calculScore(Deck deck, Stack<Fold> plisFini, List<IPlayer> players);
 
 }

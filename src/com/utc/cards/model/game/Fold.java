@@ -28,6 +28,16 @@ public class Fold implements Parcelable
         return foldCards.get(player);
     }
 
+    public IPlayer getWinner()
+    {
+        return winner;
+    }
+
+    public void setWinner(IPlayer winner)
+    {
+        this.winner = winner;
+    }
+
     public Map<String, Deck> getFoldCards()
     {
         return foldCards;
@@ -42,6 +52,7 @@ public class Fold implements Parcelable
     {
         super();
         foldCards = Utils.readMap(parcel, Deck.class);
+        winner = null;
     }
 
     @Override

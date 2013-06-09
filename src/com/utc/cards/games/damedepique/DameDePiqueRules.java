@@ -1,13 +1,18 @@
 package com.utc.cards.games.damedepique;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.Stack;
 
 import com.utc.cards.R;
 import com.utc.cards.model.HostModel;
 import com.utc.cards.model.card.Card;
+import com.utc.cards.model.card.Color;
+import com.utc.cards.model.card.TraditionnalCard;
 import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.game.AbstractGameRules;
 import com.utc.cards.model.game.Fold;
@@ -91,14 +96,76 @@ public class DameDePiqueRules extends AbstractGameRules
     public int calculScore(Deck deck)
     {
         // TODO Auto-generated method stub
+
         return 0;
     }
 
     @Override
-    public Map<String, Deck> calculScore(Stack<Fold> plisFini)
+    public void calculScore(final Deck deck, Stack<Fold> plisFini, List<IPlayer> players)
     {
-        // TODO Auto-generated method stub
-        return null;
+        Map<IPlayer, Integer> tmp = new HashMap<IPlayer, Integer>();
+        Integer i;
+
+        Deck pack = new Deck();
+        Card dameDePique = deck.getCardByResourceId(R.raw.cards_qs);
+        for (IPlayer player : players)
+        {
+            tmp.put(player, 0);
+        }
+
+        for (Fold fold : plisFini)
+        {
+            // recuperation des cartes du pli
+            Map<String, Deck> pli = fold.getFoldCards();
+
+            for (Deck foldEntry : pli.values())
+            {
+                pack.addAll(foldEntry);
+            }
+
+            // Verification de la dame de pique
+            if (pack.contains(dameDePique))
+            {
+                i = tmp.get(fold.getWinner());
+                i = i + 12;
+                tmp.put(fold.getWinner(), i);
+            }
+            // Calcule du score du "gagnant" pour les coeurs
+            for (Card card : pack)
+            {
+                if (((TraditionnalCard) card).getColor() == Color.HEARTS)
+                {
+                    i = tmp.get(fold.getWinner());
+                    i++;
+                    tmp.put(fold.getWinner(), i);
+                }
+            }
+
+            pack.clear();
+        }
+
+        // Verification du cas du "controle"
+        if (tmp.containsValue(25))
+        {
+            Set<Entry<IPlayer, Integer>> setEntry = tmp.entrySet();
+            for (Entry<IPlayer, Integer> entry : setEntry)
+            {
+                i = tmp.get(entry.getKey());
+                if (i == 0)
+                    i = 25;
+                else
+                    i = 0;
+                tmp.put(entry.getKey(), i);
+            }
+        }
+
+        // Mise à jour du score dans le model
+        for (IPlayer player : players)
+        {
+            i = tmp.get(player);
+            i = i + player.getScore();
+            player.setScore(i);
+        }
     }
 
     @Override
