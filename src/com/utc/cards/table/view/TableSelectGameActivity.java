@@ -1,7 +1,6 @@
 package com.utc.cards.table.view;
 
 import java.util.ArrayList;
-import java.util.SortedSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,9 +8,7 @@ import org.slf4j.LoggerFactory;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Display;
@@ -25,6 +22,7 @@ import com.utc.cards.R;
 import com.utc.cards.games.GameContainer;
 import com.utc.cards.model.HostModel;
 import com.utc.cards.model.game.IGame;
+import com.utc.cards.utils.Utils;
 
 public class TableSelectGameActivity extends Activity
 {
@@ -45,7 +43,7 @@ public class TableSelectGameActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_game);
-        SortedSet<String> games = GameContainer.getCompleteGameNameList();
+
         // chargement des jeux pour afficher la liste
         _games = new ArrayList<IGame>(GameContainer.getGames());
 
@@ -167,19 +165,10 @@ public class TableSelectGameActivity extends Activity
             double w = _screenDimention.x * 0.2;
             double h = w * diff;
 
-            ret[i++] = resize(tmp, w, h);
+            ret[i++] = Utils.resize(tmp, w, h);
         }
 
         return ret;
-    }
-
-    // Pour redimensionner un objet Drawable
-    private Drawable resize(Drawable image, double w, double h)
-    {
-        Bitmap d = ((BitmapDrawable) image).getBitmap();
-        Bitmap bitmapOrig = Bitmap.createScaledBitmap(d, (int) w, (int) h, false);
-
-        return new BitmapDrawable(bitmapOrig);
     }
 
     // Méthode "OnClick" liée à la vue
@@ -188,8 +177,5 @@ public class TableSelectGameActivity extends Activity
         System.out.println("Launch Game");
 
         launchSelectedGame();
-
-        Intent intent = new Intent(this, TableLaunchGameActivity.class);
-        startActivity(intent);
     }
 }

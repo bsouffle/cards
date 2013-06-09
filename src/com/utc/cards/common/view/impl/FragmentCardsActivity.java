@@ -35,10 +35,6 @@ public class FragmentCardsActivity extends Fragment
     private Point _screenDimention = new Point();
     private View _rootView;
 
-    public FragmentCardsActivity()
-    {
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {

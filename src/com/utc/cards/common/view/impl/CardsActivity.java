@@ -105,7 +105,7 @@ public class CardsActivity extends Activity
         {
             public void onDrawerClosed(View view)
             {
-                getActionBar().setTitle("CARDS");
+                getActionBar().setTitle(R.string.app_name);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -164,10 +164,6 @@ public class CardsActivity extends Activity
     {
         switch (item.getItemId())
         {
-        // case R.id.menu_settings:
-        // Intent showSettings = new Intent(this, SettingsActivity.class);
-        // startActivity(showSettings);
-        // return true;
         case R.id.menu_exit:
             finish();
             break;

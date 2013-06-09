@@ -4,35 +4,27 @@ import jade.core.MicroRuntime;
 import jade.wrapper.ControllerException;
 import jade.wrapper.StaleProxyException;
 
-import java.util.ArrayList;
-import java.util.SortedSet;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Display;
-import android.view.Gravity;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.utc.cards.Constants;
 import com.utc.cards.R;
-import com.utc.cards.games.GameContainer;
 import com.utc.cards.model.HostModel;
 import com.utc.cards.model.game.GameStatus;
 import com.utc.cards.player.jade.AgentActivityListener;
@@ -49,34 +41,113 @@ public class TableLaunchGameActivity extends Activity
     private MyReceiver myReceiver;
 
     private static Logger _log = LoggerFactory.getLogger(TableLaunchGameActivity.class);
-    private Point _screenDimention = new Point();
-    private ListView _listView;
+
+    private DrawerLayout mDrawerLayout;
+    private LinearLayout mDrawerPanel;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private FragmentTableLaunchGameActivity mContentFrame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch_game);
-        loadHostAgent();
 
-        // chargement des jeux pour afficher la liste
-        SortedSet<String> games = GameContainer.getCompleteGameNameList();
+        loadHostAgent();
 
         registerReceivers();
 
-        getScreenSize();
+        setSlidingMenu(savedInstanceState);
+    }
 
-        setSelectedGameLogoAndLabel();
+    private void setSlidingMenu(Bundle savedInstanceState)
+    {
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerPanel = (LinearLayout) findViewById(R.id.left_drawer);
 
-        updatePlayerList(); // Au cas ou des joueurs auraient Ã©tÃ© ajoutÃ©s
-        // avant que le listener ne soit en place
+        // set a custom shadow that overlays the main content when the drawer opens
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
-        // Test pour affichage liste des joueurs
+        // enable ActionBar app icon to behave as action to toggle nav drawer
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
 
-        // _selectedGame.addPlayer(new HumanPlayer("Benoit"));
-        // _selectedGame.addPlayer(new HumanPlayer("Bobby"));
-        // _selectedGame.addPlayer(new HumanPlayer("Benoit 2"));
-        // _selectedGame.addPlayer(new HumanPlayer("Bobby 2"));
+        // ActionBarDrawerToggle ties together the the proper interactions
+        // between the sliding drawer and the action bar app icon
+        mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
+        mDrawerLayout, /* DrawerLayout object */
+        R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
+        R.string.drawer_open, /* "open drawer" description for accessibility */
+        R.string.drawer_close /* "close drawer" description for accessibility */
+        )
+        {
+            public void onDrawerClosed(View view)
+            {
+                getActionBar().setTitle("Attente des joueurs");
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            public void onDrawerOpened(View drawerView)
+            {
+                getActionBar().setTitle("Options");
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        setContentFrame();
+    }
+
+    private void setContentFrame()
+    {
+        // update the main content by replacing fragments
+        mContentFrame = new FragmentTableLaunchGameActivity();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, mContentFrame).commit();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.cards, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        // If the nav drawer is open, hide action items related to the content
+        // view
+        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerPanel);
+        menu.findItem(R.id.menu_settings).setVisible(!drawerOpen);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+        case R.id.menu_exit:
+            finish();
+            break;
+        case R.id.menu_settings:
+            mDrawerLayout.openDrawer(mDrawerPanel);
+            break;
+
+        }
+
+        // The action bar home/up action should open or close the drawer.
+        // ActionBarDrawerToggle will take care of this.
+        if (mDrawerToggle.onOptionsItemSelected(item))
+        {
+            return true;
+        }
+
+        return false;
+
     }
 
     private void registerReceivers()
@@ -105,9 +176,7 @@ public class TableLaunchGameActivity extends Activity
             log.info("Received intent " + action);
             if (action.equalsIgnoreCase(Constants.PLAYER_LIST))
             { // met à jour la liste des joueurs
-                String[] players = (String[]) HostModel.Instance().getPlayersMap().keySet().toArray();
-                ListView playerList = (ListView) findViewById(R.id.subscriberList);
-                playerList.setAdapter(new ArrayAdapter<String>(TableLaunchGameActivity.this, android.R.layout.simple_list_item_1, players));
+                mContentFrame.updatePlayerList();
             }
         }
     }
@@ -127,51 +196,6 @@ public class TableLaunchGameActivity extends Activity
         {
             Utils.showAlertDialog(this, getString(R.string.msg_controller_exc), true);
         }
-    }
-
-    public void updatePlayerList()
-    {
-        if (_listView == null)
-        {
-            _listView = (ListView) findViewById(R.id.subscriberList);
-
-            // _listView.setOnItemClickListener(new
-            // AdapterView.OnItemClickListener()
-            // {
-            //
-            // @Override
-            // public void onItemClick(AdapterView<?> parent, final View view,
-            // int position, long id)
-            // {
-            // log.debug("Player clicked: " +
-            // _selectedGame.getPlayers().get(position).getName());
-            // }
-            // });
-
-            double w = _screenDimention.x * 0.3;
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((int) w, LayoutParams.WRAP_CONTENT);
-
-            lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            lp.topMargin = 15;
-            lp.bottomMargin = 100;
-
-            _listView.setLayoutParams(lp);
-        }
-
-        ArrayList<String> s = new ArrayList<String>(HostModel.Instance().getPlayersMap().keySet());
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, s);
-
-        log.debug("Nb Players:" + HostModel.Instance().getPlayersMap().size());
-        // log.debug("Nb Players:" + _selectedGame.getPlayerNames().size());
-
-        _listView.setAdapter(adapter);
-
-    }
-
-    private void getScreenSize()
-    {
-        Display display = getWindowManager().getDefaultDisplay();
-        display.getSize(_screenDimention);
     }
 
     /**
@@ -232,61 +256,6 @@ public class TableLaunchGameActivity extends Activity
     public IHostAgent getHostAgent()
     {
         return hostAgent;
-    }
-
-    public void setSelectedGameLogoAndLabel()
-    {
-        // Logo du jeu selectionné
-        //
-        //
-
-        ImageView img = (ImageView) findViewById(R.id.selectedGameLogo);
-
-        Drawable tmp = getApplicationContext().getResources().getDrawable(hostAgent.getModel().getGame().getLogoResource());
-
-        double diff = (double) tmp.getIntrinsicHeight() / (double) tmp.getIntrinsicWidth();
-
-        double w = _screenDimention.x * 0.25;
-        double h = w * diff;
-
-        img.setBackgroundResource(hostAgent.getModel().getGame().getLogoResource());
-
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) w, (int) h);
-
-        lp.gravity = Gravity.CENTER_VERTICAL;
-
-        img.setLayoutParams(lp);
-
-        //
-        //
-
-        // Label du jeu selectionné
-        //
-        //
-
-        TextView text = (TextView) findViewById(R.id.selectedGameLabel);
-
-        text.setText(hostAgent.getModel().getGame().getName());
-
-        //
-        //
-
-        // Positionnement des infos relatives au jeu selectionné (label + logo)
-        //
-        //
-
-        LinearLayout container = (LinearLayout) findViewById(R.id.selectedGameInfo);
-
-        RelativeLayout.LayoutParams lp2 = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-
-        lp2.leftMargin = (int) (_screenDimention.x * 0.25);
-        lp2.topMargin = (int) (_screenDimention.y * 0.1);
-
-        container.setLayoutParams(lp2);
-
-        //
-        //
-
     }
 
     // Méthode "OnClick" liée à la vue
