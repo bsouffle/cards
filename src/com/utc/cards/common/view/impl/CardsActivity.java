@@ -170,6 +170,10 @@ public class CardsActivity extends Activity
         // return true;
         case R.id.menu_exit:
             finish();
+            break;
+        case R.id.menu_settings:
+            mDrawerLayout.openDrawer(mDrawerPanel);
+            break;
 
         }
 
