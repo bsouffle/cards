@@ -17,7 +17,7 @@ public interface IRules
 
     public boolean validerCoup(List<Card> Cards, IPlayer player, HostModel model);
 
-    public Card conseilCoup(Deck handPlayer, IPlayer player, HostModel model);
+    public Deck conseilCoup(Deck handPlayer, IPlayer player, HostModel model);
 
     public int getInitialScore();
 

@@ -1,32 +1,30 @@
 package com.utc.cards.model.game;
 
-import java.util.List;
-
-import com.utc.cards.model.card.Card;
+import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.player.IPlayer;
 
 public class PlayerTry
 {
-    private List<Card> Cards;
+    private Deck Cards;
     private IPlayer player;
 
-    public List<Card> getCards()
+    public Deck getCards()
     {
-	return Cards;
+        return Cards;
     }
 
-    public void setCards(List<Card> cards)
+    public void setCards(Deck cards)
     {
-	Cards = cards;
+        Cards = cards;
     }
 
     public IPlayer getPlayer()
     {
-	return player;
+        return player;
     }
 
     public void setPlayer(IPlayer player)
     {
-	this.player = player;
+        this.player = player;
     }
 }

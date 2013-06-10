@@ -12,64 +12,75 @@ public class RulesListenerBehaviour extends CyclicBehaviour
 {
 
     private RulesAgent agent;
-    private MessageTemplate template = MessageTemplate
-	    .MatchConversationId("info");
+    private MessageTemplate template = MessageTemplate.MatchConversationId("info");
 
     public RulesListenerBehaviour(RulesAgent a)
     {
-	super(a);
-	this.agent = a;
-	// TODO Auto-generated constructor stub
+        super(a);
+        this.agent = a;
+        // TODO Auto-generated constructor stub
     }
 
     @Override
     public void action()
     {
-	// TODO Auto-generated method stub
-	ACLMessage msg = agent.receive(template);
-	if (msg != null)
-	{
-	    if (msg.getPerformative() == ACLMessage.INFORM)
-	    {
-		Info info = null;
-		try
-		{
-		    info = Mapper.getObjectMapper().readValue(msg.getContent(),
-			    Info.class);
-		} catch (Exception ex)
-		{
+        // TODO Auto-generated method stub
+        PlayerTry pt;
+        ACLMessage msg = agent.receive(template);
+        if (msg != null)
+        {
+            if (msg.getPerformative() == ACLMessage.INFORM)
+            {
+                Info info = null;
+                try
+                {
+                    info = Mapper.getObjectMapper().readValue(msg.getContent(), Info.class);
+                }
+                catch (Exception ex)
+                {
 
-		}
-		switch (info.getType()) {
-		case INIT_CARDS:
-		    agent.sendInitialCards();
-		    break;
-		case VALID_PLAY:
-		    PlayerTry pt = null;
-		    try
-		    {
-			pt = Mapper.getObjectMapper().readValue(info.getJson(),
-				PlayerTry.class);
+                }
+                switch (info.getType())
+                {
+                case INIT_CARDS:
+                    agent.sendInitialCards();
+                    break;
+                case VALID_PLAY:
+                    pt = null;
+                    try
+                    {
+                        pt = Mapper.getObjectMapper().readValue(info.getJson(), PlayerTry.class);
 
-		    } catch (Exception e)
-		    {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		    }
-		    agent.validatePlayerCards(pt.getCards(), pt.getPlayer());
-		    break;
-		case PLAYER_START:
-		    agent.determinateFirstPlayer();
-		    break;
-		case ASK_ADVICE:
+                    }
+                    catch (Exception e)
+                    {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    agent.validatePlayerCards(pt.getCards(), pt.getPlayer());
+                    break;
+                case PLAYER_START:
+                    agent.determinateFirstPlayer();
+                    break;
+                case ASK_ADVICE:
+                    pt = null;
+                    try
+                    {
+                        pt = Mapper.getObjectMapper().readValue(info.getJson(), PlayerTry.class);
 
-		    break;
-		default:
-		    break;
-		}
-	    }
-	}
-	block();
+                    }
+                    catch (Exception e)
+                    {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    agent.askAdvice(pt.getCards(), pt.getPlayer());
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+        block();
     }
-
 }

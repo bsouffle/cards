@@ -179,10 +179,118 @@ public class DameDePiqueRules extends AbstractGameRules
     }
 
     @Override
-    public Card conseilCoup(Deck handPlayer, IPlayer player, HostModel model)
+    public Deck conseilCoup(Deck handPlayer, IPlayer player, HostModel model)
     {
         // TODO Auto-generated method stub
-        return null;
+        Card callCard;
+        Fold plicourant = model.getCurrentFold();
+        Deck advice = new Deck();
+
+        // Détermination de la première carte du pli à partir du gagnant du tour précèdent
+        if (model.getOldFolds().empty())
+            callCard = null;
+        else
+            callCard = plicourant.getCards(model.getOldFolds().lastElement().getWinner()).get(0);
+
+        // Si on est le premier a jouer on joue ce qu'on veut mise à part du coeur si il n'a pas été déjà joué
+        if (plicourant.getFoldCards().isEmpty())
+        {
+            for (Card card : handPlayer)
+            {
+                if (((TraditionnalCard) card).getColor() != Color.HEARTS || _alreadyHearts)
+                    advice.add(card);
+            }
+        }
+        else
+        {
+            // On regarde si on a des carte de la même couleur que la carte appeler
+            for (Card card : handPlayer)
+            {
+                if (((TraditionnalCard) card).getColor() == ((TraditionnalCard) callCard).getColor())
+                    advice.add(card);
+            }
+            // Si on a pas de carte de la même couleur
+            if (advice.isEmpty())
+            {
+                // On se defausse de des coeur (ou de la dame de pique) ou de ses plus fortes cartes
+                if (handPlayer.contains(model.getGame().getDeck().getCardByResourceId(R.raw.cards_qs)))
+                {
+                    advice.add(handPlayer.getCardByResourceId(R.raw.cards_qs));
+                }
+                for (Card card : handPlayer)
+                {
+                    if (((TraditionnalCard) card).getColor() == Color.HEARTS)
+                        advice.add(card);
+                }
+                // Si on en a pas on joue ce qu'on a
+                if (advice.isEmpty())
+                {
+                    for (Card card : handPlayer)
+                    {
+                        advice.add(card);
+                    }
+                }
+            }
+            else
+            {
+                // On regarde si le pli contient des points et quel est la carte maîtresse
+                Deck pli = new Deck();
+                boolean hasPoint = false;
+                Card masterCard = callCard;
+                for (Deck deck : plicourant.getFoldCards().values())
+                {
+                    pli.addAll(deck);
+                }
+                for (Card card : pli)
+                {
+                    if (((TraditionnalCard) card).getColor() == Color.HEARTS || card.equals(model.getGame().getDeck().getCardByResourceId(R.raw.cards_qs)))
+                    {
+                        hasPoint = true;
+                    }
+                    if (((TraditionnalCard) card).getColor() == ((TraditionnalCard) masterCard).getColor()
+                            && getValueByName(((TraditionnalCard) masterCard).getType()) < getValueByName(((TraditionnalCard) card).getType()))
+                    {
+                        masterCard = card;
+                    }
+                }
+                if (hasPoint)
+                {
+                    // Si le pli contient des coeur ou la dame de pique on essaye de le perdre
+                    for (Card card : advice)
+                    {
+                        if (getValueByName(((TraditionnalCard) masterCard).getType()) < getValueByName(((TraditionnalCard) card).getType()))
+                        {
+                            advice.remove(card);
+                        }
+                    }
+                }
+                else
+                {
+                    // Sinon si on est le dernier à jouer on essay de le gagner
+                    if (pli.size() == 3)
+                    {
+                        for (Card card : advice)
+                        {
+                            if (getValueByName(((TraditionnalCard) masterCard).getType()) > getValueByName(((TraditionnalCard) card).getType()))
+                            {
+                                advice.remove(card);
+                            }
+                        }
+                    }
+                }
+                if (advice.isEmpty())
+                {
+                    // Si on ne peut pas respecter la stratégie on remet toute les cartes jouable en conseil
+                    for (Card card : handPlayer)
+                    {
+                        if (((TraditionnalCard) card).getColor() == ((TraditionnalCard) callCard).getColor())
+                            advice.add(card);
+                    }
+                }
+            }
+        }
+
+        return advice;
     }
 
     @Override
