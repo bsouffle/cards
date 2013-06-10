@@ -21,6 +21,7 @@ import com.utc.cards.model.player.IPlayer;
 
 public class DameDePiqueRules extends AbstractGameRules
 {
+    private boolean _alreadyHearts = false;
 
     @Override
     public IPlayer determineFirstPlayer(final Deck deck, final List<IPlayer> players)
@@ -90,15 +91,14 @@ public class DameDePiqueRules extends AbstractGameRules
             callCard = plicourant.getCards(model.getOldFolds().lastElement().getWinner()).get(0);
 
         // Si on est au premier tour
-        if (hand.size() == 13)
+        if (callCard == null)
         {
             // Si c'est le premier à jouer
             if (plicourant.getFoldCards().isEmpty())
             {
                 // Si la carte jouer est le 2 de trèfle
                 if (cardPlay.equals(model.getGame().getDeck().getCardByResourceId(R.raw.cards_2c)))
-                    ;
-                responce = true;
+                    responce = true;
             }
             else
             {
@@ -139,12 +139,17 @@ public class DameDePiqueRules extends AbstractGameRules
                     responce = true;
                 }
                 else
-                { // Sinon on vérifie qu'il y a que du coeur dans sa main
-                    for (Card card : hand)
+                { // Sinon on vérifie qu'il y a que du coeur dans sa main ou que du coeur
+                  // a déjà été joué
+                    responce = true;
+                    if (_alreadyHearts)
                     {
-                        responce = true;
-                        if (((TraditionnalCard) card).getColor() != Color.HEARTS)
-                            responce = false;
+                        for (Card card : hand)
+                        {
+                            responce = true;
+                            if (((TraditionnalCard) card).getColor() != Color.HEARTS)
+                                responce = false;
+                        }
                     }
                 }
             }
@@ -165,6 +170,10 @@ public class DameDePiqueRules extends AbstractGameRules
                 }
             }
         }
+
+        // Si la carte validé est du coeur on autorise les joueurs à en joué plus tard comme première carte
+        if (responce && ((TraditionnalCard) cardPlay).getColor() == Color.HEARTS)
+            this._alreadyHearts = true;
 
         return responce;
     }
