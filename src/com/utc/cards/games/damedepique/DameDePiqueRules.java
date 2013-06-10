@@ -117,10 +117,10 @@ public class DameDePiqueRules extends AbstractGameRules
                     // Si il joue du coeur ou la dame de pique
                     if (responce && (((TraditionnalCard) cardPlay).getColor() == Color.HEARTS || cardPlay.equals(model.getGame().getDeck().getCardByResourceId(R.raw.cards_qs))))
                     {
-                        // On vérifie qu'il n'a pas de pique
+                        // On vérifie qu'il n'a pas de pique ou de carreau
                         for (Card card : hand)
                         {
-                            if (((TraditionnalCard) card).getColor() == Color.SPADES)
+                            if (((TraditionnalCard) card).getColor() == Color.SPADES || ((TraditionnalCard) card).getColor() == Color.DIAMONDS)
                                 responce = false;
                         }
                     }
@@ -129,17 +129,38 @@ public class DameDePiqueRules extends AbstractGameRules
         }
         else
         {
-            // Si il joue la couleur appeler
-            if (((TraditionnalCard) cardPlay).getColor() == ((TraditionnalCard) callCard).getColor())
-                responce = true;
+            // Si c'est le premier à jouer
+            if (plicourant.getFoldCards().isEmpty())
+            {
+                // Si c'est autre chose que du coeur
+                if (((TraditionnalCard) cardPlay).getColor() != Color.HEARTS)
+                {
+                    responce = true;
+                }
+                else
+                { // Sinon on vérifie qu'il y a que du coeur dans sa main
+                    for (Card card : hand)
+                    {
+                        responce = true;
+                        if (((TraditionnalCard) card).getColor() != Color.HEARTS)
+                            responce = false;
+                    }
+                }
+            }
             else
             {
-                responce = true;
-                // On vérifie qu'il n'a pas la couleur appeler dans sa main
-                for (Card card : hand)
+                // Si il joue la couleur appeler
+                if (((TraditionnalCard) cardPlay).getColor() == ((TraditionnalCard) callCard).getColor())
+                    responce = true;
+                else
                 {
-                    if (((TraditionnalCard) card).getColor() == ((TraditionnalCard) callCard).getColor())
-                        responce = false;
+                    responce = true;
+                    // On vérifie qu'il n'a pas la couleur appeler dans sa main
+                    for (Card card : hand)
+                    {
+                        if (((TraditionnalCard) card).getColor() == ((TraditionnalCard) callCard).getColor())
+                            responce = false;
+                    }
                 }
             }
         }
@@ -177,6 +198,8 @@ public class DameDePiqueRules extends AbstractGameRules
 
         Deck pack = new Deck();
         Card dameDePique = deck.getCardByResourceId(R.raw.cards_qs);
+
+        // initalisation des scores temporaire
         for (IPlayer player : players)
         {
             tmp.put(player, 0);
@@ -276,7 +299,7 @@ public class DameDePiqueRules extends AbstractGameRules
             // Si la couleur est la même que la carte appelé
             if (((TraditionnalCard) masterCard).getColor() == ((TraditionnalCard) card).getColor())
             {
-                // On verifie que la valeur est plus forte*
+                // On verifie que la valeur est plus forte
                 if (getValueByName(((TraditionnalCard) card).getType()) > getValueByName(((TraditionnalCard) masterCard).getType()))
                 {
                     masterCard = card;
@@ -289,6 +312,7 @@ public class DameDePiqueRules extends AbstractGameRules
         model.getOldFolds().push(fold);
     }
 
+    // Renvoie une "puissance" de carte selon le type de la carte
     private int getValueByName(TraditionnalCardNames name)
     {
         switch (name)
