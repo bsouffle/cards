@@ -120,7 +120,8 @@ public class DameDePiqueRules extends AbstractGameRules
                         // On vérifie qu'il n'a pas de pique ou de carreau
                         for (Card card : hand)
                         {
-                            if (((TraditionnalCard) card).getColor() == Color.SPADES || ((TraditionnalCard) card).getColor() == Color.DIAMONDS)
+                            if ((((TraditionnalCard) card).getColor() == Color.SPADES && !cardPlay.equals(model.getGame().getDeck().getCardByResourceId(R.raw.cards_qs)))
+                                    || ((TraditionnalCard) card).getColor() == Color.DIAMONDS)
                                 responce = false;
                         }
                     }
