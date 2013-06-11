@@ -3,15 +3,11 @@ package com.utc.cards.common.view;
 import android.content.Context;
 import android.os.Handler;
 import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.SeekBar;
 
 import com.trevorpage.tpsvg.SVGParserRenderer;
 import com.trevorpage.tpsvg.SVGView;
-import com.utc.cards.R;
 import com.utc.cards.model.card.Card;
-import com.utc.cards.player.view.listener.simpleOnScaleGestureListener;
 
 public class CardView extends SVGView
 {
@@ -23,11 +19,10 @@ public class CardView extends SVGView
     private int resourceId;
     private Card card;
 
-    private ScaleGestureDetector _scaleGestureDetector;
     private final Handler _handler;
     private runnableDelayingDrag _mLongPressed;
 
-    public CardView(Card card, int resourceId, Context context, ScaleGestureDetector scaleGestureDetector)
+    public CardView(Card card, int resourceId, Context context)
     {
         super(context);
         this.card = card;
@@ -48,8 +43,6 @@ public class CardView extends SVGView
         _handler = new Handler();
         _mLongPressed = new runnableDelayingDrag(this);
 
-        SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
-        _scaleGestureDetector = new ScaleGestureDetector(context, new simpleOnScaleGestureListener(seekBar));
     }
 
     public int get_resourceId()
@@ -78,15 +71,7 @@ public class CardView extends SVGView
             }
             else if (NB_POINTERS == 2)
             {
-                try
-                {
-                    _scaleGestureDetector.onTouchEvent(event);
-                }
-                catch (Exception e)
-                {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                // _pinchLayoutView.setVisibility(View.VISIBLE);
             }
 
             System.out.println("DOWN : NB_POINTERS = " + NB_POINTERS);
@@ -100,15 +85,7 @@ public class CardView extends SVGView
 
             if (NB_POINTERS == 2)
             {
-                try
-                {
-                    _scaleGestureDetector.onTouchEvent(event);
-                }
-                catch (Exception e)
-                {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+
             }
             System.out.println("POINTER_DOWN : NB_POINTERS = " + NB_POINTERS);
             break;

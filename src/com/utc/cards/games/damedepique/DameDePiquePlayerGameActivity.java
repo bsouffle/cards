@@ -26,7 +26,6 @@ import com.utc.cards.model.game.IRules;
 import com.utc.cards.model.player.HumanPlayer;
 import com.utc.cards.model.player.IPlayer;
 import com.utc.cards.player.view.AbstractPlayerGameActivity;
-import com.utc.cards.player.view.listener.simpleOnScaleGestureListener;
 
 public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
 {
@@ -49,9 +48,7 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
         // Set the bar which allows to modify the distance between two cards
         drawSeekBar();
 
-        // Add simple gesture listener for handling pinch actions
-        SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
-        _scaleGestureDetector = new ScaleGestureDetector(this, new simpleOnScaleGestureListener(seekBar));
+        drawPinchLayout();
     }
 
     @Override
@@ -99,6 +96,19 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
         display.getSize(_screenDimention);
     }
 
+    public void drawPinchLayout()
+    {
+        final View view = findViewById(R.id.pinchLayout);
+
+        if (view != null)
+        {
+            // RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            // view.setLayoutParams(lp);
+
+            view.setBackgroundColor(android.graphics.Color.RED);
+        }
+    }
+
     public void drawGameCards()
     {
         // Petit test
@@ -134,7 +144,6 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
 
     protected void drawCards(List<Card> cards)
     {
-        System.out.println("_screenDimention.y = " + _screenDimention.y);
         final View view = findViewById(R.id.cardsLayout);
         final View viewSendingLayout = findViewById(R.id.sendingLayout);
 
@@ -154,7 +163,7 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
 
                 for (Card card : cards)
                 {
-                    cardViews.add(new CardView(card, card.getResourceId(), view.getContext(), _scaleGestureDetector));
+                    cardViews.add(new CardView(card, card.getResourceId(), view.getContext()));
                 }
 
                 // Set margins
