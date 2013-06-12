@@ -25,7 +25,7 @@ public class Fold implements Parcelable
 
     public Deck getCards(IPlayer player)
     {
-        return foldCards.get(player);
+        return foldCards.get(player.getName());
     }
 
     public IPlayer getWinner()
@@ -48,9 +48,18 @@ public class Fold implements Parcelable
         this.foldCards = cardsMap;
     }
 
+    public Fold(Map<String, Deck> fold)
+    {
+        super();
+
+        foldCards = fold;
+        winner = null;
+    }
+
     public Fold(Parcel parcel)
     {
         super();
+
         foldCards = Utils.readMap(parcel, Deck.class);
         winner = null;
     }

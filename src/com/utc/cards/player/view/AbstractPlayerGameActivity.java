@@ -38,11 +38,10 @@ public abstract class AbstractPlayerGameActivity extends Activity implements IPl
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(getLayout());
 
-        onCreateHook(savedInstanceState);
-
+        onCreateSpecificView(savedInstanceState);
     }
 
-    public abstract void onCreateHook(Bundle savedInstanceState);
+    public abstract void onCreateSpecificView(Bundle savedInstanceState);
 
     public abstract void drawGameCards();
 

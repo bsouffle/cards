@@ -22,11 +22,11 @@ public class CardView extends SVGView
     private final Handler _handler;
     private runnableDelayingDrag _mLongPressed;
 
-    public CardView(Card card, int resourceId, Context context)
+    public CardView(Card card, Context context)
     {
         super(context);
         this.card = card;
-        this.resourceId = resourceId;
+        this.resourceId = card.getResourceId();
 
         // Tag of the view (-> card name)
         setTag(card.getName());

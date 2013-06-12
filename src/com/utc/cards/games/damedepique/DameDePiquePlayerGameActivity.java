@@ -35,7 +35,7 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
     private ScaleGestureDetector _scaleGestureDetector;
 
     @Override
-    public void onCreateHook(Bundle savedInstanceState)
+    public void onCreateSpecificView(Bundle savedInstanceState)
     {
         // Get the size of the display screen
         getScreenSize();
@@ -128,12 +128,12 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
         g.addPlayer(p4);
 
         // COTE PLAYER ET HOTE pour obtenir l'objet Rules, on passera par
-        // l'agent "RulesAgent" de l'HOTE, pas directement via la référence
+        // l'agent "RulesAgent" de l'HOTE, pas directement via la r��f��rence
         //
         // le principe serait que seul cet agent utilisera getRules ou un truc
-        // similaire pour avoir/initialiser les règles, ensuite toutes les
+        // similaire pour avoir/initialiser les r��gles, ensuite toutes les
         // demandes (qui joue au prochain tour, comment se passe la fin d'un
-        // tour, est-ce que la partie est terminée ?
+        // tour, est-ce que la partie est termin��e ?
         // passeront par l'agent RulesAgent
         IRules rules = g.getRules();
         Deck hand = rules.getInitialCardDistribution(g.getDeck(), g.getPlayers()).get(0);
@@ -163,7 +163,7 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
 
                 for (Card card : cards)
                 {
-                    cardViews.add(new CardView(card, card.getResourceId(), view.getContext()));
+                    cardViews.add(new CardView(card, view.getContext()));
                 }
 
                 // Set margins
