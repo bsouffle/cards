@@ -156,7 +156,7 @@ public class CardsContainer
 
     public void removeCard(CardView c)
     {
-
+        _associatedLayout.removeView(c);
         _cardViews.remove(c);
 
     }

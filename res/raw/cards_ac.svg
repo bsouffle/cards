@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   sodipodi:docname="cards_AC.svg"
-   inkscape:version="0.48.2 r9819"
+   sodipodi:docname="cards_ac.svg"
+   inkscape:version="0.48.4 r9939"
    version="1.1"
    id="svg4423"
    height="1052.3622047"
@@ -23,19 +23,19 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994948"
-     inkscape:cx="117.04792"
-     inkscape:cy="850.43425"
+     inkscape:cx="323.51668"
+     inkscape:cy="42.312203"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:snap-global="true"
      inkscape:snap-bbox="true"
      inkscape:snap-page="true"
-     inkscape:window-width="1920"
-     inkscape:window-height="948"
-     inkscape:window-x="214"
-     inkscape:window-y="69"
-     inkscape:window-maximized="0" />
+     inkscape:window-width="1366"
+     inkscape:window-height="715"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
   <defs
      id="defs4425" />
   <metadata
@@ -56,7 +56,7 @@
      inkscape:label="AC">
     <g
        id="g3822"
-       transform="matrix(3.3333308,0,0,3.3749998,-3245.8243,-938.72401)"
+       transform="matrix(3.3184218,0,0,3.3643138,-3229.6426,-934.08554)"
        style="display:inline">
       <g
          id="g6650">

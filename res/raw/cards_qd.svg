@@ -13,8 +13,8 @@
    height="1052.3622047"
    id="svg4423"
    version="1.1"
-   inkscape:version="0.48.2 r9819"
-   sodipodi:docname="QD.svg">
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="cards_qd.svg">
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -23,19 +23,19 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.58"
-     inkscape:cx="306.30029"
-     inkscape:cy="545.33666"
+     inkscape:cx="303.09689"
+     inkscape:cy="36.433752"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:snap-global="true"
      inkscape:snap-bbox="true"
      inkscape:snap-page="true"
-     inkscape:window-width="903"
-     inkscape:window-height="859"
-     inkscape:window-x="762"
-     inkscape:window-y="69"
-     inkscape:window-maximized="0" />
+     inkscape:window-width="1366"
+     inkscape:window-height="715"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
   <defs
      id="defs4425" />
   <metadata
@@ -55,7 +55,7 @@
      inkscape:groupmode="layer"
      inkscape:label="QD">
     <g
-       transform="matrix(3.32851,0,0,3.3715121,-2569.5431,396.0632)"
+       transform="matrix(3.3184229,0,0,3.3643128,-2563.1585,393.8025)"
        id="g3839"
        style="display:inline">
       <g

@@ -13,8 +13,8 @@
    height="1052.3622047"
    id="svg4423"
    version="1.1"
-   inkscape:version="0.48.2 r9819"
-   sodipodi:docname="JS.svg">
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="cards_js.svg">
   <title
      id="title3002">Vectorized Playing Cards 1.0</title>
   <sodipodi:namedview
@@ -24,20 +24,20 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.70910507"
-     inkscape:cx="391.3889"
-     inkscape:cy="506.77327"
+     inkscape:zoom="256"
+     inkscape:cx="744.63954"
+     inkscape:cy="-1.0139993"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:snap-global="false"
      inkscape:snap-bbox="true"
      inkscape:snap-page="true"
-     inkscape:window-width="1116"
-     inkscape:window-height="1036"
-     inkscape:window-x="786"
-     inkscape:window-y="0"
-     inkscape:window-maximized="0"
+     inkscape:window-width="1366"
+     inkscape:window-height="715"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true" />
   <defs
@@ -70,7 +70,7 @@
      inkscape:groupmode="layer"
      inkscape:label="JC">
     <g
-       transform="matrix(3.3207315,0,0,3.3713785,-1821.8068,-5913.1947)"
+       transform="matrix(3.3183969,0,0,3.3642849,-1822.3761,-5900.4643)"
        id="g3941"
        style="display:inline">
       <g

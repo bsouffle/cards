@@ -13,8 +13,8 @@
    height="1052.3622047"
    id="svg4423"
    version="1.1"
-   inkscape:version="0.48.2 r9819"
-   sodipodi:docname="8D.svg">
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="cards_8d.svg">
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -24,18 +24,18 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.49497474"
      inkscape:cx="272.92274"
-     inkscape:cy="463.097"
+     inkscape:cy="220.66039"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:snap-global="true"
      inkscape:snap-bbox="true"
      inkscape:snap-page="true"
-     inkscape:window-width="735"
-     inkscape:window-height="925"
-     inkscape:window-x="943"
-     inkscape:window-y="23"
-     inkscape:window-maximized="0" />
+     inkscape:window-width="1366"
+     inkscape:window-height="715"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
   <defs
      id="defs4425" />
   <metadata
@@ -57,7 +57,7 @@
     <g
        id="g8836-2"
        style="display:inline"
-       transform="matrix(3.3333317,0,0,3.3749998,-20857.754,8220.1245)">
+       transform="matrix(3.3184235,0,0,3.3643118,-20764.795,8193.7654)">
       <rect
          ry="10.629921"
          rx="10.629921"
