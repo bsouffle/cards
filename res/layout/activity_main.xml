@@ -41,12 +41,5 @@
         android:max="100"
         android:progress="100" />
 
-    <com.utc.cards.common.layout.PinchLayout
-        android:id="@+id/pinchLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
-    </com.utc.cards.common.layout.PinchLayout>
 
 </RelativeLayout>

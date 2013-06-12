@@ -4,7 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.app.Activity;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -17,25 +19,33 @@ import com.utc.cards.table.jade.agent.rulesAgent.IRulesAgent;
 
 public abstract class AbstractTableGameActivity extends Activity implements ITableGameActivity
 {
-    private static Logger log = LoggerFactory.getLogger(TableLaunchGameActivity.class);
+    protected static Logger log = LoggerFactory.getLogger(AbstractTableGameActivity.class);
 
     protected IRulesAgent rulesAgent;
     protected IGameAgent gameAgent;
     protected IHostAgent hostAgent;
+    protected Point screenDimention = new Point();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        // récupération des agents
-        loadAgents();
-        log.debug("onCreate() : agent chargés pour l'activity de JEU");
+
+        getScreenSize();
+
+        // r��cup��ration des agents
+        // loadAgents();
+
+        // log.debug("onCreate() : agent charg��s pour l'activity de JEU");
+
         setContentView(getLayout());
-        onCreateHook(savedInstanceState);
+
+        onCreateSpecificView(savedInstanceState);
     }
 
-    public abstract void onCreateHook(Bundle savedInstanceState);
+    public abstract void onCreateSpecificView(Bundle savedInstanceState);
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -61,6 +71,12 @@ public abstract class AbstractTableGameActivity extends Activity implements ITab
     }
 
     public abstract int getLayout();
+
+    private void getScreenSize()
+    {
+        Display display = getWindowManager().getDefaultDisplay();
+        display.getSize(screenDimention);
+    }
 
     private void loadAgents()
     {

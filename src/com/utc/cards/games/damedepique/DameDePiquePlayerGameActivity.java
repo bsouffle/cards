@@ -8,8 +8,6 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -32,10 +30,8 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
     private CardsContainer _cardsContainer;
     private Point _screenDimention = new Point();
 
-    private ScaleGestureDetector _scaleGestureDetector;
-
     @Override
-    public void onCreateHook(Bundle savedInstanceState)
+    public void onCreateSpecificView(Bundle savedInstanceState)
     {
         // Get the size of the display screen
         getScreenSize();
@@ -47,8 +43,6 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
 
         // Set the bar which allows to modify the distance between two cards
         drawSeekBar();
-
-        drawPinchLayout();
     }
 
     @Override
@@ -96,19 +90,6 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
         display.getSize(_screenDimention);
     }
 
-    public void drawPinchLayout()
-    {
-        final View view = findViewById(R.id.pinchLayout);
-
-        if (view != null)
-        {
-            // RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            // view.setLayoutParams(lp);
-
-            view.setBackgroundColor(android.graphics.Color.RED);
-        }
-    }
-
     public void drawGameCards()
     {
         // Petit test
@@ -128,12 +109,12 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
         g.addPlayer(p4);
 
         // COTE PLAYER ET HOTE pour obtenir l'objet Rules, on passera par
-        // l'agent "RulesAgent" de l'HOTE, pas directement via la référence
+        // l'agent "RulesAgent" de l'HOTE, pas directement via la r��f��rence
         //
         // le principe serait que seul cet agent utilisera getRules ou un truc
-        // similaire pour avoir/initialiser les règles, ensuite toutes les
+        // similaire pour avoir/initialiser les r��gles, ensuite toutes les
         // demandes (qui joue au prochain tour, comment se passe la fin d'un
-        // tour, est-ce que la partie est terminée ?
+        // tour, est-ce que la partie est termin��e ?
         // passeront par l'agent RulesAgent
         IRules rules = g.getRules();
         Deck hand = rules.getInitialCardDistribution(g.getDeck(), g.getPlayers()).get(0);
@@ -163,7 +144,7 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
 
                 for (Card card : cards)
                 {
-                    cardViews.add(new CardView(card, card.getResourceId(), view.getContext()));
+                    cardViews.add(new CardView(card, view.getContext()));
                 }
 
                 // Set margins
@@ -248,14 +229,6 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
 
             });
         }
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        _scaleGestureDetector.onTouchEvent(event);
-
-        return true;
     }
 
 }
