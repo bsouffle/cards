@@ -8,8 +8,6 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -32,8 +30,6 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
     private CardsContainer _cardsContainer;
     private Point _screenDimention = new Point();
 
-    private ScaleGestureDetector _scaleGestureDetector;
-
     @Override
     public void onCreateSpecificView(Bundle savedInstanceState)
     {
@@ -47,8 +43,6 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
 
         // Set the bar which allows to modify the distance between two cards
         drawSeekBar();
-
-        drawPinchLayout();
     }
 
     @Override
@@ -94,19 +88,6 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
     {
         Display display = getWindowManager().getDefaultDisplay();
         display.getSize(_screenDimention);
-    }
-
-    public void drawPinchLayout()
-    {
-        final View view = findViewById(R.id.pinchLayout);
-
-        if (view != null)
-        {
-            // RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            // view.setLayoutParams(lp);
-
-            view.setBackgroundColor(android.graphics.Color.RED);
-        }
     }
 
     public void drawGameCards()
@@ -248,14 +229,6 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
 
             });
         }
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        _scaleGestureDetector.onTouchEvent(event);
-
-        return true;
     }
 
 }
