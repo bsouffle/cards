@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import android.app.Activity;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -16,6 +15,7 @@ import com.utc.cards.table.jade.agent.HostAgentManager;
 import com.utc.cards.table.jade.agent.gameAgent.IGameAgent;
 import com.utc.cards.table.jade.agent.hostAgent.IHostAgent;
 import com.utc.cards.table.jade.agent.rulesAgent.IRulesAgent;
+import com.utc.cards.utils.Utils;
 
 public abstract class AbstractTableGameActivity extends Activity implements ITableGameActivity
 {
@@ -24,7 +24,7 @@ public abstract class AbstractTableGameActivity extends Activity implements ITab
     protected IRulesAgent rulesAgent;
     protected IGameAgent gameAgent;
     protected IHostAgent hostAgent;
-    protected Point screenDimention = new Point();
+    protected Point displayDimentions = new Point();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,7 +33,7 @@ public abstract class AbstractTableGameActivity extends Activity implements ITab
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        getScreenSize();
+        displayDimentions = Utils.getDisplayWindowsDimention(this);
 
         // r��cup��ration des agents
         // loadAgents();
@@ -71,12 +71,6 @@ public abstract class AbstractTableGameActivity extends Activity implements ITab
     }
 
     public abstract int getLayout();
-
-    private void getScreenSize()
-    {
-        Display display = getWindowManager().getDefaultDisplay();
-        display.getSize(screenDimention);
-    }
 
     private void loadAgents()
     {

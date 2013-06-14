@@ -23,4 +23,8 @@ public interface IPlayer
 
     public int getScore();
 
+    public int getDisplayColor();
+
+    public void setDisplayColor(int c);
+
 }

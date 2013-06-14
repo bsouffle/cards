@@ -13,6 +13,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.wifi.WifiInfo;
@@ -20,6 +21,7 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.view.Display;
 
 public class Utils
 {
@@ -218,5 +220,47 @@ public class Utils
         Bitmap bitmapOrig = Bitmap.createScaledBitmap(d, (int) w, (int) h, false);
 
         return new BitmapDrawable(bitmapOrig);
+    }
+
+    public static Point getScreenDimension(Activity a)
+    {
+        Point p = new Point();
+        Display display = a.getWindowManager().getDefaultDisplay();
+        display.getSize(p);
+
+        return p;
+    }
+
+    public static Point getDisplayWindowsDimention(Activity a)
+    {
+        Point p = getScreenDimension(a);
+
+        p.y -= (getStatusBarHeight(a) + getNavigationBarHeight(a));
+
+        return p;
+    }
+
+    public static int getStatusBarHeight(Activity a)
+    {
+        int result = 0;
+        int resourceId = a.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0)
+        {
+            result = a.getResources().getDimensionPixelSize(resourceId);
+        }
+
+        return result;
+    }
+
+    public static int getNavigationBarHeight(Activity a)
+    {
+        int result = 0;
+        int resourceId = a.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0)
+        {
+            result = a.getResources().getDimensionPixelSize(resourceId);
+        }
+
+        return result;
     }
 }

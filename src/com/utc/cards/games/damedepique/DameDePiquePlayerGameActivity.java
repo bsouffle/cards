@@ -16,6 +16,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import com.utc.cards.R;
 import com.utc.cards.common.view.CardView;
 import com.utc.cards.common.view.CardsContainer;
+import com.utc.cards.common.view.listener.CardTouchListener;
 import com.utc.cards.common.view.listener.SendDragListener;
 import com.utc.cards.model.card.Card;
 import com.utc.cards.model.deck.Deck;
@@ -144,7 +145,9 @@ public class DameDePiquePlayerGameActivity extends AbstractPlayerGameActivity
 
                 for (Card card : cards)
                 {
-                    cardViews.add(new CardView(card, view.getContext()));
+                    CardView cv = new CardView(card, view.getContext());
+                    cv.setOnTouchListener(new CardTouchListener());
+                    cardViews.add(cv);
                 }
 
                 // Set margins

@@ -207,4 +207,15 @@ public abstract class AbstractGame implements IGame
         resource = res;
     }
 
+    @Override
+    public IPlayer getPlayerByName(String name)
+    {
+        for (IPlayer p : _players)
+        {
+            if (p.getName().toUpperCase().equals(name.toUpperCase()))
+                return p;
+        }
+
+        return null;
+    }
 }

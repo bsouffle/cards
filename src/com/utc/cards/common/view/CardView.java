@@ -5,7 +5,6 @@ import android.view.ViewGroup.LayoutParams;
 
 import com.trevorpage.tpsvg.SVGParserRenderer;
 import com.trevorpage.tpsvg.SVGView;
-import com.utc.cards.common.view.listener.CardTouchListener;
 import com.utc.cards.model.card.Card;
 
 public class CardView extends SVGView
@@ -32,8 +31,6 @@ public class CardView extends SVGView
         // Parse the SVG resource to view object
         SVGParserRenderer image = new SVGParserRenderer(context, resourceId);
         setSVGRenderer(image, null);
-
-        this.setOnTouchListener(new CardTouchListener());
 
     }
 

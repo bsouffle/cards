@@ -53,4 +53,6 @@ public interface IGame
 
     public void setLogoResource(int res);
 
+    public IPlayer getPlayerByName(String name);
+
 }

@@ -8,6 +8,7 @@ import com.utc.cards.model.deck.Deck;
 public abstract class AbstractPlayer implements IPlayer
 {
     private String _name;
+    private int _color;
 
     private Map<String, Deck> _hands = new HashMap<String, Deck>();
 
@@ -16,6 +17,7 @@ public abstract class AbstractPlayer implements IPlayer
     public AbstractPlayer(String name)
     {
         _name = name;
+        _color = android.graphics.Color.DKGRAY;
     }
 
     @Override
@@ -56,6 +58,18 @@ public abstract class AbstractPlayer implements IPlayer
     public void setScore(int _score)
     {
         this._score = _score;
+    }
+
+    @Override
+    public int getDisplayColor()
+    {
+        return _color;
+    }
+
+    @Override
+    public void setDisplayColor(int c)
+    {
+        _color = c;
     }
 
 }
