@@ -1,6 +1,10 @@
 package com.utc.cards.table.jade.agent.gameAgent;
 
 import jade.core.Agent;
+import jade.domain.DFService;
+import jade.domain.FIPAException;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,51 +27,69 @@ public class GameAgent extends Agent implements IGameAgent
     @Override
     protected void setup()
     {
-	super.setup();
-	Object[] args = getArguments();
-	if (args != null && args.length > 0)
-	{
-	    if (args[0] instanceof Context)
-	    {
-		context = (Context) args[0];
-	    } else
-	    {
-		log.error("Missing Context arg during agent setup");
-	    }
-	    if (args[1] instanceof HostModel)
-	    {
-		model = (HostModel) args[1];
-	    } else
-	    {
-		log.error("Missing HostModel arg during agent setup");
-	    }
-	}
+        super.setup();
+        Object[] args = getArguments();
+        if (args != null && args.length > 0)
+        {
+            if (args[0] instanceof Context)
+            {
+                context = (Context) args[0];
+            }
+            else
+            {
+                log.error("Missing Context arg during agent setup");
+            }
+            if (args[1] instanceof HostModel)
+            {
+                model = (HostModel) args[1];
+            }
+            else
+            {
+                log.error("Missing HostModel arg during agent setup");
+            }
+        }
 
-	// Add initial behaviours
-	addBehaviour(new GameListenerBehaviour(this));
+        // Declaration de l'agent sur le réseau
+        DFAgentDescription dfd = new DFAgentDescription();
+        dfd.setName(getAID());
+        ServiceDescription sd = new ServiceDescription();
+        sd.setType("Game");
+        sd.setName("GameAgent");
+        dfd.addServices(sd);
+        try
+        {
+            DFService.register(this, dfd);
+        }
+        catch (FIPAException fe)
+        {
+            fe.printStackTrace();
+        }
 
-	// expose l'interface pour la rendre accessible par les activity
-	registerO2AInterface(IGameAgent.class, this);
+        // Add initial behaviours
+        addBehaviour(new GameListenerBehaviour(this));
+
+        // expose l'interface pour la rendre accessible par les activity
+        registerO2AInterface(IGameAgent.class, this);
     }
 
     @Override
     public void giveTurn(IPlayer player)
     {
-	// TODO Auto-generated method stub
+        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void startGame()
     {
-	// TODO Auto-generated method stub
+        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void sendHand(Deck hand)
     {
-	// TODO Auto-generated method stub
+        // TODO Auto-generated method stub
 
     }
 

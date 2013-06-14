@@ -1,6 +1,10 @@
 package com.utc.cards.table.jade.agent.rulesAgent;
 
 import jade.core.Agent;
+import jade.domain.DFService;
+import jade.domain.FIPAException;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
 
 import java.util.List;
 
@@ -24,93 +28,113 @@ public class RulesAgent extends Agent implements IRulesAgent
 
     public HostModel getModel()
     {
-	return model;
+        return model;
     }
 
     @Override
     protected void setup()
     {
-	super.setup();
-	Object[] args = getArguments();
-	if (args != null && args.length > 0)
-	{
-	    if (args[0] instanceof Context)
-	    {
-		context = (Context) args[0];
-	    } else
-	    {
-		log.error("Missing Context arg during agent setup");
-	    }
-	    if (args[1] instanceof HostModel)
-	    {
-		model = (HostModel) args[1];
-	    } else
-	    {
-		log.error("Missing HostModel arg during agent setup");
-	    }
-	}
-	//
-	// // Add initial behaviours
-	addBehaviour(new RulesListenerBehaviour(this));
+        super.setup();
+        Object[] args = getArguments();
+        if (args != null && args.length > 0)
+        {
+            if (args[0] instanceof Context)
+            {
+                context = (Context) args[0];
+            }
+            else
+            {
+                log.error("Missing Context arg during agent setup");
+            }
+            if (args[1] instanceof HostModel)
+            {
+                model = (HostModel) args[1];
+            }
+            else
+            {
+                log.error("Missing HostModel arg during agent setup");
+            }
+        }
 
-	// // Initialize the message used to convey spoken sentences
-	// spokenMsg = new ACLMessage(ACLMessage.INFORM);
-	// spokenMsg.setConversationId(CHAT_ID);
+        // Declaration de l'agent sur le réseau
+        DFAgentDescription dfd = new DFAgentDescription();
+        dfd.setName(getAID());
+        ServiceDescription sd = new ServiceDescription();
+        sd.setType("Rule");
+        sd.setName("RuleAgent");
+        dfd.addServices(sd);
 
-	// expose l'interface pour la rendre accessible par les activity
-	registerO2AInterface(IRulesAgent.class, this);
+        try
+        {
+            DFService.register(this, dfd);
+        }
+        catch (FIPAException fe)
+        {
+            fe.printStackTrace();
+        }
+
+        //
+        // // Add initial behaviours
+        addBehaviour(new RulesListenerBehaviour(this));
+
+        // // Initialize the message used to convey spoken sentences
+        // spokenMsg = new ACLMessage(ACLMessage.INFORM);
+        // spokenMsg.setConversationId(CHAT_ID);
+
+        // expose l'interface pour la rendre accessible par les activity
+        registerO2AInterface(IRulesAgent.class, this);
     }
 
     @Override
     public void sendInitialCards()
     {
-	// TODO Auto-generated method stub
-	addBehaviour(new InitialCardDistributionBehaviour(this));
+        // TODO Auto-generated method stub
+        addBehaviour(new InitialCardDistributionBehaviour(this));
 
     }
 
     @Override
     public void validatePlayerCards(List<Card> Cards, IPlayer player)
     {
-	// TODO Auto-generated method stub
-	addBehaviour(new ValiderCoupBehaviour(this, Cards, player));
+        // TODO Auto-generated method stub
+        addBehaviour(new ValiderCoupBehaviour(this, Cards, player));
 
     }
 
     @Override
     public void determinateFirstPlayer()
     {
-	// TODO Auto-generated method stub
-	addBehaviour(new DetermineFirstPlayerBehaviour(this));
+        // TODO Auto-generated method stub
+        addBehaviour(new DetermineFirstPlayerBehaviour(this));
 
     }
 
     @Override
     public void askAdvice(Deck hand, IPlayer player)
     {
-	// TODO Auto-generated method stub
-	addBehaviour(new AskAdviceBehaviour(this, hand, player));
+        // TODO Auto-generated method stub
+        addBehaviour(new AskAdviceBehaviour(this, hand, player));
 
     }
 
     @Override
     public void calculScore()
     {
-	// TODO Auto-generated method stub
-	addBehaviour(new CalculScoreBehaviour(this));
+        // TODO Auto-generated method stub
+        addBehaviour(new CalculScoreBehaviour(this));
     }
 
     @Override
     public void initScore()
     {
-	// TODO Auto-generated method stub
-	addBehaviour(new InitScoreBehaviour(this));
+        // TODO Auto-generated method stub
+        addBehaviour(new InitScoreBehaviour(this));
     }
 
     @Override
     public void determinateWinnerCurrentFold()
     {
-	// TODO Auto-generated method stub
+        // TODO Auto-generated method stub
 
     }
 }

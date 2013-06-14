@@ -1,6 +1,10 @@
 package com.utc.cards.player.jade.agent.playerAgent;
 
 import jade.core.Agent;
+import jade.domain.DFService;
+import jade.domain.FIPAException;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
 
 import java.util.Map;
 
@@ -32,64 +36,83 @@ public class PlayerAgent extends Agent implements IPlayerAgent
     @Override
     protected void setup()
     {
-	super.setup();
-	Object[] args = getArguments();
-	if (args != null && args.length > 0)
-	{
-	    if (args[0] instanceof Context)
-	    {
-		context = (Context) args[0];
-	    } else
-	    {
-		log.error("Missing Context arg during agent setup");
-	    }
-	    if (args[1] instanceof PlayerModel)
-	    {
-		model = (PlayerModel) args[1];
-	    } else
-	    {
-		log.error("Missing PlayerModel arg during agent setup");
-	    }
-	    if (args[2] instanceof String)
-	    {
-		gmail = (String) args[2];
-	    } else
-	    {
-		log.error("Missing gmail arg during agent setup");
-	    }
-	}
+        super.setup();
+        Object[] args = getArguments();
+        if (args != null && args.length > 0)
+        {
+            if (args[0] instanceof Context)
+            {
+                context = (Context) args[0];
+            }
+            else
+            {
+                log.error("Missing Context arg during agent setup");
+            }
+            if (args[1] instanceof PlayerModel)
+            {
+                model = (PlayerModel) args[1];
+            }
+            else
+            {
+                log.error("Missing PlayerModel arg during agent setup");
+            }
+            if (args[2] instanceof String)
+            {
+                gmail = (String) args[2];
+            }
+            else
+            {
+                log.error("Missing gmail arg during agent setup");
+            }
+        }
 
-	// Add initial behaviours
-	// écoute du choix du jeu
-	// écoute de la liste des joueurs
-	addBehaviour(new PlayerListenerBehaviour(this));
+        // Declaration de l'agent sur le réseau
+        DFAgentDescription dfd = new DFAgentDescription();
+        dfd.setName(getAID());
+        ServiceDescription sd = new ServiceDescription();
+        sd.setType("Player");
+        sd.setName("HumanPlayer");
+        dfd.addServices(sd);
+        try
+        {
+            DFService.register(this, dfd);
+        }
+        catch (FIPAException fe)
+        {
+            fe.printStackTrace();
+        }
 
-	// tentative d'inscription automatique au jeu
-	joinHostGame();
+        // Add initial behaviours
+        // écoute du choix du jeu
+        // écoute de la liste des joueurs
+        addBehaviour(new PlayerListenerBehaviour(this));
 
-	// expose l'interface pour la rendre accessible par les activity
-	registerO2AInterface(IPlayerAgent.class, this);
+        // tentative d'inscription automatique au jeu
+        joinHostGame();
+
+        // expose l'interface pour la rendre accessible par les activity
+        registerO2AInterface(IPlayerAgent.class, this);
     }
 
     @Override
     public void joinHostGame()
     {
-	// envoi une demande d'inscription au lancement de l'agent, et a la
-	// demande si la partie est pleine et qqn est parti
-	addBehaviour(new PlayerSubscriptionBehaviour(this));
+        // envoi une demande d'inscription au lancement de l'agent, et a la
+        // demande si la partie est pleine et qqn est parti
+        addBehaviour(new PlayerSubscriptionBehaviour(this));
     }
 
     @Override
     public void onPlayerTurn()
     {
-	// TODO Auto-generated method stub
+        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void askAdvice()
     {
-	// TODO Auto-generated method stub
+        // TODO Auto-generated method stub
 
     }
 
@@ -97,33 +120,33 @@ public class PlayerAgent extends Agent implements IPlayerAgent
     @Override
     public void sendCards(Deck cards)
     {
-	// TODO Auto-generated method stub
+        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void sendCards(Map<String, Deck> cards)
     {
-	// TODO Auto-generated method stub
+        // TODO Auto-generated method stub
 
     }
 
     public Context getContext()
     {
-	return context;
+        return context;
     }
 
     public void onGameSubscriptionAgree()
     {
-	log.debug("onGameSubscriptionAgree()");
-	// FIXME: disable connect button
-	notifyInfo("Connexion réussie");
+        log.debug("onGameSubscriptionAgree()");
+        // FIXME: disable connect button
+        notifyInfo("Connexion réussie");
     }
 
     public void onGameSubscriptionRefuse()
     {
-	log.debug("onGameSubscriptionRefuse()");
-	notifyInfo("Connexion refusée");
+        log.debug("onGameSubscriptionRefuse()");
+        notifyInfo("Connexion refusée");
     }
 
     /**
@@ -133,11 +156,11 @@ public class PlayerAgent extends Agent implements IPlayerAgent
      */
     public void notifyInfo(String info)
     {
-	log.debug("notifyInfo()");
-	Intent intent = new Intent(Constants.POP_INFO);
-	intent.putExtra(InfoType.INFO.name(), info);
-	log.debug("Sending INTENT " + intent.getAction());
-	context.sendBroadcast(intent);
+        log.debug("notifyInfo()");
+        Intent intent = new Intent(Constants.POP_INFO);
+        intent.putExtra(InfoType.INFO.name(), info);
+        log.debug("Sending INTENT " + intent.getAction());
+        context.sendBroadcast(intent);
     }
 
     /**
@@ -147,40 +170,40 @@ public class PlayerAgent extends Agent implements IPlayerAgent
      */
     public void notifyPlayersChanged(String[] players)
     {
-	log.debug("notifyPlayersChanged()");
-	Intent intent = new Intent(Constants.PLAYER_LIST);
-	intent.putExtra(Constants.PLAYER_LIST, players);
-	log.debug("Sending INTENT " + intent.getAction());
-	context.sendBroadcast(intent);
+        log.debug("notifyPlayersChanged()");
+        Intent intent = new Intent(Constants.PLAYER_LIST);
+        intent.putExtra(Constants.PLAYER_LIST, players);
+        log.debug("Sending INTENT " + intent.getAction());
+        context.sendBroadcast(intent);
     }
 
     public void onGameStart()
     {
-	// change gameStatus
-	model.setGame(GameContainer.getGameByName(selectedGame));
-	model.getGame().setStatus(GameStatus.IN_GAME);
+        // change gameStatus
+        model.setGame(GameContainer.getGameByName(selectedGame));
+        model.getGame().setStatus(GameStatus.IN_GAME);
 
-	// on informe la vue : l'activity
-	Intent intent = new Intent();
-	intent.setAction(Constants.SHOW_GAME);
-	log.debug("Sending INTENT " + intent.getAction());
-	context.sendBroadcast(intent);
+        // on informe la vue : l'activity
+        Intent intent = new Intent();
+        intent.setAction(Constants.SHOW_GAME);
+        log.debug("Sending INTENT " + intent.getAction());
+        context.sendBroadcast(intent);
     }
 
     public void onGameSelection(String gameName)
     {
-	log.debug("onGameSelection({})", gameName);
-	selectedGame = gameName;
-	// update UI, affiche le nom du jeu
-	Intent intent = new Intent(Constants.GAME_NAME);
-	log.debug("Sending INTENT " + intent.getAction());
-	intent.putExtra(Constants.GAME_NAME, selectedGame);
-	context.sendBroadcast(intent);
+        log.debug("onGameSelection({})", gameName);
+        selectedGame = gameName;
+        // update UI, affiche le nom du jeu
+        Intent intent = new Intent(Constants.GAME_NAME);
+        log.debug("Sending INTENT " + intent.getAction());
+        intent.putExtra(Constants.GAME_NAME, selectedGame);
+        context.sendBroadcast(intent);
     }
 
     public String getGmail()
     {
-	return gmail;
+        return gmail;
     }
 
 }

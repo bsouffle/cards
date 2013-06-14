@@ -11,6 +11,7 @@ import com.utc.cards.common.jade.IGameBehaviour;
 import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.deck.Traditionnal52Deck;
 import com.utc.cards.model.game.AbstractGame;
+import com.utc.cards.model.game.GameStep;
 import com.utc.cards.model.game.IRules;
 import com.utc.cards.model.game.PlayerTry;
 import com.utc.cards.model.player.IPlayer;
@@ -108,7 +109,7 @@ public class DameDePique extends AbstractGame
     public void distrubutionDone()
     {
         // TODO Auto-generated method stub
-        nextTurn = nextTurn.DETERMINATE_FIRST_PLAYER;
+        nextTurn = GameStep.DETERMINATE_FIRST_PLAYER;
     }
 
     @Override
@@ -117,7 +118,7 @@ public class DameDePique extends AbstractGame
         // TODO Auto-generated method stub
         receivers.clear();
         receivers.add(player);
-        nextTurn = nextTurn.GIVE_PLAYER_TURN;
+        nextTurn = GameStep.GIVE_PLAYER_TURN;
     }
 
     @Override
@@ -128,6 +129,6 @@ public class DameDePique extends AbstractGame
         debutTour = true;
         nbPli = 0;
         partiFini = false;
-        nextTurn = nextTurn.DISTRIBUTE;
+        nextTurn = GameStep.DISTRIBUTE;
     }
 }
