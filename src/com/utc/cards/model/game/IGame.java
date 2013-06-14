@@ -6,6 +6,7 @@ import com.utc.cards.common.jade.IGameBehaviour;
 import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.player.IPlayer;
 import com.utc.cards.player.view.IPlayerGameActivity;
+import com.utc.cards.table.jade.agent.gameAgent.GameAgent;
 import com.utc.cards.table.view.ITableGameActivity;
 
 public interface IGame
@@ -15,9 +16,11 @@ public interface IGame
 
     public IPlayerGameActivity createPlayerGameActivity();
 
-    public IGameBehaviour createGameBehaviour();
-
     public String getName();
+
+    public GameStep getNextTurn();
+
+    public List<IPlayer> getTarget();
 
     public int getMaxPlayerCount();
 
@@ -52,6 +55,18 @@ public interface IGame
     public int getLogoResource();
 
     public void setLogoResource(int res);
+
+    IGameBehaviour createGameBehaviour(GameAgent agent);
+
+    public void receiveCard(PlayerTry pt);
+
+    public void playCard(PlayerTry pt);
+
+    public void distrubutionDone();
+
+    public void setFirstPlayer(IPlayer player);
+
+    public void gameInit();
 
     public IPlayer getPlayerByName(String name);
 

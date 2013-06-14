@@ -12,6 +12,9 @@ import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.deck.Traditionnal52Deck;
 import com.utc.cards.model.game.AbstractGame;
 import com.utc.cards.model.game.IRules;
+import com.utc.cards.model.game.PlayerTry;
+import com.utc.cards.model.player.IPlayer;
+import com.utc.cards.table.jade.agent.gameAgent.GameAgent;
 
 public class DameDePique extends AbstractGame
 {
@@ -19,11 +22,17 @@ public class DameDePique extends AbstractGame
     private static Logger _log = LoggerFactory.getLogger(DameDePique.class);
 
     private static final int MIN_PLAYERS = 4;
-    private static final int MAX_PLAYERS = 4; // une variante à 6 de la dame de
+    private static final int MAX_PLAYERS = 4;
+    // une variante à 6 de la dame de
     // pique existe bien, mais je ne
     // connais pour le moment pas les
     // règles.
     private static final List<Integer> LEGAL_PLAYER_COUNT = new ArrayList<Integer>();
+    private boolean debutTour;
+    private int tour;
+    private int nbPli;
+    private boolean partiFini;
+
     static
     {
         LEGAL_PLAYER_COUNT.add(MIN_PLAYERS);
@@ -76,9 +85,49 @@ public class DameDePique extends AbstractGame
     }
 
     @Override
-    public IGameBehaviour createGameBehaviour()
+    public IGameBehaviour createGameBehaviour(GameAgent agent)
     {
         return new DameDePiqueGameBehaviour();
     }
 
+    @Override
+    public void receiveCard(PlayerTry pt)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void playCard(PlayerTry pt)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void distrubutionDone()
+    {
+        // TODO Auto-generated method stub
+        nextTurn = nextTurn.DETERMINATE_FIRST_PLAYER;
+    }
+
+    @Override
+    public void setFirstPlayer(IPlayer player)
+    {
+        // TODO Auto-generated method stub
+        receivers.clear();
+        receivers.add(player);
+        nextTurn = nextTurn.GIVE_PLAYER_TURN;
+    }
+
+    @Override
+    public void gameInit()
+    {
+        // TODO Auto-generated method stub
+        tour = 1;
+        debutTour = true;
+        nbPli = 0;
+        partiFini = false;
+        nextTurn = nextTurn.DISTRIBUTE;
+    }
 }

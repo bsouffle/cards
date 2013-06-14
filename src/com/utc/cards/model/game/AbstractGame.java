@@ -19,6 +19,8 @@ public abstract class AbstractGame implements IGame
     protected IRules rules = null;
     protected GameStatus status = GameStatus.SUBSCRIPTION;
     protected int resource = -1;
+    protected List<IPlayer> receivers;
+    protected GameStep nextTurn;
 
     protected Integer maxPlayerCount = null;
     protected Integer minPlayerCount = null;
@@ -207,6 +209,18 @@ public abstract class AbstractGame implements IGame
         resource = res;
     }
 
+    public GameStep getNextTurn()
+    {
+        // TODO Auto-generated method stub
+        return nextTurn;
+    }
+
+    public List<IPlayer> getTarget()
+    {
+        // TODO Auto-generated method stub
+        return receivers;
+    }
+
     @Override
     public IPlayer getPlayerByName(String name)
     {
@@ -218,4 +232,5 @@ public abstract class AbstractGame implements IGame
 
         return null;
     }
+
 }
