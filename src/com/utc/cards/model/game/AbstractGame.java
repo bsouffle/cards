@@ -2,6 +2,7 @@ package com.utc.cards.model.game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,13 @@ public abstract class AbstractGame implements IGame
     protected int resource = -1;
     protected List<IPlayer> receivers;
     protected GameStep nextTurn;
+    protected int indexPlayer;
+    protected Map<IPlayer, Deck> exchange;
+
+    public Map<IPlayer, Deck> getExchange()
+    {
+        return exchange;
+    }
 
     protected Integer maxPlayerCount = null;
     protected Integer minPlayerCount = null;

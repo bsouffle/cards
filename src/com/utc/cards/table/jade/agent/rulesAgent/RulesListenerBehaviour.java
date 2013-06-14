@@ -76,6 +76,12 @@ public class RulesListenerBehaviour extends CyclicBehaviour
                     }
                     agent.askAdvice(pt.getCards(), pt.getPlayer());
                     break;
+                case CALCUL_SCORE:
+                    agent.calculScore();
+                    break;
+                case CALCUL_WINNER_FOLD:
+                    agent.determinateWinnerCurrentFold();
+                    break;
                 default:
                     break;
                 }

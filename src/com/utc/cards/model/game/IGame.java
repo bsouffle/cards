@@ -1,8 +1,10 @@
 package com.utc.cards.model.game;
 
 import java.util.List;
+import java.util.Map;
 
 import com.utc.cards.common.jade.IGameBehaviour;
+import com.utc.cards.model.HostModel;
 import com.utc.cards.model.deck.Deck;
 import com.utc.cards.model.player.IPlayer;
 import com.utc.cards.player.view.IPlayerGameActivity;
@@ -64,10 +66,18 @@ public interface IGame
 
     public void distrubutionDone();
 
-    public void setFirstPlayer(IPlayer player);
-
     public void gameInit();
 
     public IPlayer getPlayerByName(String name);
+
+    public void setFirstPlayer(IPlayer player);
+
+    public void determinateScoreDone();
+
+    public void determinateWinnerFoldDone(HostModel model);
+
+    List<IPlayer> getExchanger();
+
+    public Map<IPlayer, Deck> getExchange();
 
 }

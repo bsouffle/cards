@@ -72,6 +72,11 @@ public class GameAgent extends Agent implements IGameAgent
         registerO2AInterface(IGameAgent.class, this);
     }
 
+    public HostModel getModel()
+    {
+        return model;
+    }
+
     @Override
     public void giveTurn(IPlayer player)
     {
