@@ -1,19 +1,21 @@
 package com.utc.cards.model.game;
 
-import com.utc.cards.model.deck.Deck;
+import java.util.List;
+
+import com.utc.cards.common.view.CardView;
 import com.utc.cards.model.player.IPlayer;
 
 public class PlayerTry
 {
-    private Deck Cards;
+    private List<CardView> Cards;
     private IPlayer player;
 
-    public Deck getCards()
+    public List<CardView> getCards()
     {
         return Cards;
     }
 
-    public void setCards(Deck cards)
+    public void setCards(List<CardView> cards)
     {
         Cards = cards;
     }

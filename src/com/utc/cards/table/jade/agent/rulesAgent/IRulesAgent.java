@@ -2,8 +2,7 @@ package com.utc.cards.table.jade.agent.rulesAgent;
 
 import java.util.List;
 
-import com.utc.cards.model.card.Card;
-import com.utc.cards.model.deck.Deck;
+import com.utc.cards.common.view.CardView;
 import com.utc.cards.model.player.IPlayer;
 
 public interface IRulesAgent
@@ -18,9 +17,9 @@ public interface IRulesAgent
     public void calculScore();
 
     // listen REQUEST validate PLAYER_CARDS
-    public void validatePlayerCards(List<Card> Cards, IPlayer player);
+    public void validatePlayerCards(List<CardView> Cards, IPlayer player);
 
-    public void askAdvice(Deck hand, IPlayer player);
+    public void askAdvice(List<CardView> hand, IPlayer player);
 
     public void determinateWinnerCurrentFold();
 
