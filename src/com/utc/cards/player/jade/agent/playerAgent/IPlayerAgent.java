@@ -1,10 +1,8 @@
 package com.utc.cards.player.jade.agent.playerAgent;
 
-import jade.lang.acl.ACLMessage;
+import java.util.Map;
 
-import java.util.List;
-
-import com.utc.cards.common.view.CardView;
+import com.utc.cards.model.deck.Deck;
 
 public interface IPlayerAgent
 {
@@ -15,7 +13,7 @@ public interface IPlayerAgent
 
     public void askAdvice();
 
-    public ACLMessage sendCards(List<CardView> cards);
+    public void sendCards(Deck cards);
 
-    // public void sendCards(Map<String, Deck> cards);
+    public void sendCards(Map<String, Deck> cards);
 }
